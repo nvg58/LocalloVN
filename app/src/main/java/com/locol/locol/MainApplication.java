@@ -1,6 +1,7 @@
 package com.locol.locol;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.parse.Parse;
 
@@ -9,6 +10,8 @@ import com.parse.Parse;
  * Project ${PROJECT_NAME}
  */
 public class MainApplication extends Application {
+    private static MainApplication sInstance;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -17,5 +20,16 @@ public class MainApplication extends Application {
                 getString(R.string.parse_client_key));
 
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+
+        sInstance = this;
+    }
+
+    public static MainApplication getInstance() {
+        return sInstance;
+    }
+
+    public static Context getAppContext() {
+        return sInstance.getApplicationContext();
     }
 }
+

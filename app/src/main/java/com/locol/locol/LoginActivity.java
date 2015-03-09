@@ -4,33 +4,46 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-import com.facebook.FacebookException;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.StringRequest;
+import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.model.GraphUser;
-import com.facebook.widget.LoginButton;
+import com.facebook.internal.Utility;
+import com.locol.locol.networks.VolleySingleton;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+
+import java.io.IOException;
 import java.util.Arrays;
 
-
 public class LoginActivity extends ActionBarActivity {
-    private String TAG = "MainActivity";
+    private String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +60,61 @@ public class LoginActivity extends ActionBarActivity {
                     Log.d("MyApp", "User signed up and logged in through Facebook!");
                 } else {
                     Log.d("MyApp", "User logged in through Facebook!");
-                    startActivity(new Intent(LoginActivity.this, MyNavigationDrawer.class));
+                    final Session session = Session.getActiveSession();
+                    new Request(
+                            session,
+                            "/me",
+                            null,
+                            HttpMethod.GET,
+                            new Request.Callback() {
+                                public void onCompleted(Response response) {
+                                    try {
+                                        Account.setUserFBId(response.getGraphObject().getInnerJSONObject().get("id").toString());
+                                        Account.setUserEmail(response.getGraphObject().getInnerJSONObject().get("email").toString());
+                                        Account.setUserName(response.getGraphObject().getInnerJSONObject().get("name").toString());
+
+                                        final Bundle params = new Bundle();
+                                        params.putBoolean("redirect", false);
+                                        params.putInt("height", 200);
+                                        params.putInt("width", 200);
+                                        params.putString("type", "normal");
+                                        new Request(
+                                                session,
+                                                "/me/picture",
+                                                params,
+                                                HttpMethod.GET,
+                                                new Request.Callback() {
+                                                    public void onCompleted(Response response) {
+                                                        try {
+                                                            String url = response.getGraphObject().getInnerJSONObject().getJSONObject("data").get("url").toString();
+                                                            VolleySingleton.getInstance().getImageLoader().get(url, new ImageLoader.ImageListener() {
+                                                                @Override
+                                                                public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                                                                    Account.setUserAvatar(response.getBitmap());
+
+                                                                    startActivity(new Intent(LoginActivity.this, MyNavigationDrawer.class));
+                                                                }
+
+                                                                @Override
+                                                                public void onErrorResponse(VolleyError error) {
+
+                                                                }
+                                                            });
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }
+                                        ).executeAsync();
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                    ).executeAsync();
+
+
                 }
             }
         });

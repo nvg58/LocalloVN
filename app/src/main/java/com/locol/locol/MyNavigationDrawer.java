@@ -1,12 +1,22 @@
 package com.locol.locol;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.StringRequest;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.locol.locol.networks.VolleySingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialAccount;
@@ -21,25 +31,43 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
 
     @Override
     public void init(Bundle bundle) {
-
-        Session session = Session.getActiveSession();
-        new Request(
-                session,
-                "/me",
-                null,
-                HttpMethod.GET,
-                new Request.Callback() {
-                    public void onCompleted(Response response) {
-                        /* handle the result */
-                        Log.d(TAG, response.toString());
-                    }
-                }
-        ).executeAsync();
-
         // add accounts
-        MaterialAccount account = new MaterialAccount(this.getResources(), "NeoKree", "neokree@gmail.com", R.drawable.photo, R.drawable.bamboo);
+
+        final MaterialAccount account = new MaterialAccount(MyNavigationDrawer.this.getResources(),
+                Account.getUserName(),
+                Account.getUserEmail(),
+                Account.getUserAvatar(),
+                R.drawable.bamboo);
         this.addAccount(account);
 
-        this.addSection(newSection("Section 1", new FeedFragment()));
+        this.addSection(newSection(
+                "Feed",
+                R.mipmap.ic_event_grey600_24dp,
+                new FeedFragment()).setSectionColor(getResources().getColor(R.color.colorFeedPrimary),
+                getResources().getColor(R.color.colorFeedPrimaryDark)));
+
+        this.addSection(newSection(
+                "Explore",
+                R.mipmap.ic_explore_grey600_24dp,
+                new FeedFragment()).setSectionColor(getResources().getColor(R.color.colorExplorePrimary),
+                getResources().getColor(R.color.colorExplorePrimaryDark)));
+
+        this.addSection(newSection(
+                "Profile",
+                R.mipmap.ic_account_box_grey600_24dp,
+                new FeedFragment()).setSectionColor(getResources().getColor(R.color.colorAccountPrimary),
+                getResources().getColor(R.color.colorAccountPrimaryDark)));
+
+        this.addBottomSection(newSection(
+                "Settings",
+                new FeedFragment()));
+
+        this.addBottomSection(newSection(
+                "Help & Feedback",
+                new FeedFragment()));
+
+        this.addBottomSection(newSection(
+                "About Us",
+                new FeedFragment()));
     }
 }
