@@ -47,7 +47,7 @@ public class LoginActivity extends ActionBarActivity {
                     Log.d("MyApp", "User signed up and logged in through Facebook!");
                 } else {
                     Log.d("MyApp", "User logged in through Facebook!");
-                    startActivity(new Intent(LoginActivity.this, FeedActivity.class));
+                    startActivity(new Intent(LoginActivity.this, MyNavigationDrawer.class));
                 }
             }
         });
