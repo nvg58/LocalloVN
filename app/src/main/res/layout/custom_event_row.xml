@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/size_byte"
+    android:layout_marginLeft="@dimen/size_byte"
+    android:layout_marginRight="@dimen/size_byte"
+    android:layout_marginTop="@dimen/size_byte"
+    android:background="@android:color/white"
+    android:clickable="false">
+
+
+    <ImageView
+        android:id="@+id/eventThumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:alpha="0.9"
+        android:padding="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/jewels" />
+
+    <TextView
+        android:id="@+id/eventTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/eventThumbnail"
+        android:layout_alignRight="@id/eventThumbnail"
+        android:layout_alignTop="@id/eventThumbnail"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="120dp"
+        android:gravity="left"
+        android:text="Run The Jewels"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/size_text_header" />
+
+
+    <TextView
+        android:id="@+id/eventDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/eventThumbnail"
+        android:layout_alignLeft="@id/eventThumbnail"
+        android:layout_below="@id/eventTitle"
+        android:layout_marginLeft="16dp"
+        android:padding="@dimen/size_half_byte"
+        android:text="July 19"
+        android:textColor="@color/colorHighlight"
+        android:textSize="@dimen/size_text_secondary" />
+
+    <TextView
+        android:id="@+id/eventPlace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventThumbnail"
+        android:lines="1"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:text="Iron City, Birmingham, AI."
+        android:textColor="@color/colorPrimaryText" />
+
+    <TextView
+        android:id="@+id/eventDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/eventPlace"
+        android:lines="3"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:text="Lorem ipsum dolor, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ..."
+        android:textColor="@color/colorSecondaryText" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/eventDescription"
+        android:background="@color/colorWindowBackground" />
+
+    <Button
+        android:id="@+id/btnDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/eventThumbnail"
+        android:layout_below="@id/eventDescription"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        android:ellipsize="none"
+        android:text="DETAILS"
+        android:textColor="@color/colorAccent" />
+
+    <ImageButton
+        android:id="@+id/btnLove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/btnDetails"
+        android:layout_alignLeft="@id/eventThumbnail"
+        android:layout_alignTop="@id/btnDetails"
+        android:layout_below="@id/eventDescription"
+        android:layout_centerVertical="true"
+        android:background="@android:color/transparent"
+        android:elevation="0dp"
+        android:nestedScrollingEnabled="false"
+        android:paddingLeft="16dp"
+        android:src="@mipmap/ic_favorite_grey600_24dp" />
+
+</RelativeLayout>
