@@ -4,12 +4,14 @@ package com.locol.locol;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -46,6 +48,13 @@ public class FeedFragment extends Fragment {
 
     private List<FeedItem> feedItemList = new ArrayList<FeedItem>();
 
+    private RecyclerView mRecyclerView;
+    private VolleySingleton volleySingleton;
+    private ImageLoader imageLoader;
+    private RequestQueue requestQueue;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout = null;
+
     public FeedFragment() {
         // Required empty public constructor
     }
@@ -67,12 +76,14 @@ public class FeedFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        VolleySingleton volleySingleton = VolleySingleton.getInstance();
-        RequestQueue requestQueue = volleySingleton.getRequestQueue();
+        volleySingleton = VolleySingleton.getInstance();
+        requestQueue = volleySingleton.getRequestQueue();
         String url = "http://javatechig.com/api/get_category_posts/?dev=1&slug=android";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Toast.makeText(getActivity(), "JsonObjectRequest Response", Toast.LENGTH_SHORT).show();
+//                feedItemList = Parser.parseJSONResponse(response);
                 parseResult(response);
 
             }
@@ -83,6 +94,17 @@ public class FeedFragment extends Fragment {
             }
         });
         requestQueue.add(request);
+
+        //Initialize swipe to refresh view
+//        mSwipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeRefreshLayout);
+//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                if (mSwipeRefreshLayout.isRefreshing()) {
+//                    mSwipeRefreshLayout.setRefreshing(false);
+//                }
+//            }
+//        });
     }
 
     @Override
@@ -91,7 +113,7 @@ public class FeedFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        RecyclerView mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         MyRecyclerAdapter adapter = new MyRecyclerAdapter(getActivity(), feedItemList);
@@ -104,6 +126,7 @@ public class FeedFragment extends Fragment {
     private void parseResult(JSONObject response) {
         JSONArray posts = response.optJSONArray("posts");
 
+            /*Initialize array if null*/
         if (null == feedItemList) {
             feedItemList = new ArrayList<>();
         }

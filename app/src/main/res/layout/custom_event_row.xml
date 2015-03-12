@@ -6,8 +6,9 @@
     android:layout_marginLeft="@dimen/size_byte"
     android:layout_marginRight="@dimen/size_byte"
     android:layout_marginTop="@dimen/size_byte"
-    android:background="@android:color/white"
-    android:clickable="false">
+    android:background="@drawable/card"
+    android:clickable="false"
+    android:padding="@dimen/size_byte">
 
 
     <ImageView

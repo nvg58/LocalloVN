@@ -1,5 +1,6 @@
 package com.locol.locol;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,7 +34,8 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
     public void init(Bundle bundle) {
         // add accounts
 
-        final MaterialAccount account = new MaterialAccount(MyNavigationDrawer.this.getResources(),
+        final MaterialAccount account = new MaterialAccount(
+                MyNavigationDrawer.this.getResources(),
                 Account.getUserName(),
                 Account.getUserEmail(),
                 Account.getUserAvatar(),

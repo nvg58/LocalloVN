@@ -1,6 +1,8 @@
 package com.locol.locol;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
@@ -24,6 +26,7 @@ import com.facebook.Session;
 import com.facebook.internal.Utility;
 import com.locol.locol.networks.VolleySingleton;
 import com.parse.LogInCallback;
+import com.parse.ParseAnonymousUtils;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
@@ -44,13 +47,22 @@ import java.util.Arrays;
 
 public class LoginActivity extends ActionBarActivity {
     private String TAG = "LoginActivity";
+    public static final String PREF_FILE_NAME = "user_info";
+    public static final String KEY_USER_ID = "id";
+    public static final String KEY_USER_NAME = "name";
+    public static final String KEY_USER_EMAIL = "email";
+    public static final String KEY_USER_AVATAR = "avatar";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ParseUser currentUser = ParseUser.getCurrentUser();
+
+
         // TODO should move `rsvp_event`, `rsvp_event` and `user_events` permission to other activity (when user actually need them)
+
         ParseFacebookUtils.logIn(Arrays.asList("public_profile", "email", "user_friends", "user_events"), this, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException err) {
@@ -60,18 +72,22 @@ public class LoginActivity extends ActionBarActivity {
                     Log.d("MyApp", "User signed up and logged in through Facebook!");
                 } else {
                     Log.d("MyApp", "User logged in through Facebook!");
-                    final Session session = Session.getActiveSession();
                     new Request(
-                            session,
+                            Session.getActiveSession(),
                             "/me",
                             null,
                             HttpMethod.GET,
                             new Request.Callback() {
                                 public void onCompleted(Response response) {
                                     try {
-                                        Account.setUserFBId(response.getGraphObject().getInnerJSONObject().get("id").toString());
-                                        Account.setUserEmail(response.getGraphObject().getInnerJSONObject().get("email").toString());
-                                        Account.setUserName(response.getGraphObject().getInnerJSONObject().get("name").toString());
+                                        Log.d(TAG, response.toString());
+                                        Account.setUserFBId(response.getGraphObject().getInnerJSONObject().get(KEY_USER_ID).toString());
+                                        Account.setUserEmail(response.getGraphObject().getInnerJSONObject().get(KEY_USER_EMAIL).toString());
+                                        Account.setUserName(response.getGraphObject().getInnerJSONObject().get(KEY_USER_NAME).toString());
+
+                                        Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_ID, Account.getUserFBId());
+                                        Preferences.saveToPreferences(LoginActivity.this, KEY_USER_EMAIL, PREF_FILE_NAME, Account.getUserEmail());
+                                        Preferences.saveToPreferences(LoginActivity.this, KEY_USER_NAME, PREF_FILE_NAME, Account.getUserName());
 
                                         final Bundle params = new Bundle();
                                         params.putBoolean("redirect", false);
@@ -79,20 +95,23 @@ public class LoginActivity extends ActionBarActivity {
                                         params.putInt("width", 200);
                                         params.putString("type", "normal");
                                         new Request(
-                                                session,
+                                                Session.getActiveSession(),
                                                 "/me/picture",
                                                 params,
                                                 HttpMethod.GET,
                                                 new Request.Callback() {
                                                     public void onCompleted(Response response) {
                                                         try {
-                                                            String url = response.getGraphObject().getInnerJSONObject().getJSONObject("data").get("url").toString();
+                                                            Log.d(TAG, response.toString());
+                                                            final String url = response.getGraphObject().getInnerJSONObject().getJSONObject("data").get("url").toString();
                                                             VolleySingleton.getInstance().getImageLoader().get(url, new ImageLoader.ImageListener() {
                                                                 @Override
                                                                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                                                                     Account.setUserAvatar(response.getBitmap());
+                                                                    Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_AVATAR, url);
 
                                                                     startActivity(new Intent(LoginActivity.this, MyNavigationDrawer.class));
+                                                                    finish();
                                                                 }
 
                                                                 @Override
@@ -113,11 +132,10 @@ public class LoginActivity extends ActionBarActivity {
                                 }
                             }
                     ).executeAsync();
-
-
                 }
             }
         });
+
     }
 
 

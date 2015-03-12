@@ -3,7 +3,10 @@ package com.locol.locol;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.stetho.Stetho;
 import com.parse.Parse;
+import com.parse.ParseACL;
+import com.parse.ParseUser;
 
 /**
  * Created by GiapNV on 3/9/15.
@@ -20,6 +23,20 @@ public class MainApplication extends Application {
                 getString(R.string.parse_client_key));
 
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+        ParseUser.enableAutomaticUser();
+        ParseACL defaultACL = new ParseACL();
+
+        // If you would like all objects to be private by default, remove this
+        // line.
+        defaultACL.setPublicReadAccess(true);
+
+        ParseACL.setDefaultACL(defaultACL, true);
+
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                        .build());
 
         sInstance = this;
     }
