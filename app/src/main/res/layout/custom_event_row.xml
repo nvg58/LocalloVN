@@ -11,7 +11,7 @@
     android:padding="@dimen/size_byte">
 
 
-    <ImageView
+    <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/eventThumbnail"
         android:layout_width="match_parent"
         android:layout_height="200dp"

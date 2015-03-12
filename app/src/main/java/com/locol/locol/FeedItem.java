@@ -1,7 +1,5 @@
 package com.locol.locol;
 
-import java.util.Date;
-
 /**
  * Created by GiapNV on 3/11/15.
  * Project LocoL

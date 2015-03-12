@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.squareup.picasso.Picasso;
+import com.locol.locol.networks.VolleySingleton;
 
 import java.util.List;
 
@@ -34,11 +34,13 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
     public void onBindViewHolder(FeedListRowHolder holder, int position) {
         FeedItem feedItem = feedItemList.get(position);
 
-        Picasso.with(mContext).load(feedItem.getUrlThumbnail())
-                .error(R.drawable.jewels)
-                .placeholder(R.drawable.jewels)
-                .into(holder.thumbnail);
+//        Picasso.with(mContext).load(feedItem.getUrlThumbnail())
+//                .error(R.drawable.jewels)
+//                .placeholder(R.drawable.jewels)
+//                .into(holder.thumbnail);
 
+        holder.thumbnail.setDefaultImageResId(R.drawable.placeholder);
+        holder.thumbnail.setImageUrl(feedItem.getUrlThumbnail(), VolleySingleton.getInstance().getImageLoader());
         holder.title.setText(feedItem.getTitle());
         holder.date.setText(feedItem.getDate());
         holder.place.setText(feedItem.getPlace());

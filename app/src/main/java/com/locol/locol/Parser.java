@@ -1,5 +1,7 @@
 package com.locol.locol;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,7 +19,7 @@ import java.util.Locale;
  */
 public class Parser {
 
-    public static final String KEY_EVENTS = "feedItems";
+    public static final String KEY_EVENTS = "events";
     public static final String KEY_ID = "id";
     public static final String KEY_TITLE = "name";
     public static final String KEY_DATES = "start";
@@ -31,6 +33,7 @@ public class Parser {
         ArrayList<FeedItem> listFeedItems = new ArrayList<>();
         if (response != null && response.length() > 0) {
             try {
+                Log.wtf("parseJSONResponse", response.toString());
                 JSONArray arrayFeedItems = response.getJSONArray(KEY_EVENTS);
                 for (int i = 0; i < arrayFeedItems.length(); i++) {
                     long id = -1;
@@ -102,7 +105,7 @@ public class Parser {
 
 
             } catch (JSONException e) {
-
+                e.printStackTrace();
             }
 //                L.t(getActivity(), listFeedItems.size() + " rows fetched"); 
         }

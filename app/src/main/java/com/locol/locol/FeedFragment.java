@@ -1,19 +1,16 @@
 package com.locol.locol;
 
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -22,16 +19,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.locol.locol.networks.VolleySingleton;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -46,7 +36,7 @@ public class FeedFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private List<FeedItem> feedItemList = new ArrayList<FeedItem>();
+    private ArrayList<FeedItem> feedItemList = new ArrayList<FeedItem>();
 
     private RecyclerView mRecyclerView;
     private VolleySingleton volleySingleton;
@@ -79,7 +69,7 @@ public class FeedFragment extends Fragment {
         volleySingleton = VolleySingleton.getInstance();
         requestQueue = volleySingleton.getRequestQueue();
         String url = "http://javatechig.com/api/get_category_posts/?dev=1&slug=android";
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Toast.makeText(getActivity(), "JsonObjectRequest Response", Toast.LENGTH_SHORT).show();
@@ -94,6 +84,19 @@ public class FeedFragment extends Fragment {
             }
         });
         requestQueue.add(request);
+
+//        new Request(
+//                Session.getActiveSession(),
+//                "/me/events",
+//                null,
+//                HttpMethod.GET,
+//                new Request.Callback() {
+//                    @Override
+//                    public void onCompleted(com.facebook.Response response) {
+//                        Log.wtf(TAG, response.toString());
+//                    }
+//                }
+//        ).executeAsync();
 
         //Initialize swipe to refresh view
 //        mSwipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeRefreshLayout);

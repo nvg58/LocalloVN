@@ -1,10 +1,8 @@
 package com.locol.locol;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
