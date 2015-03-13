@@ -62,32 +62,6 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         return fragment;
     }
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-//
-//        volleySingleton = VolleySingleton.getInstance();
-//        requestQueue = volleySingleton.getRequestQueue();
-//        String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=hanoi&categories=102&token=DBEK5SF2SVBCTIV52X3L";
-//
-//        JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                parseResult(response);
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
-//        requestQueue.add(request);
-//    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
