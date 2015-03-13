@@ -1,6 +1,11 @@
 package com.locol.locol;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +54,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
 
         holder.thumbnail.setDefaultImageResId(R.drawable.placeholder);
         holder.thumbnail.setImageUrl(feedItem.getUrlThumbnail(), VolleySingleton.getInstance().getImageLoader());
+
+//        ColorMatrix colorMatrix = new ColorMatrix();
+//        colorMatrix.setSaturation(0);
+//        ColorMatrixColorFilter filter = new ColorMatrixColorFilter(colorMatrix);
+//        holder.thumbnail.setColorFilter(filter);
+
         holder.title.setText(feedItem.getTitle());
         holder.date.setText(feedItem.getDate());
         holder.place.setText(feedItem.getPlace());
