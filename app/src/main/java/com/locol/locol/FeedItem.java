@@ -1,10 +1,13 @@
 package com.locol.locol;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by GiapNV on 3/11/15.
  * Project LocoL
  */
-public class FeedItem {
+public class FeedItem implements Parcelable {
     private long id;
     private String title;
     private String date;
@@ -60,4 +63,23 @@ public class FeedItem {
         this.description = description;
     }
 
+    @Override
+    public String toString() {
+        return getId() + "\n" + getTitle() + "\n" + getDescription() + "\n" + getPlace() + "\n" + getUrlThumbnail();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
+        dest.writeString(title);
+        dest.writeString(date);
+        dest.writeString(urlThumbnail);
+        dest.writeString(place);
+        dest.writeString(description);
+    }
 }

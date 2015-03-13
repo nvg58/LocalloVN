@@ -30,6 +30,7 @@ public class LoginActivity extends ActionBarActivity {
     public static final String KEY_USER_NAME = "name";
     public static final String KEY_USER_EMAIL = "email";
     public static final String KEY_USER_AVATAR = "avatar";
+    public static final String KEY_USER_COVER = "cover";
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -64,8 +65,8 @@ public class LoginActivity extends ActionBarActivity {
                                         Account.setUserName(response.getGraphObject().getInnerJSONObject().get(KEY_USER_NAME).toString());
 
                                         Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_ID, Account.getUserFBId());
-                                        Preferences.saveToPreferences(LoginActivity.this, KEY_USER_EMAIL, PREF_FILE_NAME, Account.getUserEmail());
-                                        Preferences.saveToPreferences(LoginActivity.this, KEY_USER_NAME, PREF_FILE_NAME, Account.getUserName());
+                                        Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_EMAIL, Account.getUserEmail());
+                                        Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_NAME, Account.getUserName());
 
                                         final Bundle params = new Bundle();
                                         params.putBoolean("redirect", false);
@@ -87,7 +88,6 @@ public class LoginActivity extends ActionBarActivity {
                                                                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                                                                     Account.setUserAvatar(response.getBitmap());
                                                                     Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_AVATAR, url);
-
                                                                     startActivity(new Intent(LoginActivity.this, MyNavigationDrawer.class));
                                                                     finish();
                                                                 }

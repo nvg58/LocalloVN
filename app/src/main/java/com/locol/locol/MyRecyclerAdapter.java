@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import com.locol.locol.networks.VolleySingleton;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,10 +17,10 @@ import java.util.List;
  * Project LocoL
  */
 public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
-    private List<FeedItem> feedItemList;
+    private ArrayList<FeedItem> feedItemList = new ArrayList<>();
     private Context mContext;
 
-    public MyRecyclerAdapter(Context context, List<FeedItem> feedItemList) {
+    public MyRecyclerAdapter(Context context, ArrayList<FeedItem> feedItemList) {
         this.feedItemList = feedItemList;
         this.mContext = context;
 //        notifyDataSetChanged();
@@ -28,6 +30,12 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
     public FeedListRowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_event_row, parent, false);
         return new FeedListRowHolder(v);
+    }
+
+    public void setFeedItems(ArrayList<FeedItem> feedItems) {
+        this.feedItemList = feedItems;
+        //update the adapter to reflect the new set of movies
+        notifyDataSetChanged();
     }
 
     @Override

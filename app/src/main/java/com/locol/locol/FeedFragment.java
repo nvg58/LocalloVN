@@ -1,15 +1,16 @@
 package com.locol.locol;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -18,7 +19,6 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.locol.locol.networks.VolleySingleton;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -27,23 +27,27 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FeedFragment extends Fragment {
+public class FeedFragment extends Fragment implements FeedItemsLoadedListener, SwipeRefreshLayout.OnRefreshListener {
 
     private final static String TAG = "FeedFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final String STATE_FEED_ITEMS = "state_feed_items";
+
+
     private String mParam1;
     private String mParam2;
 
-    private ArrayList<FeedItem> feedItemList = new ArrayList<FeedItem>();
+    private ArrayList<FeedItem> feedItemList = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
     private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
     private RequestQueue requestQueue;
+    private MyRecyclerAdapter mAdapter;
 
-    private SwipeRefreshLayout mSwipeRefreshLayout = null;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -58,57 +62,31 @@ public class FeedFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-        volleySingleton = VolleySingleton.getInstance();
-        requestQueue = volleySingleton.getRequestQueue();
-        String url = "http://javatechig.com/api/get_category_posts/?dev=1&slug=android";
-        JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Toast.makeText(getActivity(), "JsonObjectRequest Response", Toast.LENGTH_SHORT).show();
-//                feedItemList = Parser.parseJSONResponse(response);
-                parseResult(response);
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        requestQueue.add(request);
-
-//        new Request(
-//                Session.getActiveSession(),
-//                "/me/events",
-//                null,
-//                HttpMethod.GET,
-//                new Request.Callback() {
-//                    @Override
-//                    public void onCompleted(com.facebook.Response response) {
-//                        Log.wtf(TAG, response.toString());
-//                    }
-//                }
-//        ).executeAsync();
-
-        //Initialize swipe to refresh view
-//        mSwipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipeRefreshLayout);
-//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
+//
+//        volleySingleton = VolleySingleton.getInstance();
+//        requestQueue = volleySingleton.getRequestQueue();
+//        String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=hanoi&categories=102&token=DBEK5SF2SVBCTIV52X3L";
+//
+//        JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 //            @Override
-//            public void onRefresh() {
-//                if (mSwipeRefreshLayout.isRefreshing()) {
-//                    mSwipeRefreshLayout.setRefreshing(false);
-//                }
+//            public void onResponse(JSONObject response) {
+//                parseResult(response);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//
 //            }
 //        });
-    }
+//        requestQueue.add(request);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,35 +94,82 @@ public class FeedFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_green_dark,
+                android.R.color.holo_red_dark,
+                android.R.color.holo_blue_dark,
+                android.R.color.holo_orange_dark);
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        MyRecyclerAdapter adapter = new MyRecyclerAdapter(getActivity(), feedItemList);
-        mRecyclerView.setAdapter(adapter);
+        mAdapter = new MyRecyclerAdapter(getActivity(), feedItemList);
+        mRecyclerView.setAdapter(mAdapter);
+
+        if (savedInstanceState != null) {
+            //if this fragment starts after a rotation or configuration change, load the existing movies from a parcelable
+            feedItemList = savedInstanceState.getParcelableArrayList(STATE_FEED_ITEMS);
+        } else {
+            //if this fragment starts for the first time, load the list of movies from a database
+            feedItemList = MainApplication.getWritableDatabase().getAllFeedItems();
+            //if the database is empty, trigger an AsycnTask to download movie list from the web
+            if (feedItemList.isEmpty()) {
+                new TaskLoadFeedItems(this).execute();
+            }
+        }
+
+        mAdapter.setFeedItems(feedItemList);
 
         return view;
     }
 
 
     private void parseResult(JSONObject response) {
-        JSONArray posts = response.optJSONArray("posts");
-
-            /*Initialize array if null*/
-        if (null == feedItemList) {
-            feedItemList = new ArrayList<>();
-        }
-
-        for (int i = 0; i < posts.length(); i++) {
-            JSONObject post = posts.optJSONObject(i);
-
-            FeedItem item = new FeedItem();
-            item.setTitle(post.optString("title"));
-            item.setUrlThumbnail(post.optString("thumbnail"));
-            item.setDate(post.optString("title"));
-            item.setPlace(post.optString("title"));
-            item.setDescription(post.optString("title"));
-            feedItemList.add(item);
-        }
+        feedItemList = Parser.parseJSONResponse(response);
+        Log.wtf(TAG, feedItemList.toString());
     }
 
+    @Override
+    public void onFeedItemsLoaded(ArrayList<FeedItem> feedItems) {
+        //update the Adapter to contain the new movies downloaded from the web
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+        mAdapter.setFeedItems(feedItems);
+    }
+
+    @Override
+    public void onRefresh() {
+        new TaskLoadFeedItems(this).execute();
+    }
+
+    private class TaskLoadFeedItems extends AsyncTask<Void, Void, ArrayList<FeedItem>> {
+        private FeedItemsLoadedListener myComponent;
+        private VolleySingleton volleySingleton;
+        private RequestQueue requestQueue;
+
+        public TaskLoadFeedItems(FeedItemsLoadedListener myComponent) {
+            this.myComponent = myComponent;
+            volleySingleton = VolleySingleton.getInstance();
+            requestQueue = volleySingleton.getRequestQueue();
+        }
+
+        @Override
+        protected ArrayList<FeedItem> doInBackground(Void... params) {
+            String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=hanoi&token=DBEK5SF2SVBCTIV52X3L";
+            JSONObject response = Requestor.sendRequestFeedItems(requestQueue, url);
+            ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
+            MainApplication.getWritableDatabase().insertFeedItems(feedItems, true);
+            return feedItems;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<FeedItem> feedItems) {
+            if (myComponent != null) {
+                myComponent.onFeedItemsLoaded(feedItems);
+            }
+        }
+    }
 }

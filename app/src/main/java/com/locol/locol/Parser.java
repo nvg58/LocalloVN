@@ -1,6 +1,7 @@
 package com.locol.locol;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,8 +34,11 @@ public class Parser {
         ArrayList<FeedItem> listFeedItems = new ArrayList<>();
         if (response != null && response.length() > 0) {
             try {
-                Log.wtf("parseJSONResponse", response.toString());
+                Log.d("parseJSONResponse: ", response.toString());
+                Preferences.saveToPreferences(MainApplication.getAppContext(), "jsonRespone", "respone", response.toString());
                 JSONArray arrayFeedItems = response.getJSONArray(KEY_EVENTS);
+                Preferences.saveToPreferences(MainApplication.getAppContext(), "arrayFeedItems", "respone", arrayFeedItems.toString());
+
                 for (int i = 0; i < arrayFeedItems.length(); i++) {
                     long id = -1;
                     String title = Constants.NA;
@@ -87,13 +91,13 @@ public class Parser {
                     FeedItem feedItem = new FeedItem();
                     feedItem.setId(id);
                     feedItem.setTitle(title);
-                    Date date = null;
-                    try {
-                        date = dateFormat.parse(startDate);
-                    } catch (ParseException e) {
-                        //a parse exception generated here will store null in the release date, be sure to handle it 
-                    }
-                    feedItem.setDate(date.toString());
+//                    Date date = null;
+//                    try {
+//                        date = dateFormat.parse(startDate);
+//                    } catch (ParseException e) {
+//                        //a parse exception generated here will store null in the release date, be sure to handle it
+//                    }
+                    feedItem.setDate(startDate);
                     feedItem.setUrlThumbnail(urlThumbnail);
                     feedItem.setPlace(place);
                     feedItem.setDescription(description);
@@ -101,6 +105,9 @@ public class Parser {
                     if (id != -1 && !title.equals(Constants.NA)) {
                         listFeedItems.add(feedItem);
                     }
+
+                    Preferences.saveToPreferences(MainApplication.getAppContext(), "arrayFeedItems", "feedItem", feedItem.toString());
+
                 }
 
 

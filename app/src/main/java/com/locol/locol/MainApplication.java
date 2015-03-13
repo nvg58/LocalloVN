@@ -14,6 +14,7 @@ import com.parse.ParseUser;
  */
 public class MainApplication extends Application {
     private static MainApplication sInstance;
+    private static DBFeedItems mDatabase;
 
     @Override
     public void onCreate() {
@@ -48,5 +49,11 @@ public class MainApplication extends Application {
     public static Context getAppContext() {
         return sInstance.getApplicationContext();
     }
-}
+
+    public synchronized static DBFeedItems getWritableDatabase() {
+        if (mDatabase == null) {
+            mDatabase = new DBFeedItems(getAppContext());
+        }
+        return mDatabase;
+    }}
 
