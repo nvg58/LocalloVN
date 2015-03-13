@@ -24,15 +24,14 @@
         android:layout_below="@id/eventThumbnail"
         android:layout_marginTop="-40dp"
         android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        >
+        android:paddingRight="4dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/eventThumbnail"
             android:background="@android:color/white"
-            android:padding="@dimen/size_word"            >
+            android:padding="@dimen/size_word">
 
             <TextView
                 android:id="@+id/eventTitle"
@@ -93,6 +92,7 @@
                 android:layout_below="@id/eventDescription"
                 android:background="@android:color/transparent"
                 android:elevation="0dp"
+                android:paddingTop="16dp"
                 android:ellipsize="none"
                 android:text="DETAILS"
                 android:textColor="@color/colorAccent" />
@@ -106,6 +106,7 @@
                 android:layout_alignTop="@id/btnDetails"
                 android:layout_below="@id/eventDescription"
                 android:layout_centerVertical="true"
+                android:paddingTop="16dp"
                 android:background="@android:color/transparent"
                 android:elevation="0dp"
                 android:nestedScrollingEnabled="false"
