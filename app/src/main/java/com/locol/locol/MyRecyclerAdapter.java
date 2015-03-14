@@ -1,6 +1,7 @@
 package com.locol.locol;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -64,6 +65,15 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
         holder.date.setText(feedItem.getDate());
         holder.place.setText(feedItem.getPlace());
         holder.description.setText(feedItem.getDescription());
+
+        holder.btnDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainApplication.getAppContext(), SettingActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                MainApplication.getAppContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,14 @@
 package com.locol.locol;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
+import com.locol.locol.networks.VolleySingleton;
+
+import java.net.Inet4Address;
 
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialAccount;
@@ -13,15 +21,23 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
 
     public final static String TAG = "MyNavigationDrawer";
 
-    @Override
-    public void init(Bundle bundle) {
-        // add accounts
+    static final String STATE_AVATAR = "avatar";
+    static final String STATE_COVER = "cover";
+    static final String STATE_PATH = "objPath";
 
+    public static final String PREF_FILE_NAME = "user_info";
+    public static final String KEY_USER_AVATAR = "avatar";
+
+    @Override
+    public void init(Bundle savedInstanceState) {
+
+        // add accounts
         final MaterialAccount account = new MaterialAccount(
                 MyNavigationDrawer.this.getResources(),
                 Account.getUserName(),
                 Account.getUserEmail(),
                 Account.getUserAvatar(),
+//                R.drawable.photo,
                 R.drawable.bamboo);
         this.addAccount(account);
 
@@ -45,7 +61,7 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
 
         this.addBottomSection(newSection(
                 "Settings",
-                new SettingActivity()));
+                new Intent(MyNavigationDrawer.this, SettingActivity.class)));
 
         this.addBottomSection(newSection(
                 "Help & Feedback",

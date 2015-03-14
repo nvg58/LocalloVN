@@ -1,6 +1,7 @@
 package com.locol.locol;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
@@ -44,7 +45,8 @@ public class WalkthroughActivity extends ActionBarActivity {
                 VolleySingleton.getInstance().getImageLoader().get(url, new ImageLoader.ImageListener() {
                     @Override
                     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                        Account.setUserAvatar(response.getBitmap());
+                        Bitmap bitmap = response.getBitmap();
+                        Account.setUserAvatar(bitmap);
 
                         startActivity(new Intent(WalkthroughActivity.this, MyNavigationDrawer.class));
                         finish();

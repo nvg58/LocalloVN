@@ -9,11 +9,14 @@ import android.view.MenuItem;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
+
 import com.locol.locol.networks.VolleySingleton;
+
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
@@ -88,6 +91,7 @@ public class LoginActivity extends ActionBarActivity {
                                                                 public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
                                                                     Account.setUserAvatar(response.getBitmap());
                                                                     Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_AVATAR, url);
+
                                                                     startActivity(new Intent(LoginActivity.this, MyNavigationDrawer.class));
                                                                     finish();
                                                                 }
@@ -144,6 +148,7 @@ public class LoginActivity extends ActionBarActivity {
 //        super.onActivityResult(requestCode, resultCode, data);
 //        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 //    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

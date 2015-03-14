@@ -11,4 +11,5 @@
     <dimen name="size_byte">8dp</dimen>
     <dimen name="event_thumbnail_width">54dp</dimen>
     <dimen name="event_thumbnail_height">80dp</dimen>
+    <dimen name="app_bar_top_padding">0dp</dimen>
 </resources>

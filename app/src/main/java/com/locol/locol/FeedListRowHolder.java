@@ -2,6 +2,7 @@ package com.locol.locol;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -16,6 +17,7 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder {
     protected TextView date;
     protected TextView place;
     protected TextView description;
+    protected Button btnDetails;
 
     public FeedListRowHolder(View itemView) {
         super(itemView);
@@ -24,5 +26,6 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder {
         this.date = (TextView) itemView.findViewById(R.id.eventDate);
         this.place = (TextView) itemView.findViewById(R.id.eventPlace);
         this.description = (TextView) itemView.findViewById(R.id.eventDescription);
+        this.btnDetails= (Button) itemView.findViewById(R.id.btnDetails);
     }
 }
