@@ -1,4 +1,4 @@
-package com.locol.locol;
+package com.locol.locol.pojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;

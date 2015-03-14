@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import com.locol.locol.pojo.FeedItem;
+
 import java.util.ArrayList;
 
 /**

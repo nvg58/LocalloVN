@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.locol.locol.networks.VolleySingleton;
+import com.locol.locol.pojo.Account;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseUser;
 

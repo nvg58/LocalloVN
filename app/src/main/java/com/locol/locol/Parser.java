@@ -1,17 +1,16 @@
 package com.locol.locol;
 
 import android.util.Log;
-import android.widget.Toast;
+
+import com.locol.locol.pojo.FeedItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 /**

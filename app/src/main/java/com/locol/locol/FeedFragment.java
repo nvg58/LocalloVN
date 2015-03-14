@@ -13,11 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.locol.locol.networks.VolleySingleton;
+import com.locol.locol.pojo.FeedItem;
 
 import org.json.JSONObject;
 

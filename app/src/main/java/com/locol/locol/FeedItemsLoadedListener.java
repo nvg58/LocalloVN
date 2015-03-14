@@ -1,5 +1,7 @@
 package com.locol.locol;
 
+import com.locol.locol.pojo.FeedItem;
+
 import java.util.ArrayList;
 
 /**

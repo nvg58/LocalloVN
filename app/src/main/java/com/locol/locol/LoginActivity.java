@@ -17,6 +17,7 @@ import com.facebook.Session;
 
 import com.locol.locol.networks.VolleySingleton;
 
+import com.locol.locol.pojo.Account;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;

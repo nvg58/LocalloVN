@@ -2,13 +2,8 @@ package com.locol.locol;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
-import com.locol.locol.networks.VolleySingleton;
-
-import java.net.Inet4Address;
+import com.locol.locol.pojo.Account;
 
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
 import it.neokree.materialnavigationdrawer.elements.MaterialAccount;
