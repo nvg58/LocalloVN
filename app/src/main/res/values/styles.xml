@@ -13,4 +13,5 @@
         <item name="rippleBackport">true</item>
         <item name="singleAccount">true</item>
     </style>
+
 </resources>

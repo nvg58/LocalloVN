@@ -86,14 +86,15 @@
 
             <Button
                 android:id="@+id/btnDetails"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignRight="@id/eventTitle"
                 android:layout_below="@id/eventDescription"
                 android:background="@android:color/transparent"
                 android:elevation="0dp"
-                android:paddingTop="16dp"
                 android:ellipsize="none"
+                android:paddingTop="16dp"
                 android:text="DETAILS"
                 android:textColor="@color/colorAccent" />
 
@@ -106,12 +107,12 @@
                 android:layout_alignTop="@id/btnDetails"
                 android:layout_below="@id/eventDescription"
                 android:layout_centerVertical="true"
-                android:paddingTop="16dp"
                 android:background="@android:color/transparent"
                 android:elevation="0dp"
                 android:nestedScrollingEnabled="false"
-                android:tint="@color/colorAccent"
-                android:src="@mipmap/ic_favorite_outline_grey600_24dp" />
+                android:paddingTop="16dp"
+                android:src="@mipmap/ic_favorite_outline_grey600_24dp"
+                android:tint="@color/colorAccent" />
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

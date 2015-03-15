@@ -41,4 +41,6 @@ dependencies {
 
     compile 'com.facebook.stetho:stetho:1.0.1'
     compile 'com.facebook.stetho:stetho-urlconnection:1.0.1'
+
+    compile 'com.github.navasmdc:MaterialDesign:1.+@aar'
 }

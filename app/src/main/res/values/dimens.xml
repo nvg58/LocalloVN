@@ -4,8 +4,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="size_word">16dp</dimen>
-    <dimen name="size_text_header">30sp</dimen>
-    <dimen name="size_text_primary">26sp</dimen>
+    <dimen name="size_text_header">26sp</dimen>
+    <dimen name="size_text_primary">16sp</dimen>
     <dimen name="size_text_secondary">14sp</dimen>
     <dimen name="size_half_byte">4dp</dimen>
     <dimen name="size_byte">8dp</dimen>

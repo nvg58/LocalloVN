@@ -41,7 +41,16 @@
         </activity>
         <activity
             android:name=".SettingActivity"
-            android:label="@string/title_activity_setting">
+            android:label="@string/title_activity_setting"
+            android:parentActivityName=".MyNavigationDrawer">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.locol.locol.MyNavigationDrawer" />
+        </activity>
+        <activity
+            android:name=".DetailsEventActivity"
+            android:label=""
+            android:parentActivityName=".MyNavigationDrawer">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.locol.locol.MyNavigationDrawer" />

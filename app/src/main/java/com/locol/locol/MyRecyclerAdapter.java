@@ -63,7 +63,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
         holder.btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainApplication.getAppContext(), SettingActivity.class);
+                Intent intent = new Intent(MainApplication.getAppContext(), DetailsEventActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 MainApplication.getAppContext().startActivity(intent);
             }
