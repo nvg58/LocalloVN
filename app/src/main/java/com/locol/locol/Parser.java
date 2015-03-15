@@ -61,8 +61,8 @@ public class Parser {
                     //get the title of the current feedItem 
                     if (Utils.contains(currentFeedItem, KEY_TITLE)) {
                         JSONObject objectTitle = currentFeedItem.getJSONObject(KEY_TITLE);
-                        if (Utils.contains(objectTitle, HTML_FORMAT)) {
-                            title = objectTitle.getString(HTML_FORMAT);
+                        if (Utils.contains(objectTitle, TEXT_FORMAT)) {
+                            title = objectTitle.getString(TEXT_FORMAT);
                         }
                     }
 
