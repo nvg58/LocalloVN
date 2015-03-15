@@ -79,7 +79,7 @@
                 android:layout_alignTop="@id/eventPlace"
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"
-                android:src="@drawable/navigation"
+                android:src="@mipmap/ic_directions_black_24dp"
                 android:tint="@color/colorAccent" />
 
             <TextView
