@@ -2,6 +2,7 @@ package com.locol.locol;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -40,8 +42,8 @@ public class DetailsEventActivity extends ActionBarActivity {
         final String startDate = extras.getString("EXTRA_FEED_START_DATE");
         final String endDate = extras.getString("EXTRA_FEED_END_DATE");
         final String place = extras.getString("EXTRA_FEED_PLACE");
-        String latitude = extras.getString("EXTRA_FEED_LATITUDE");
-        String longitude = extras.getString("EXTRA_FEED_LONGITUDE");
+        final String latitude = extras.getString("EXTRA_FEED_LATITUDE");
+        final String longitude = extras.getString("EXTRA_FEED_LONGITUDE");
         String organizer = extras.getString("EXTRA_FEED_ORGANIZER");
         String description = extras.getString("EXTRA_FEED_DESCRIPTION");
         String urlThumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
@@ -96,6 +98,24 @@ public class DetailsEventActivity extends ActionBarActivity {
                     }
                 }
             });
+
+            ImageButton btnDirection = (ImageButton) findViewById(R.id.btnDirection);
+            btnDirection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    GPSTracker gps = new GPSTracker(DetailsEventActivity.this);
+                    if (gps.canGetLocation()) {
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                Uri.parse("http://maps.google.com/maps?saddr=" + gps.getLatitude() + "," + gps.getLongitude() + "&daddr=" + latitude + "," + longitude));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                        startActivity(intent);
+                    } else {
+                        gps.showSettingsAlert();
+                    }
+                }
+            });
         }
     }
 
@@ -111,7 +131,7 @@ public class DetailsEventActivity extends ActionBarActivity {
         ctx.startActivity(intent);
     }
 
-    public static Calendar DateToCalendar(Date date){
+    public static Calendar DateToCalendar(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal;
@@ -137,5 +157,11 @@ public class DetailsEventActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("TAG", "onResume");
     }
 }
