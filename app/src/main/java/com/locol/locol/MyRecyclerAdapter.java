@@ -13,7 +13,11 @@ import android.view.ViewGroup;
 import com.locol.locol.networks.VolleySingleton;
 import com.locol.locol.pojo.FeedItem;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by GiapNV on 3/11/15.
@@ -59,7 +63,16 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
 //        holder.thumbnail.setColorFilter(filter);
 
         holder.title.setText(feedItem.getTitle());
-        holder.date.setText(feedItem.getStartDate());
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat newDateFormat = new SimpleDateFormat("EEE, d MMM yyyy 'at' hh:mm aaa");
+        try {
+            Date date = dateFormat.parse(feedItem.getStartDate());
+            holder.date.setText(newDateFormat.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         holder.place.setText(feedItem.getPlace());
         holder.description.setText(Html.fromHtml(feedItem.getDescription()));
 

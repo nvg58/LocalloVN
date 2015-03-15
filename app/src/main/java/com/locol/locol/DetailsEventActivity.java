@@ -64,7 +64,14 @@ public class DetailsEventActivity extends ActionBarActivity {
             tvPlace.setText(place);
 
             TextView tvDate = (TextView) findViewById(R.id.eventDate);
-            tvDate.setText(startDate);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            DateFormat newDateFormat = new SimpleDateFormat("EEE, d MMM yyyy '\n'hh:mm aaa");
+            try {
+                Date date = dateFormat.parse(startDate);
+                tvDate.setText(newDateFormat.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             TextView tvDetails = (TextView) findViewById(R.id.eventDescription);
             tvDetails.setText(Html.fromHtml(
