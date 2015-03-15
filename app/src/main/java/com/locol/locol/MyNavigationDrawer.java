@@ -31,7 +31,7 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
                 MyNavigationDrawer.this.getResources(),
                 Account.getUserName(),
                 Account.getUserEmail(),
-                Account.getUserAvatar(),
+                R.drawable.avatar,
                 R.drawable.bamboo);
         this.addAccount(account);
 

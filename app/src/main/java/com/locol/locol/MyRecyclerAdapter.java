@@ -59,7 +59,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
 //        holder.thumbnail.setColorFilter(filter);
 
         holder.title.setText(feedItem.getTitle());
-        holder.date.setText(feedItem.getDate());
+        holder.date.setText(feedItem.getStartDate());
         holder.place.setText(feedItem.getPlace());
         holder.description.setText(Html.fromHtml(feedItem.getDescription()));
 
@@ -71,8 +71,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
 
                 Bundle extras = new Bundle();
                 extras.putString("EXTRA_FEED_TITLE", feedItem.getTitle());
-                extras.putString("EXTRA_FEED_DATE", feedItem.getDate());
+                extras.putString("EXTRA_FEED_START_DATE", feedItem.getStartDate());
+                extras.putString("EXTRA_FEED_END_DATE", feedItem.getEndDate());
                 extras.putString("EXTRA_FEED_PLACE", feedItem.getPlace());
+                extras.putString("EXTRA_FEED_LATITUDE", feedItem.getLatitude());
+                extras.putString("EXTRA_FEED_LONGITUDE", feedItem.getLongitude());
                 extras.putString("EXTRA_FEED_DESCRIPTION", feedItem.getDescription());
                 extras.putString("EXTRA_FEED_URL_THUMBNAIL", feedItem.getUrlThumbnail());
                 intent.putExtras(extras);

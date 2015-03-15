@@ -10,17 +10,28 @@ import android.os.Parcelable;
 public class FeedItem implements Parcelable {
     private long id;
     private String title;
-    private String date;
+    private String startDate;
+    private String endDate;
     private String urlThumbnail;
     private String place;
+    private String latitude;
+    private String longitude;
     private String description;
 
-    public String getDate() {
-        return date;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     public long getId() {
@@ -51,6 +62,22 @@ public class FeedItem implements Parcelable {
         return place;
     }
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
     public void setPlace(String place) {
         this.place = place;
     }
@@ -77,9 +104,12 @@ public class FeedItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
         dest.writeString(title);
-        dest.writeString(date);
+        dest.writeString(startDate);
+        dest.writeString(endDate);
         dest.writeString(urlThumbnail);
         dest.writeString(place);
+        dest.writeString(latitude);
+        dest.writeString(longitude);
         dest.writeString(description);
     }
 }

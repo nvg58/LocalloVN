@@ -106,6 +106,7 @@
                 android:textSize="@dimen/size_text_primary" />
 
             <Button
+                android:id="@+id/btnAddToCalendar"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

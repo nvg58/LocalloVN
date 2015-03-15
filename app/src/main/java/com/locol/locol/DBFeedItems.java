@@ -30,7 +30,7 @@ public class DBFeedItems {
             deleteAll();
         }
         //create a sql prepared statement
-        String sql = "INSERT INTO " + FeedItemsHelper.TABLE_FEED_ITEMS + " VALUES (?,?,?,?,?,?);";
+        String sql = "INSERT INTO " + FeedItemsHelper.TABLE_FEED_ITEMS + " VALUES (?,?,?,?,?,?,?,?,?);";
         //compile the statement and start a transaction
         SQLiteStatement statement = mDatabase.compileStatement(sql);
         mDatabase.beginTransaction();
@@ -39,10 +39,13 @@ public class DBFeedItems {
             statement.clearBindings();
             //for a given column index, simply bind the data to be put inside that index
             statement.bindString(2, currentFeedItem.getTitle());
-            statement.bindString(3, currentFeedItem.getDate());
-            statement.bindString(4, currentFeedItem.getUrlThumbnail());
-            statement.bindString(5, currentFeedItem.getPlace());
-            statement.bindString(6, currentFeedItem.getDescription());
+            statement.bindString(3, currentFeedItem.getStartDate());
+            statement.bindString(4, currentFeedItem.getEndDate());
+            statement.bindString(5, currentFeedItem.getUrlThumbnail());
+            statement.bindString(6, currentFeedItem.getPlace());
+            statement.bindString(7, currentFeedItem.getLatitude());
+            statement.bindString(8, currentFeedItem.getLongitude());
+            statement.bindString(9, currentFeedItem.getDescription());
             statement.execute();
         }
         //set the transaction as successful and end the transaction
@@ -58,8 +61,11 @@ public class DBFeedItems {
                 FeedItemsHelper.COLUMN_UID,
                 FeedItemsHelper.COLUMN_TITLE,
                 FeedItemsHelper.COLUMN_START_DATE,
+                FeedItemsHelper.COLUMN_END_DATE,
                 FeedItemsHelper.COLUMN_URL_THUMBNAIL,
                 FeedItemsHelper.COLUMN_PLACE,
+                FeedItemsHelper.COLUMN_LATITUDE,
+                FeedItemsHelper.COLUMN_LONGITUDE,
                 FeedItemsHelper.COLUMN_DESCRIPTION
         };
         Cursor cursor = mDatabase.query(FeedItemsHelper.TABLE_FEED_ITEMS, columns, null, null, null, null, null);
@@ -71,9 +77,12 @@ public class DBFeedItems {
                 //each step is a 2 part process, find the index of the column first, find the data of that column using
                 //that index and finally set our blank feedItem object to contain our data
                 feedItem.setTitle(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_TITLE)));
-                feedItem.setDate(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_START_DATE)));
+                feedItem.setStartDate(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_START_DATE)));
+                feedItem.setEndDate(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_END_DATE)));
                 feedItem.setUrlThumbnail(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_URL_THUMBNAIL)));
                 feedItem.setPlace(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_PLACE)));
+                feedItem.setLatitude(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_LATITUDE)));
+                feedItem.setLongitude(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_LONGITUDE)));
                 feedItem.setDescription(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_DESCRIPTION)));
                 //add the feedItem to the list of feedItem objects which we plan to return
                 listFeedItems.add(feedItem);
@@ -92,15 +101,21 @@ public class DBFeedItems {
         public static final String COLUMN_UID = "_id";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_START_DATE = "start_date";
+        public static final String COLUMN_END_DATE = "end_date";
         public static final String COLUMN_URL_THUMBNAIL = "url_thumbnail";
         public static final String COLUMN_PLACE = "place";
+        public static final String COLUMN_LATITUDE = "latitude";
+        public static final String COLUMN_LONGITUDE = "longitude";
         public static final String COLUMN_DESCRIPTION = "description";
         private static final String CREATE_TABLE_FEED_ITEM = "CREATE TABLE " + TABLE_FEED_ITEMS + " (" +
                 COLUMN_UID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_TITLE + " TEXT," +
                 COLUMN_START_DATE + " TEXT," +
+                COLUMN_END_DATE + " TEXT," +
                 COLUMN_URL_THUMBNAIL + " TEXT," +
                 COLUMN_PLACE + " TEXT," +
+                COLUMN_LATITUDE + " TEXT," +
+                COLUMN_LONGITUDE + " TEXT," +
                 COLUMN_DESCRIPTION + " TEXT" +
                 ")";
         private static final String DB_NAME = "feed_items_db";

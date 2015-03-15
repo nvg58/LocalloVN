@@ -22,29 +22,32 @@ public class Parser {
     public static final String KEY_EVENTS = "events";
     public static final String KEY_ID = "id";
     public static final String KEY_TITLE = "name";
-    public static final String KEY_DATES = "start";
+    public static final String KEY_START_DATE = "start";
+    public static final String KEY_END_DATE = "end";
     public static final String KEY_THUMBNAIL = "logo_url";
     public static final String KEY_PLACE = "venue";
+    public static final String KEY_LATITUDE = "latitude";
+    public static final String KEY_LONGITUDE = "longitude";
     public static final String KEY_DESCRIPTION = "description";
     public static final String TEXT_FORMAT = "text";
     public static final String HTML_FORMAT = "html";
 
     public static ArrayList<FeedItem> parseJSONResponse(JSONObject response) {
-        DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.US);
         ArrayList<FeedItem> listFeedItems = new ArrayList<>();
         if (response != null && response.length() > 0) {
             try {
                 Log.d("parseJSONResponse: ", response.toString());
-                Preferences.saveToPreferences(MainApplication.getAppContext(), "jsonRespone", "respone", response.toString());
                 JSONArray arrayFeedItems = response.getJSONArray(KEY_EVENTS);
-                Preferences.saveToPreferences(MainApplication.getAppContext(), "arrayFeedItems", "respone", arrayFeedItems.toString());
 
                 for (int i = 0; i < arrayFeedItems.length(); i++) {
                     long id = -1;
                     String title = Constants.NA;
                     String startDate = Constants.NA;
+                    String endDate = Constants.NA;
                     String urlThumbnail = Constants.NA;
                     String place = Constants.NA;
+                    String latitude = Constants.NA;
+                    String longitude = Constants.NA;
                     String description = Constants.NA;
                     JSONObject currentFeedItem = arrayFeedItems.getJSONObject(i);
 
@@ -62,11 +65,20 @@ public class Parser {
                     }
 
                     //get the date for the current feedItem
-                    if (Utils.contains(currentFeedItem, KEY_DATES)) {
-                        JSONObject objectStartDates = currentFeedItem.getJSONObject(KEY_DATES);
+                    if (Utils.contains(currentFeedItem, KEY_START_DATE)) {
+                        JSONObject objectStartDates = currentFeedItem.getJSONObject(KEY_START_DATE);
 
                         if (Utils.contains(objectStartDates, "local")) {
                             startDate = objectStartDates.getString("local");
+                        }
+                    }
+
+                    //get the date for the current feedItem
+                    if (Utils.contains(currentFeedItem, KEY_END_DATE)) {
+                        JSONObject objectEndDates = currentFeedItem.getJSONObject(KEY_END_DATE);
+
+                        if (Utils.contains(objectEndDates, "local")) {
+                            endDate = objectEndDates.getString("local");
                         }
                     }
 
@@ -80,6 +92,16 @@ public class Parser {
                         place = currentFeedItem.getJSONObject(KEY_PLACE).getJSONObject("address").getString("address_1");
                     }
 
+                    //get the feedItem latitude
+                    if (Utils.contains(currentFeedItem, KEY_PLACE)) {
+                        latitude = currentFeedItem.getJSONObject(KEY_PLACE).getString(KEY_LATITUDE);
+                    }
+
+                    //get the feedItem longitude
+                    if (Utils.contains(currentFeedItem, KEY_PLACE)) {
+                        longitude = currentFeedItem.getJSONObject(KEY_PLACE).getString(KEY_LONGITUDE);
+                    }
+
                     //get the feedItem description
                     if (Utils.contains(currentFeedItem, KEY_DESCRIPTION)) {
                         JSONObject objectDesc = currentFeedItem.getJSONObject(KEY_DESCRIPTION);
@@ -91,30 +113,23 @@ public class Parser {
                     FeedItem feedItem = new FeedItem();
                     feedItem.setId(id);
                     feedItem.setTitle(title);
-//                    Date date = null;
-//                    try {
-//                        date = dateFormat.parse(startDate);
-//                    } catch (ParseException e) {
-//                        //a parse exception generated here will store null in the release date, be sure to handle it
-//                    }
-                    feedItem.setDate(startDate);
+                    feedItem.setStartDate(startDate);
+                    feedItem.setEndDate(endDate);
                     feedItem.setUrlThumbnail(urlThumbnail);
                     feedItem.setPlace(place);
+                    feedItem.setLatitude(latitude);
+                    feedItem.setLongitude(longitude);
                     feedItem.setDescription(description);
-//                    L.t(getActivity(), feedItem + ""); 
+
                     if (id != -1 && !title.equals(Constants.NA)) {
                         listFeedItems.add(feedItem);
                     }
-
-                    Preferences.saveToPreferences(MainApplication.getAppContext(), "arrayFeedItems", "feedItem", feedItem.toString());
-
                 }
 
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-//                L.t(getActivity(), listFeedItems.size() + " rows fetched"); 
         }
         return listFeedItems;
     }
