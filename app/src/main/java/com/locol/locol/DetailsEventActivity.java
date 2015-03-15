@@ -3,8 +3,9 @@ package com.locol.locol;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
@@ -17,13 +18,13 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.locol.locol.networks.VolleySingleton;
+import com.locol.locol.pojo.Account;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 
 public class DetailsEventActivity extends ActionBarActivity {
@@ -32,23 +33,33 @@ public class DetailsEventActivity extends ActionBarActivity {
 
     private final static String TAG = "DetailsEventActivity";
 
+    private String title;
+    private String startDate;
+    private String endDate;
+    private String place;
+    private String latitude;
+    private String longitude;
+    private String organizer;
+    private String description;
+    private String urlThumbnail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_event);
 
         extras = getIntent().getExtras();
-        final String title = extras.getString("EXTRA_FEED_TITLE");
-        final String startDate = extras.getString("EXTRA_FEED_START_DATE");
-        final String endDate = extras.getString("EXTRA_FEED_END_DATE");
-        final String place = extras.getString("EXTRA_FEED_PLACE");
-        final String latitude = extras.getString("EXTRA_FEED_LATITUDE");
-        final String longitude = extras.getString("EXTRA_FEED_LONGITUDE");
-        String organizer = extras.getString("EXTRA_FEED_ORGANIZER");
-        String description = extras.getString("EXTRA_FEED_DESCRIPTION");
-        String urlThumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
+        title = extras.getString("EXTRA_FEED_TITLE");
+        startDate = extras.getString("EXTRA_FEED_START_DATE");
+        endDate = extras.getString("EXTRA_FEED_END_DATE");
+        place = extras.getString("EXTRA_FEED_PLACE");
+        latitude = extras.getString("EXTRA_FEED_LATITUDE");
+        longitude = extras.getString("EXTRA_FEED_LONGITUDE");
+        organizer = extras.getString("EXTRA_FEED_ORGANIZER");
+        description = extras.getString("EXTRA_FEED_DESCRIPTION");
+        urlThumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar_transparent);
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -141,6 +152,7 @@ public class DetailsEventActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_details_event, menu);
+
         return true;
     }
 
@@ -152,7 +164,15 @@ public class DetailsEventActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_item_share) {
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/html");
+//            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
+//            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, description);
+            String playStoreLink = "https://play.google.com/store/apps/details?id=com.ea.game.pvz2_row";
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Join event " + title + " with " + Account.getUserName());
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Install \"LocoL\" to learn more: " + playStoreLink);
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));
             return true;
         }
 
@@ -164,4 +184,5 @@ public class DetailsEventActivity extends ActionBarActivity {
         super.onResume();
         Log.d("TAG", "onResume");
     }
+
 }
