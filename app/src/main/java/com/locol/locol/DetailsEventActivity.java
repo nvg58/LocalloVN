@@ -42,6 +42,7 @@ public class DetailsEventActivity extends ActionBarActivity {
         final String place = extras.getString("EXTRA_FEED_PLACE");
         String latitude = extras.getString("EXTRA_FEED_LATITUDE");
         String longitude = extras.getString("EXTRA_FEED_LONGITUDE");
+        String organizer = extras.getString("EXTRA_FEED_ORGANIZER");
         String description = extras.getString("EXTRA_FEED_DESCRIPTION");
         String urlThumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
 
@@ -71,12 +72,13 @@ public class DetailsEventActivity extends ActionBarActivity {
                     new URLImageParser(tvDetails, this),
                     null));
 
+            TextView tvOrganizer = (TextView) findViewById(R.id.organizer);
+            tvOrganizer.setText(organizer);
+
             Button btnAddToCalendar = (Button) findViewById(R.id.btnAddToCalendar);
             btnAddToCalendar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, startDate + " to " + endDate);
-
                     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                     try {
                         Calendar start = DateToCalendar(dateFormat.parse(startDate));

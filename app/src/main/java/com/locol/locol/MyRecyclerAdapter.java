@@ -76,6 +76,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
                 extras.putString("EXTRA_FEED_PLACE", feedItem.getPlace());
                 extras.putString("EXTRA_FEED_LATITUDE", feedItem.getLatitude());
                 extras.putString("EXTRA_FEED_LONGITUDE", feedItem.getLongitude());
+                extras.putString("EXTRA_FEED_ORGANIZER", feedItem.getOrganizer());
                 extras.putString("EXTRA_FEED_DESCRIPTION", feedItem.getDescription());
                 extras.putString("EXTRA_FEED_URL_THUMBNAIL", feedItem.getUrlThumbnail());
                 intent.putExtras(extras);

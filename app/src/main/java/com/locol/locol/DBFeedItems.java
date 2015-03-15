@@ -30,7 +30,7 @@ public class DBFeedItems {
             deleteAll();
         }
         //create a sql prepared statement
-        String sql = "INSERT INTO " + FeedItemsHelper.TABLE_FEED_ITEMS + " VALUES (?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO " + FeedItemsHelper.TABLE_FEED_ITEMS + " VALUES (?,?,?,?,?,?,?,?,?,?);";
         //compile the statement and start a transaction
         SQLiteStatement statement = mDatabase.compileStatement(sql);
         mDatabase.beginTransaction();
@@ -45,7 +45,8 @@ public class DBFeedItems {
             statement.bindString(6, currentFeedItem.getPlace());
             statement.bindString(7, currentFeedItem.getLatitude());
             statement.bindString(8, currentFeedItem.getLongitude());
-            statement.bindString(9, currentFeedItem.getDescription());
+            statement.bindString(9, currentFeedItem.getOrganizer());
+            statement.bindString(10, currentFeedItem.getDescription());
             statement.execute();
         }
         //set the transaction as successful and end the transaction
@@ -66,6 +67,7 @@ public class DBFeedItems {
                 FeedItemsHelper.COLUMN_PLACE,
                 FeedItemsHelper.COLUMN_LATITUDE,
                 FeedItemsHelper.COLUMN_LONGITUDE,
+                FeedItemsHelper.COLUMN_ORGANIZER,
                 FeedItemsHelper.COLUMN_DESCRIPTION
         };
         Cursor cursor = mDatabase.query(FeedItemsHelper.TABLE_FEED_ITEMS, columns, null, null, null, null, null);
@@ -83,6 +85,7 @@ public class DBFeedItems {
                 feedItem.setPlace(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_PLACE)));
                 feedItem.setLatitude(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_LATITUDE)));
                 feedItem.setLongitude(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_LONGITUDE)));
+                feedItem.setOrganizer(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_ORGANIZER)));
                 feedItem.setDescription(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_DESCRIPTION)));
                 //add the feedItem to the list of feedItem objects which we plan to return
                 listFeedItems.add(feedItem);
@@ -106,6 +109,7 @@ public class DBFeedItems {
         public static final String COLUMN_PLACE = "place";
         public static final String COLUMN_LATITUDE = "latitude";
         public static final String COLUMN_LONGITUDE = "longitude";
+        public static final String COLUMN_ORGANIZER = "organizer";
         public static final String COLUMN_DESCRIPTION = "description";
         private static final String CREATE_TABLE_FEED_ITEM = "CREATE TABLE " + TABLE_FEED_ITEMS + " (" +
                 COLUMN_UID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -116,6 +120,7 @@ public class DBFeedItems {
                 COLUMN_PLACE + " TEXT," +
                 COLUMN_LATITUDE + " TEXT," +
                 COLUMN_LONGITUDE + " TEXT," +
+                COLUMN_ORGANIZER + " TEXT," +
                 COLUMN_DESCRIPTION + " TEXT" +
                 ")";
         private static final String DB_NAME = "feed_items_db";

@@ -28,6 +28,7 @@ public class Parser {
     public static final String KEY_PLACE = "venue";
     public static final String KEY_LATITUDE = "latitude";
     public static final String KEY_LONGITUDE = "longitude";
+    public static final String KEY_ORGANIZER = "organizer";
     public static final String KEY_DESCRIPTION = "description";
     public static final String TEXT_FORMAT = "text";
     public static final String HTML_FORMAT = "html";
@@ -48,6 +49,7 @@ public class Parser {
                     String place = Constants.NA;
                     String latitude = Constants.NA;
                     String longitude = Constants.NA;
+                    String organizer = Constants.NA;
                     String description = Constants.NA;
                     JSONObject currentFeedItem = arrayFeedItems.getJSONObject(i);
 
@@ -90,6 +92,9 @@ public class Parser {
                     //get the feedItem venue
                     if (Utils.contains(currentFeedItem, KEY_PLACE)) {
                         place = currentFeedItem.getJSONObject(KEY_PLACE).getJSONObject("address").getString("address_1");
+                        if (place.equalsIgnoreCase("null")) {
+                            place = Constants.NA;
+                        }
                     }
 
                     //get the feedItem latitude
@@ -100,6 +105,11 @@ public class Parser {
                     //get the feedItem longitude
                     if (Utils.contains(currentFeedItem, KEY_PLACE)) {
                         longitude = currentFeedItem.getJSONObject(KEY_PLACE).getString(KEY_LONGITUDE);
+                    }
+
+                    //get organizer
+                    if (Utils.contains(currentFeedItem, KEY_ORGANIZER)) {
+                        organizer = currentFeedItem.getJSONObject(KEY_ORGANIZER).getString("name");
                     }
 
                     //get the feedItem description
@@ -119,13 +129,13 @@ public class Parser {
                     feedItem.setPlace(place);
                     feedItem.setLatitude(latitude);
                     feedItem.setLongitude(longitude);
+                    feedItem.setOrganizer(organizer);
                     feedItem.setDescription(description);
 
                     if (id != -1 && !title.equals(Constants.NA)) {
                         listFeedItems.add(feedItem);
                     }
                 }
-
 
             } catch (JSONException e) {
                 e.printStackTrace();

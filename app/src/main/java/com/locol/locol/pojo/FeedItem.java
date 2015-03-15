@@ -16,6 +16,7 @@ public class FeedItem implements Parcelable {
     private String place;
     private String latitude;
     private String longitude;
+    private String organizer;
     private String description;
 
     public String getStartDate() {
@@ -76,6 +77,14 @@ public class FeedItem implements Parcelable {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public String getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(String organizer) {
+        this.organizer = organizer;
     }
 
     public void setPlace(String place) {
