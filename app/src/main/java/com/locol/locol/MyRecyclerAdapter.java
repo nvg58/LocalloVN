@@ -1,8 +1,11 @@
 package com.locol.locol;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +42,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
     }
 
     @Override
-    public void onBindViewHolder(FeedListRowHolder holder, int position) {
-        FeedItem feedItem = feedItemList.get(position);
+    public void onBindViewHolder(final FeedListRowHolder holder, int position) {
+        final FeedItem feedItem = feedItemList.get(position);
 
 //        Picasso.with(mContext).load(feedItem.getUrlThumbnail())
 //                .error(R.drawable.jewels)
@@ -58,13 +61,22 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
         holder.title.setText(feedItem.getTitle());
         holder.date.setText(feedItem.getDate());
         holder.place.setText(feedItem.getPlace());
-        holder.description.setText(feedItem.getDescription());
+        holder.description.setText(Html.fromHtml(feedItem.getDescription()));
 
         holder.btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainApplication.getAppContext(), DetailsEventActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                Bundle extras = new Bundle();
+                extras.putString("EXTRA_FEED_TITLE", feedItem.getTitle());
+                extras.putString("EXTRA_FEED_DATE", feedItem.getDate());
+                extras.putString("EXTRA_FEED_PLACE", feedItem.getPlace());
+                extras.putString("EXTRA_FEED_DESCRIPTION", feedItem.getDescription());
+                extras.putString("EXTRA_FEED_URL_THUMBNAIL", feedItem.getUrlThumbnail());
+                intent.putExtras(extras);
+
                 MainApplication.getAppContext().startActivity(intent);
             }
         });

@@ -27,6 +27,7 @@ public class Parser {
     public static final String KEY_PLACE = "venue";
     public static final String KEY_DESCRIPTION = "description";
     public static final String TEXT_FORMAT = "text";
+    public static final String HTML_FORMAT = "html";
 
     public static ArrayList<FeedItem> parseJSONResponse(JSONObject response) {
         DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.US);
@@ -55,8 +56,8 @@ public class Parser {
                     //get the title of the current feedItem 
                     if (Utils.contains(currentFeedItem, KEY_TITLE)) {
                         JSONObject objectTitle = currentFeedItem.getJSONObject(KEY_TITLE);
-                        if (Utils.contains(objectTitle, TEXT_FORMAT)) {
-                            title = objectTitle.getString(TEXT_FORMAT);
+                        if (Utils.contains(objectTitle, HTML_FORMAT)) {
+                            title = objectTitle.getString(HTML_FORMAT);
                         }
                     }
 
@@ -82,8 +83,8 @@ public class Parser {
                     //get the feedItem description
                     if (Utils.contains(currentFeedItem, KEY_DESCRIPTION)) {
                         JSONObject objectDesc = currentFeedItem.getJSONObject(KEY_DESCRIPTION);
-                        if (Utils.contains(objectDesc, TEXT_FORMAT)) {
-                            description = objectDesc.getString(TEXT_FORMAT);
+                        if (Utils.contains(objectDesc, HTML_FORMAT)) {
+                            description = objectDesc.getString(HTML_FORMAT);
                         }
                     }
 

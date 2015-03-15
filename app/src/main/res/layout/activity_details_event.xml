@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/eventThumbnail"
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -18,10 +18,33 @@
             android:src="@drawable/jewels" />
 
         <RelativeLayout
-            android:id="@+id/locationDateSection"
+            android:id="@+id/titleSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/eventThumbnail"
+            android:layout_margin="@dimen/size_byte"
+            android:background="@drawable/card"
+            android:padding="@dimen/size_byte">
+
+            <TextView
+                android:id="@+id/eventTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/size_half_byte"
+                android:paddingTop="@dimen/size_half_byte"
+                android:text="Run The Jewels"
+                android:textColor="@color/colorFeedPrimary"
+                android:textSize="@dimen/size_text_header"
+                 />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/locationDateSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleSection"
             android:layout_margin="@dimen/size_byte"
             android:background="@drawable/card"
             android:padding="@dimen/size_byte">
@@ -33,7 +56,7 @@
                 android:paddingBottom="@dimen/size_half_byte"
                 android:paddingTop="@dimen/size_half_byte"
                 android:text="LOCATION"
-                android:textColor="@color/colorFeedPrimaryDark"
+                android:textColor="@color/colorFeedPrimary"
                 android:textSize="@dimen/size_text_secondary"
                 android:textStyle="bold" />
 
@@ -46,7 +69,7 @@
                 android:paddingTop="@dimen/size_half_byte"
                 android:text="Iron City, Birmingham, AL"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/size_text_secondary" />
+                android:textSize="@dimen/size_text_primary" />
 
             <ImageButton
                 android:layout_width="24dp"
@@ -67,7 +90,7 @@
                 android:paddingBottom="@dimen/size_half_byte"
                 android:paddingTop="@dimen/size_byte"
                 android:text="DATE"
-                android:textColor="@color/colorFeedPrimaryDark"
+                android:textColor="@color/colorFeedPrimary"
                 android:textSize="@dimen/size_text_secondary"
                 android:textStyle="bold" />
 
@@ -80,7 +103,7 @@
                 android:paddingTop="@dimen/size_half_byte"
                 android:text="Sat Feb 28 2005 \n05:00 pm"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/size_text_secondary" />
+                android:textSize="@dimen/size_text_primary" />
 
             <Button
                 style="?android:attr/borderlessButtonStyle"
@@ -113,7 +136,7 @@
                 android:paddingRight="@dimen/size_word"
                 android:paddingTop="@dimen/size_word"
                 android:text="ARE YOU ATTENDING?"
-                android:textColor="@color/colorFeedPrimaryDark"
+                android:textColor="@color/colorFeedPrimary"
                 android:textSize="@dimen/size_text_secondary"
                 android:textStyle="bold" />
 
@@ -121,18 +144,18 @@
                 android:id="@+id/btnYes"
                 android:layout_width="80dp"
                 android:layout_height="36dp"
-                android:elevation="8dp"
-                android:background="@color/colorAccent"
-                android:text="YES"
                 android:layout_margin="0dp"
+                android:background="@color/colorAccent"
+                android:elevation="8dp"
+                android:text="YES"
                 android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btnMaybe"
+                android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_marginLeft="8dp"
                 android:background="@color/colorWindowBackground"
-                android:layout_width="wrap_content"
                 android:text="MAY BE" />
         </LinearLayout>
 
@@ -152,12 +175,12 @@
                 android:paddingBottom="@dimen/size_half_byte"
                 android:paddingTop="@dimen/size_half_byte"
                 android:text="DETAILS"
-                android:textColor="@color/colorFeedPrimaryDark"
+                android:textColor="@color/colorFeedPrimary"
                 android:textSize="@dimen/size_text_secondary"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/details"
+                android:id="@+id/eventDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/detailTitle"
@@ -165,7 +188,7 @@
                 android:paddingTop="@dimen/size_half_byte"
                 android:text="It was a humorously perilous business for both of us. For, before we proceed further, it must be said that … monkey-rope was fast at both ends; fast to Queequeg's broad canvas belt, and fast to my narrow leather one. So that for better or for worse, we two, for the time, were wedded; and should poor Queequeg sink to rise no more, then both usage and honour demanded, that instead of cutting the cord, it should drag me down in his wake. So, then, an elongated Siamese ligature united us. Queequeg was my own inseparable twin brother; nor could I any way get rid of the dangerous liabilities which the hempen bond entailed."
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/size_text_secondary" />
+                android:textSize="@dimen/size_text_primary" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -184,7 +207,7 @@
                 android:paddingBottom="@dimen/size_half_byte"
                 android:paddingTop="@dimen/size_half_byte"
                 android:text="ORGANIZER"
-                android:textColor="@color/colorFeedPrimaryDark"
+                android:textColor="@color/colorFeedPrimary"
                 android:textSize="@dimen/size_text_secondary"
                 android:textStyle="bold" />
 
@@ -197,17 +220,17 @@
                 android:paddingTop="@dimen/size_half_byte"
                 android:text="Jewels Run Center, LA"
                 android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/size_text_secondary" />
+                android:textSize="@dimen/size_text_primary" />
 
             <Button
                 android:id="@+id/btnFollow"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:textColor="@color/colorAccent"
-                android:background="@color/colorWindowBackground"
-                android:layout_alignRight="@id/organizerTitle"
                 android:layout_alignBottom="@id/organizer"
-                android:text="FOLLOW US" />
+                android:layout_alignRight="@id/organizerTitle"
+                android:background="@color/colorWindowBackground"
+                android:text="FOLLOW US"
+                android:textColor="@color/colorAccent" />
         </RelativeLayout>
 
         <include
