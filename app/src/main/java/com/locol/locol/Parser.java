@@ -19,8 +19,8 @@ public class Parser {
     public static final String KEY_EVENTS = "results";
     public static final String KEY_ID = "_id";
     public static final String KEY_TITLE = "title";
-    public static final String KEY_START_DATE = "time";
-    public static final String KEY_END_DATE = "date";
+    public static final String KEY_TIME = "time";
+    public static final String KEY_DATE = "date";
     public static final String KEY_THUMBNAIL = "thumbnail_url";
     public static final String KEY_LOCATION = "location";
     public static final String KEY_CATEGORY = "category";
@@ -55,7 +55,7 @@ public class Parser {
                     if (Utils.contains(currentFeedItem, KEY_ID)) {
                         JSONObject objectID = currentFeedItem.getJSONObject(KEY_ID);
                         if (Utils.contains(objectID, "$oid")) {
-                            id = currentFeedItem.getString("$oid");
+                            id = objectID.getString("$oid");
                         }
                     }
 
@@ -64,14 +64,26 @@ public class Parser {
                         title = currentFeedItem.getString(KEY_TITLE);
                     }
 
+                    if (title.equals("")) continue;
+
+                    String time = "";
+                    String date = "";
                     //get the date for the current feedItem
-                    if (Utils.contains(currentFeedItem, KEY_START_DATE)) {
-                        startDate = currentFeedItem.getString(KEY_START_DATE);
+                    if (Utils.contains(currentFeedItem, KEY_TIME)) {
+                        time = currentFeedItem.getString(KEY_TIME).replace("-", "").replaceAll("\\s+", " ");
                     }
 
                     //get the date for the current feedItem
-                    if (Utils.contains(currentFeedItem, KEY_END_DATE)) {
-                        endDate = currentFeedItem.getString(KEY_END_DATE);
+                    if (Utils.contains(currentFeedItem, KEY_DATE)) {
+                        date = currentFeedItem.getString(KEY_DATE).replaceAll("\\s+", " ");
+                    }
+
+                    String[] partTimes = time.split(" ");
+                    String[] partDates = date.split(" ");
+
+                    if (partTimes.length >= 1 && partDates.length >= 1) {
+                        startDate = (partDates.length == 2 ? partDates[1] : partDates[0]) + ' ' + partTimes[0];
+                        endDate = (partDates.length == 2 ? partDates[1] : partDates[0]) + ' ' + (partTimes.length == 2 ? partTimes[1] : partTimes[0]);
                     }
 
                     //get the url for the thumbnail to be displayed inside the current feedItem result

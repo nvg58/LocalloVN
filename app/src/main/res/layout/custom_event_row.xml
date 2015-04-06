@@ -70,21 +70,20 @@
                     android:layout_below="@id/eventPlace"
                     android:lines="1"
                     android:text="July 19"
-                    android:textAllCaps="true"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/size_text_secondary" />
 
                 <TextView
-                    android:id="@+id/eventDescription"
+                    android:id="@+id/eventCategory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/eventDate"
-                    android:lines="3"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     android:textSize="@dimen/size_text_primary"
-                    android:text="Lorem ipsum dolor, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ..."
+                    android:text="Lorem ipsum dolor"
                     android:textColor="@color/colorSecondaryText" />
+
             </LinearLayout>
 
 

@@ -95,11 +95,12 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             tvPlace.setText(place);
 
             TextView tvDate = (TextView) findViewById(R.id.eventDate);
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-            DateFormat newDateFormat = new SimpleDateFormat("EEE, d MMM yyyy '\n'hh:mm aaa");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            DateFormat newDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
             try {
-                Date date = dateFormat.parse(startDate);
-                tvDate.setText(newDateFormat.format(date));
+                Date sDate = dateFormat.parse(startDate);
+                Date eDate = dateFormat.parse(endDate);
+                tvDate.setText("Từ " + newDateFormat.format(sDate) + " đến\n" + newDateFormat.format(eDate));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -109,6 +110,8 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                     description,
                     new URLImageParser(tvDetails, this),
                     null));
+            TextView tvCat = (TextView) findViewById(R.id.eventCategory);
+            tvCat.setText(category);
 
             TextView tvOrganizer = (TextView) findViewById(R.id.organizer);
             tvOrganizer.setText(organizer);
@@ -117,7 +120,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             btnAddToCalendar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
                     try {
                         Calendar start = DateToCalendar(dateFormat.parse(startDate));
                         Calendar end = DateToCalendar(dateFormat.parse(endDate));
@@ -184,12 +187,10 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_item_share) {
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-            sharingIntent.setType("text/html");
-//            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
-//            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, description);
+            sharingIntent.setType("text/plain");
             String playStoreLink = "https://play.google.com/store/apps/details?id=com.ea.game.pvz2_row";
             sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Join event " + title + " with " + Account.getUserName());
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Install \"LocoL\" to learn more: " + playStoreLink);
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Install \"LocoL\" to view more: " + playStoreLink);
             startActivity(Intent.createChooser(sharingIntent, "Share via"));
             return true;
         }

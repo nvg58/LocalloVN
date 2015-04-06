@@ -63,17 +63,18 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
 
         holder.title.setText(feedItem.getTitle());
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        DateFormat newDateFormat = new SimpleDateFormat("EEE, d MMM yyyy 'at' hh:mm aaa");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        DateFormat newDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         try {
-            Date date = dateFormat.parse(feedItem.getStartDate());
-            holder.date.setText(newDateFormat.format(date));
+            Date sDate = dateFormat.parse(feedItem.getStartDate());
+            Date eDate = dateFormat.parse(feedItem.getEndDate());
+            holder.date.setText("Từ " + newDateFormat.format(sDate) + " đến " + newDateFormat.format(eDate));
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
         holder.place.setText(feedItem.getLocation());
-        holder.description.setText(Html.fromHtml(feedItem.getDescription()));
+        holder.category.setText(feedItem.getCategory());
 
         holder.btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override

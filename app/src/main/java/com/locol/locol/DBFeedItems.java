@@ -103,8 +103,8 @@ public class DBFeedItems {
         public static final String TABLE_FEED_ITEMS = "feed_items";
         public static final String COLUMN_UID = "_id";
         public static final String COLUMN_TITLE = "title";
-        public static final String COLUMN_START_DATE = "time";
-        public static final String COLUMN_END_DATE = "date";
+        public static final String COLUMN_START_DATE = "start_date";
+        public static final String COLUMN_END_DATE = "end_date";
         public static final String COLUMN_URL_THUMBNAIL = "thumbnail_url";
         public static final String COLUMN_PLACE = "location";
         public static final String COLUMN_CATEGORY = "category";

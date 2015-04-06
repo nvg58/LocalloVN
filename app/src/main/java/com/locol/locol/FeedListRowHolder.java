@@ -17,7 +17,7 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder {
     protected TextView title;
     protected TextView date;
     protected TextView place;
-    protected TextView description;
+    protected TextView category;
     protected Button btnDetails;
     protected LinearLayout body;
 
@@ -27,7 +27,7 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder {
         this.title = (TextView) itemView.findViewById(R.id.eventTitle);
         this.date = (TextView) itemView.findViewById(R.id.eventDate);
         this.place = (TextView) itemView.findViewById(R.id.eventPlace);
-        this.description = (TextView) itemView.findViewById(R.id.eventDescription);
+        this.category = (TextView) itemView.findViewById(R.id.eventCategory);
         this.btnDetails= (Button) itemView.findViewById(R.id.btnDetails);
         this.body = (LinearLayout) itemView.findViewById(R.id.eventBody);
     }
