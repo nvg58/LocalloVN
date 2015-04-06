@@ -1,11 +1,14 @@
 package com.locol.locol;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
@@ -19,6 +22,8 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.locol.locol.networks.VolleySingleton;
 import com.locol.locol.pojo.Account;
+import com.manuelpeinado.fadingactionbar.view.ObservableScrollable;
+import com.manuelpeinado.fadingactionbar.view.OnScrollChangedCallback;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -27,9 +32,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class DetailsEventActivity extends ActionBarActivity {
-    Toolbar toolbar;
+public class DetailsEventActivity extends ActionBarActivity implements OnScrollChangedCallback {
     Bundle extras;
+
+    private Toolbar mToolbar;
+    private Drawable mActionBarBackgroundDrawable;
+    private View mHeader;
+    private int mLastDampedScroll;
+    private int mInitialStatusBarColor;
+    private int mFinalStatusBarColor;
 
     private final static String TAG = "DetailsEventActivity";
 
@@ -59,11 +70,18 @@ public class DetailsEventActivity extends ActionBarActivity {
         description = extras.getString("EXTRA_FEED_DESCRIPTION");
         urlThumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
 
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-
+        mToolbar = (Toolbar) findViewById(R.id.app_bar);
+        mActionBarBackgroundDrawable = mToolbar.getBackground();
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mInitialStatusBarColor = Color.BLACK;
+        mFinalStatusBarColor = getResources().getColor(R.color.colorPrimaryDark);
+        mHeader = findViewById(R.id.eventThumbnail);
+        ObservableScrollable scrollView = (ObservableScrollable) findViewById(R.id.scrollEventDetails);
+        scrollView.setOnScrollChangedCallback(this);
+        onScroll(-1, 0);
 
         if (extras != null) {
             NetworkImageView thumbnail = (NetworkImageView) findViewById(R.id.eventThumbnail);
@@ -183,6 +201,33 @@ public class DetailsEventActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         Log.d("TAG", "onResume");
+    }
+
+    @Override
+    public void onScroll(int l, int scrollPosition) {
+        int headerHeight = mHeader.getHeight() - mToolbar.getHeight();
+        float ratio = 0;
+        if (scrollPosition > 0 && headerHeight > 0)
+            ratio = (float) Math.min(Math.max(scrollPosition, 0), headerHeight) / headerHeight;
+
+        updateActionBarTransparency(ratio);
+        updateParallaxEffect(scrollPosition);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    private void updateActionBarTransparency(float scrollRatio) {
+        int newAlpha = (int) (scrollRatio * 255);
+        mActionBarBackgroundDrawable.setAlpha(newAlpha);
+        mToolbar.setBackground(mActionBarBackgroundDrawable);
+    }
+
+    private void updateParallaxEffect(int scrollPosition) {
+        float damping = 0.5f;
+        int dampedScroll = (int) (scrollPosition * damping);
+        int offset = mLastDampedScroll - dampedScroll;
+        mHeader.offsetTopAndBottom(-offset);
+
+        mLastDampedScroll = dampedScroll;
     }
 
 }

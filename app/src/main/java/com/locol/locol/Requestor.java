@@ -1,5 +1,8 @@
 package com.locol.locol;
 
+import android.app.Application;
+import android.widget.Toast;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;

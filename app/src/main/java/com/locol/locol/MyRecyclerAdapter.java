@@ -79,28 +79,48 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
         holder.btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainApplication.getAppContext(), DetailsEventActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivityOnClick(feedItem);
+            }
+        });
 
-                Bundle extras = new Bundle();
-                extras.putString("EXTRA_FEED_TITLE", feedItem.getTitle());
-                extras.putString("EXTRA_FEED_START_DATE", feedItem.getStartDate());
-                extras.putString("EXTRA_FEED_END_DATE", feedItem.getEndDate());
-                extras.putString("EXTRA_FEED_PLACE", feedItem.getPlace());
-                extras.putString("EXTRA_FEED_LATITUDE", feedItem.getLatitude());
-                extras.putString("EXTRA_FEED_LONGITUDE", feedItem.getLongitude());
-                extras.putString("EXTRA_FEED_ORGANIZER", feedItem.getOrganizer());
-                extras.putString("EXTRA_FEED_DESCRIPTION", feedItem.getDescription());
-                extras.putString("EXTRA_FEED_URL_THUMBNAIL", feedItem.getUrlThumbnail());
-                intent.putExtras(extras);
+        holder.thumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityOnClick(feedItem);
+            }
+        });
 
-                MainApplication.getAppContext().startActivity(intent);
+        holder.body.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityOnClick(feedItem);
             }
         });
     }
+
+    private void startActivityOnClick(FeedItem feedItem) {
+        Intent intent = new Intent(MainApplication.getAppContext(), DetailsEventActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        Bundle extras = new Bundle();
+        extras.putString("EXTRA_FEED_TITLE", feedItem.getTitle());
+        extras.putString("EXTRA_FEED_START_DATE", feedItem.getStartDate());
+        extras.putString("EXTRA_FEED_END_DATE", feedItem.getEndDate());
+        extras.putString("EXTRA_FEED_PLACE", feedItem.getPlace());
+        extras.putString("EXTRA_FEED_LATITUDE", feedItem.getLatitude());
+        extras.putString("EXTRA_FEED_LONGITUDE", feedItem.getLongitude());
+        extras.putString("EXTRA_FEED_ORGANIZER", feedItem.getOrganizer());
+        extras.putString("EXTRA_FEED_DESCRIPTION", feedItem.getDescription());
+        extras.putString("EXTRA_FEED_URL_THUMBNAIL", feedItem.getUrlThumbnail());
+        intent.putExtras(extras);
+
+        MainApplication.getAppContext().startActivity(intent);
+    }
+
 
     @Override
     public int getItemCount() {
         return feedItemList.size();
     }
+
 }

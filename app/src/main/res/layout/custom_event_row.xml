@@ -33,57 +33,65 @@
             android:background="@android:color/white"
             android:padding="@dimen/size_word">
 
-            <TextView
-                android:id="@+id/eventTitle"
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:id="@+id/eventBody"
                 android:layout_height="wrap_content"
-                android:gravity="left"
                 android:paddingBottom="4dp"
-                android:text="Run The Jewels"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/size_text_header"
-                android:textStyle="bold" />
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/eventTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:paddingBottom="4dp"
+                    android:text="Run The Jewels"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/size_text_header"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/eventPlace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/eventTitle"
-                android:lines="1"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
-                android:text="Iron City, Birmingham, AI."
-                android:textAllCaps="true"
-                android:textSize="@dimen/size_text_primary"
-                android:textColor="@color/colorPrimaryText" />
+                <TextView
+                    android:id="@+id/eventPlace"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/eventTitle"
+                    android:lines="1"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="Iron City, Birmingham, AI."
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/size_text_primary"
+                    android:textColor="@color/colorPrimaryText" />
 
-            <TextView
-                android:id="@+id/eventDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/eventPlace"
-                android:lines="1"
-                android:text="July 19"
-                android:textAllCaps="true"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="@dimen/size_text_secondary" />
+                <TextView
+                    android:id="@+id/eventDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/eventPlace"
+                    android:lines="1"
+                    android:text="July 19"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="@dimen/size_text_secondary" />
 
-            <TextView
-                android:id="@+id/eventDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/eventDate"
-                android:lines="3"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
-                android:textSize="@dimen/size_text_primary"
-                android:text="Lorem ipsum dolor, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ..."
-                android:textColor="@color/colorSecondaryText" />
+                <TextView
+                    android:id="@+id/eventDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/eventDate"
+                    android:lines="3"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:textSize="@dimen/size_text_primary"
+                    android:text="Lorem ipsum dolor, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ..."
+                    android:textColor="@color/colorSecondaryText" />
+            </LinearLayout>
+
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:layout_below="@id/eventDescription"
+                android:layout_below="@id/eventBody"
                 android:background="@color/colorWindowBackground" />
 
             <Button
@@ -91,8 +99,8 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@id/eventTitle"
-                android:layout_below="@id/eventDescription"
+                android:layout_alignRight="@id/eventBody"
+                android:layout_below="@id/eventBody"
                 android:background="@android:color/transparent"
                 android:elevation="0dp"
                 android:ellipsize="none"
@@ -105,9 +113,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/btnDetails"
-                android:layout_alignLeft="@id/eventTitle"
+                android:layout_alignLeft="@id/eventBody"
                 android:layout_alignTop="@id/btnDetails"
-                android:layout_below="@id/eventDescription"
+                android:layout_below="@id/eventBody"
                 android:layout_centerVertical="true"
                 android:background="@android:color/transparent"
                 android:elevation="0dp"

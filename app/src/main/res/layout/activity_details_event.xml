@@ -1,17 +1,13 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.locol.locol.DetailsEventActivity">
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
-
-    <ScrollView
+    <com.manuelpeinado.fadingactionbar.view.ObservableScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/app_bar"
+        android:id="@+id/scrollEventDetails"
         android:background="@color/colorWindowBackground"
         android:orientation="vertical">
 
@@ -244,5 +240,9 @@
 
 
         </RelativeLayout>
-    </ScrollView>
-</RelativeLayout>
+    </com.manuelpeinado.fadingactionbar.view.ObservableScrollView>
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
+</FrameLayout>
