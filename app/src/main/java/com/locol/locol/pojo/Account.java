@@ -66,4 +66,5 @@ public class Account {
     public static void setUserFBId(String userFBId) {
         Account.userFBId = userFBId;
     }
+
 }

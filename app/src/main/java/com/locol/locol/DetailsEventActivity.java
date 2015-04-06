@@ -48,8 +48,8 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
     private String startDate;
     private String endDate;
     private String place;
-    private String latitude;
-    private String longitude;
+    private String category;
+    private String maxParticipants;
     private String organizer;
     private String description;
     private String urlThumbnail;
@@ -64,8 +64,8 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         startDate = extras.getString("EXTRA_FEED_START_DATE");
         endDate = extras.getString("EXTRA_FEED_END_DATE");
         place = extras.getString("EXTRA_FEED_PLACE");
-        latitude = extras.getString("EXTRA_FEED_LATITUDE");
-        longitude = extras.getString("EXTRA_FEED_LONGITUDE");
+        category = extras.getString("EXTRA_FEED_CATEGORY");
+        maxParticipants = extras.getString("EXTRA_FEED_MAX_PARTICIPANTS");
         organizer = extras.getString("EXTRA_FEED_ORGANIZER");
         description = extras.getString("EXTRA_FEED_DESCRIPTION");
         urlThumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
@@ -135,7 +135,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                     GPSTracker gps = new GPSTracker(DetailsEventActivity.this);
                     if (gps.canGetLocation()) {
                         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                                Uri.parse("http://maps.google.com/maps?saddr=" + gps.getLatitude() + "," + gps.getLongitude() + "&daddr=" + latitude + "," + longitude));
+                                Uri.parse("http://maps.google.com/maps?saddr=" + gps.getLatitude() + "," + gps.getLongitude() + "&daddr=" + category + "," + maxParticipants));
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addCategory(Intent.CATEGORY_LAUNCHER);
                         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");

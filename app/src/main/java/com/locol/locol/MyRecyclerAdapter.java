@@ -1,6 +1,5 @@
 package com.locol.locol;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -73,7 +72,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
             e.printStackTrace();
         }
 
-        holder.place.setText(feedItem.getPlace());
+        holder.place.setText(feedItem.getLocation());
         holder.description.setText(Html.fromHtml(feedItem.getDescription()));
 
         holder.btnDetails.setOnClickListener(new View.OnClickListener() {
@@ -106,9 +105,9 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
         extras.putString("EXTRA_FEED_TITLE", feedItem.getTitle());
         extras.putString("EXTRA_FEED_START_DATE", feedItem.getStartDate());
         extras.putString("EXTRA_FEED_END_DATE", feedItem.getEndDate());
-        extras.putString("EXTRA_FEED_PLACE", feedItem.getPlace());
-        extras.putString("EXTRA_FEED_LATITUDE", feedItem.getLatitude());
-        extras.putString("EXTRA_FEED_LONGITUDE", feedItem.getLongitude());
+        extras.putString("EXTRA_FEED_PLACE", feedItem.getLocation());
+        extras.putString("EXTRA_FEED_CATEGORY", feedItem.getCategory());
+        extras.putString("EXTRA_FEED_MAX_PARTICIPANTS", feedItem.getMaxParticipants());
         extras.putString("EXTRA_FEED_ORGANIZER", feedItem.getOrganizer());
         extras.putString("EXTRA_FEED_DESCRIPTION", feedItem.getDescription());
         extras.putString("EXTRA_FEED_URL_THUMBNAIL", feedItem.getUrlThumbnail());

@@ -42,9 +42,9 @@ public class DBFeedItems {
             statement.bindString(3, currentFeedItem.getStartDate());
             statement.bindString(4, currentFeedItem.getEndDate());
             statement.bindString(5, currentFeedItem.getUrlThumbnail());
-            statement.bindString(6, currentFeedItem.getPlace());
-            statement.bindString(7, currentFeedItem.getLatitude());
-            statement.bindString(8, currentFeedItem.getLongitude());
+            statement.bindString(6, currentFeedItem.getLocation());
+            statement.bindString(7, currentFeedItem.getCategory());
+            statement.bindString(8, currentFeedItem.getMaxParticipants());
             statement.bindString(9, currentFeedItem.getOrganizer());
             statement.bindString(10, currentFeedItem.getDescription());
             statement.execute();
@@ -65,8 +65,8 @@ public class DBFeedItems {
                 FeedItemsHelper.COLUMN_END_DATE,
                 FeedItemsHelper.COLUMN_URL_THUMBNAIL,
                 FeedItemsHelper.COLUMN_PLACE,
-                FeedItemsHelper.COLUMN_LATITUDE,
-                FeedItemsHelper.COLUMN_LONGITUDE,
+                FeedItemsHelper.COLUMN_CATEGORY,
+                FeedItemsHelper.COLUMN_MAX_PARTICIPANTS,
                 FeedItemsHelper.COLUMN_ORGANIZER,
                 FeedItemsHelper.COLUMN_DESCRIPTION
         };
@@ -82,9 +82,9 @@ public class DBFeedItems {
                 feedItem.setStartDate(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_START_DATE)));
                 feedItem.setEndDate(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_END_DATE)));
                 feedItem.setUrlThumbnail(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_URL_THUMBNAIL)));
-                feedItem.setPlace(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_PLACE)));
-                feedItem.setLatitude(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_LATITUDE)));
-                feedItem.setLongitude(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_LONGITUDE)));
+                feedItem.setLocation(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_PLACE)));
+                feedItem.setCategory(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_CATEGORY)));
+                feedItem.setMaxParticipants(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_MAX_PARTICIPANTS)));
                 feedItem.setOrganizer(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_ORGANIZER)));
                 feedItem.setDescription(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_DESCRIPTION)));
                 //add the feedItem to the list of feedItem objects which we plan to return
@@ -103,12 +103,12 @@ public class DBFeedItems {
         public static final String TABLE_FEED_ITEMS = "feed_items";
         public static final String COLUMN_UID = "_id";
         public static final String COLUMN_TITLE = "title";
-        public static final String COLUMN_START_DATE = "start_date";
-        public static final String COLUMN_END_DATE = "end_date";
-        public static final String COLUMN_URL_THUMBNAIL = "url_thumbnail";
-        public static final String COLUMN_PLACE = "place";
-        public static final String COLUMN_LATITUDE = "latitude";
-        public static final String COLUMN_LONGITUDE = "longitude";
+        public static final String COLUMN_START_DATE = "time";
+        public static final String COLUMN_END_DATE = "date";
+        public static final String COLUMN_URL_THUMBNAIL = "thumbnail_url";
+        public static final String COLUMN_PLACE = "location";
+        public static final String COLUMN_CATEGORY = "category";
+        public static final String COLUMN_MAX_PARTICIPANTS = "max_participants";
         public static final String COLUMN_ORGANIZER = "organizer";
         public static final String COLUMN_DESCRIPTION = "description";
         private static final String CREATE_TABLE_FEED_ITEM = "CREATE TABLE " + TABLE_FEED_ITEMS + " (" +
@@ -118,8 +118,8 @@ public class DBFeedItems {
                 COLUMN_END_DATE + " TEXT," +
                 COLUMN_URL_THUMBNAIL + " TEXT," +
                 COLUMN_PLACE + " TEXT," +
-                COLUMN_LATITUDE + " TEXT," +
-                COLUMN_LONGITUDE + " TEXT," +
+                COLUMN_CATEGORY + " TEXT," +
+                COLUMN_MAX_PARTICIPANTS + " TEXT," +
                 COLUMN_ORGANIZER + " TEXT," +
                 COLUMN_DESCRIPTION + " TEXT" +
                 ")";

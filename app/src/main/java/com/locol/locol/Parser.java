@@ -8,10 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Created by GiapNV on 3/10/15.
@@ -19,15 +16,15 @@ import java.util.Locale;
  */
 public class Parser {
 
-    public static final String KEY_EVENTS = "events";
-    public static final String KEY_ID = "id";
-    public static final String KEY_TITLE = "name";
-    public static final String KEY_START_DATE = "start";
-    public static final String KEY_END_DATE = "end";
-    public static final String KEY_THUMBNAIL = "logo_url";
-    public static final String KEY_PLACE = "venue";
-    public static final String KEY_LATITUDE = "latitude";
-    public static final String KEY_LONGITUDE = "longitude";
+    public static final String KEY_EVENTS = "results";
+    public static final String KEY_ID = "_id";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_START_DATE = "time";
+    public static final String KEY_END_DATE = "date";
+    public static final String KEY_THUMBNAIL = "thumbnail_url";
+    public static final String KEY_LOCATION = "location";
+    public static final String KEY_CATEGORY = "category";
+    public static final String KEY_MAX_PARTICIPANTS = "max_participants";
     public static final String KEY_ORGANIZER = "organizer";
     public static final String KEY_DESCRIPTION = "description";
     public static final String TEXT_FORMAT = "text";
@@ -41,47 +38,40 @@ public class Parser {
                 JSONArray arrayFeedItems = response.getJSONArray(KEY_EVENTS);
 
                 for (int i = 0; i < arrayFeedItems.length(); i++) {
-                    long id = -1;
+                    String id = Constants.NA;
                     String title = Constants.NA;
                     String startDate = Constants.NA;
                     String endDate = Constants.NA;
                     String urlThumbnail = Constants.NA;
                     String place = Constants.NA;
-                    String latitude = Constants.NA;
-                    String longitude = Constants.NA;
+                    String category = Constants.NA;
+                    String maxParticipants = Constants.NA;
                     String organizer = Constants.NA;
                     String description = Constants.NA;
+
                     JSONObject currentFeedItem = arrayFeedItems.getJSONObject(i);
 
                     //get the id of the current feedItem 
                     if (Utils.contains(currentFeedItem, KEY_ID)) {
-                        id = currentFeedItem.getLong(KEY_ID);
+                        JSONObject objectID = currentFeedItem.getJSONObject(KEY_ID);
+                        if (Utils.contains(objectID, "$oid")) {
+                            id = currentFeedItem.getString("$oid");
+                        }
                     }
 
                     //get the title of the current feedItem 
                     if (Utils.contains(currentFeedItem, KEY_TITLE)) {
-                        JSONObject objectTitle = currentFeedItem.getJSONObject(KEY_TITLE);
-                        if (Utils.contains(objectTitle, TEXT_FORMAT)) {
-                            title = objectTitle.getString(TEXT_FORMAT);
-                        }
+                        title = currentFeedItem.getString(KEY_TITLE);
                     }
 
                     //get the date for the current feedItem
                     if (Utils.contains(currentFeedItem, KEY_START_DATE)) {
-                        JSONObject objectStartDates = currentFeedItem.getJSONObject(KEY_START_DATE);
-
-                        if (Utils.contains(objectStartDates, "local")) {
-                            startDate = objectStartDates.getString("local");
-                        }
+                        startDate = currentFeedItem.getString(KEY_START_DATE);
                     }
 
                     //get the date for the current feedItem
                     if (Utils.contains(currentFeedItem, KEY_END_DATE)) {
-                        JSONObject objectEndDates = currentFeedItem.getJSONObject(KEY_END_DATE);
-
-                        if (Utils.contains(objectEndDates, "local")) {
-                            endDate = objectEndDates.getString("local");
-                        }
+                        endDate = currentFeedItem.getString(KEY_END_DATE);
                     }
 
                     //get the url for the thumbnail to be displayed inside the current feedItem result
@@ -90,34 +80,28 @@ public class Parser {
                     }
 
                     //get the feedItem venue
-                    if (Utils.contains(currentFeedItem, KEY_PLACE)) {
-                        place = currentFeedItem.getJSONObject(KEY_PLACE).getJSONObject("address").getString("address_1");
-                        if (place.equalsIgnoreCase("null")) {
-                            place = Constants.NA;
-                        }
+                    if (Utils.contains(currentFeedItem, KEY_LOCATION)) {
+                        place = currentFeedItem.getString(KEY_LOCATION);
                     }
 
-                    //get the feedItem latitude
-                    if (Utils.contains(currentFeedItem, KEY_PLACE)) {
-                        latitude = currentFeedItem.getJSONObject(KEY_PLACE).getString(KEY_LATITUDE);
+                    //get the feedItem category
+                    if (Utils.contains(currentFeedItem, KEY_CATEGORY)) {
+                        category = currentFeedItem.getString(KEY_CATEGORY);
                     }
 
-                    //get the feedItem longitude
-                    if (Utils.contains(currentFeedItem, KEY_PLACE)) {
-                        longitude = currentFeedItem.getJSONObject(KEY_PLACE).getString(KEY_LONGITUDE);
+                    //get the feedItem maxParticipants
+                    if (Utils.contains(currentFeedItem, KEY_MAX_PARTICIPANTS)) {
+                        maxParticipants = currentFeedItem.getString(KEY_MAX_PARTICIPANTS);
                     }
 
                     //get organizer
                     if (Utils.contains(currentFeedItem, KEY_ORGANIZER)) {
-                        organizer = currentFeedItem.getJSONObject(KEY_ORGANIZER).getString("name");
+                        organizer = currentFeedItem.getString(KEY_ORGANIZER);
                     }
 
                     //get the feedItem description
                     if (Utils.contains(currentFeedItem, KEY_DESCRIPTION)) {
-                        JSONObject objectDesc = currentFeedItem.getJSONObject(KEY_DESCRIPTION);
-                        if (Utils.contains(objectDesc, HTML_FORMAT)) {
-                            description = objectDesc.getString(HTML_FORMAT);
-                        }
+                        description = currentFeedItem.getString(KEY_DESCRIPTION);
                     }
 
                     FeedItem feedItem = new FeedItem();
@@ -126,13 +110,13 @@ public class Parser {
                     feedItem.setStartDate(startDate);
                     feedItem.setEndDate(endDate);
                     feedItem.setUrlThumbnail(urlThumbnail);
-                    feedItem.setPlace(place);
-                    feedItem.setLatitude(latitude);
-                    feedItem.setLongitude(longitude);
+                    feedItem.setLocation(place);
+                    feedItem.setCategory(category);
+                    feedItem.setMaxParticipants(maxParticipants);
                     feedItem.setOrganizer(organizer);
                     feedItem.setDescription(description);
 
-                    if (id != -1 && !title.equals(Constants.NA)) {
+                    if (!id.equals(Constants.NA) && !title.equals(Constants.NA)) {
                         listFeedItems.add(feedItem);
                     }
                 }

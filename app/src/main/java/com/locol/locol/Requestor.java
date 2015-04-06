@@ -30,7 +30,7 @@ public class Requestor {
 
         requestQueue.add(request);
         try {
-            response = requestFuture.get(30000, TimeUnit.MILLISECONDS);
+            response = requestFuture.get(60000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             e.printStackTrace();
         }

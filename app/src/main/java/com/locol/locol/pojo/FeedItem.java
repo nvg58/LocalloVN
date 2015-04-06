@@ -8,14 +8,14 @@ import android.os.Parcelable;
  * Project LocoL
  */
 public class FeedItem implements Parcelable {
-    private long id;
+    private String id;
     private String title;
     private String startDate;
     private String endDate;
     private String urlThumbnail;
-    private String place;
-    private String latitude;
-    private String longitude;
+    private String location;
+    private String category;
+    private String max_participants;
     private String organizer;
     private String description;
 
@@ -35,11 +35,11 @@ public class FeedItem implements Parcelable {
         this.endDate = endDate;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -59,24 +59,24 @@ public class FeedItem implements Parcelable {
         this.urlThumbnail = urlThumbnail;
     }
 
-    public String getPlace() {
-        return place;
+    public String getLocation() {
+        return location;
     }
 
-    public String getLatitude() {
-        return latitude;
+    public String getCategory() {
+        return category;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public String getLongitude() {
-        return longitude;
+    public String getMaxParticipants() {
+        return max_participants;
     }
 
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
+    public void setMaxParticipants(String max_participants) {
+        this.max_participants = max_participants;
     }
 
     public String getOrganizer() {
@@ -87,8 +87,8 @@ public class FeedItem implements Parcelable {
         this.organizer = organizer;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getDescription() {
@@ -101,7 +101,7 @@ public class FeedItem implements Parcelable {
 
     @Override
     public String toString() {
-        return getId() + "\n" + getTitle() + "\n" + getDescription() + "\n" + getPlace() + "\n" + getUrlThumbnail();
+        return getId() + "\n" + getTitle() + "\n" + getDescription() + "\n" + getLocation() + "\n" + getUrlThumbnail();
     }
 
     @Override
@@ -111,14 +111,14 @@ public class FeedItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(startDate);
         dest.writeString(endDate);
         dest.writeString(urlThumbnail);
-        dest.writeString(place);
-        dest.writeString(latitude);
-        dest.writeString(longitude);
+        dest.writeString(location);
+        dest.writeString(category);
+        dest.writeString(max_participants);
         dest.writeString(description);
     }
 }
