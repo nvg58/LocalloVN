@@ -1,6 +1,7 @@
 package com.locol.locol;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,12 +13,19 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.locol.locol.networks.VolleySingleton;
@@ -105,11 +113,15 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                 e.printStackTrace();
             }
 
-            TextView tvDetails = (TextView) findViewById(R.id.eventDescription);
-            tvDetails.setText(Html.fromHtml(
-                    description,
-                    new URLImageParser(tvDetails, this),
-                    null));
+            WebView wvDetails = (WebView) findViewById(R.id.eventDescription);
+            wvDetails.loadDataWithBaseURL(null, "<style>img{display: inline;height: auto;max-width: 100%;}</style>" + description, "text/html", "UTF-8", null);
+//            wvDetails.loadData(description, "text/html; charset=UTF-8",null);
+
+            //            tvDetails.setText(Html.fromHtml(
+//                    description,
+//                    new URLImageParser(tvDetails, this),
+//                    null));
+
             TextView tvCat = (TextView) findViewById(R.id.eventCategory);
             tvCat.setText(category);
 
