@@ -3,7 +3,6 @@ package com.locol.locol;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -202,9 +201,10 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             if (ShareDialog.canShow(ShareLinkContent.class)) {
                 ShareLinkContent linkContent = new ShareLinkContent.Builder()
                         .setContentTitle(title)
-                        .setContentDescription(
-                                Account.getUserName() + " is going to \"" + title + "\"")
+                        .setContentDescription(Account.getUserName() + " has using LocoL. Install to explore more!")
+//                                Account.getUserName() + " has loved \"" + title + "\"")
                         .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
+                        .setImageUrl(Uri.parse(urlThumbnail))
                         .build();
 
                 shareDialog.show(linkContent);

@@ -5,12 +5,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
-
-import butterknife.InjectView;
 
 /**
  * Created by GiapNV on 3/11/15.
