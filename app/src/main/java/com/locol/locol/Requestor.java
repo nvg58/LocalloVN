@@ -1,5 +1,6 @@
 package com.locol.locol;
 
+import android.app.Activity;
 import android.app.Application;
 import android.widget.Toast;
 
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeoutException;
  * Project LocoL
  */
 public class Requestor {
-    public static JSONObject sendRequestFeedItems(RequestQueue requestQueue, String url) {
+    public static JSONObject sendRequestFeedItems(RequestQueue requestQueue, String url, final Activity activity) {
         JSONObject response = null;
         RequestFuture<JSONObject> requestFuture = RequestFuture.newFuture();
 
@@ -33,6 +34,12 @@ public class Requestor {
             response = requestFuture.get(60000, TimeUnit.MILLISECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             e.printStackTrace();
+
+            activity.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(activity, "Network error. Please reload!", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         return response;
     }

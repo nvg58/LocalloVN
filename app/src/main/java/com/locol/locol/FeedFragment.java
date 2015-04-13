@@ -1,6 +1,5 @@
 package com.locol.locol;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -122,8 +121,6 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         private VolleySingleton volleySingleton;
         private RequestQueue requestQueue;
 
-        ProgressDialog progressDialog = new ProgressDialog(getActivity());
-
         public TaskLoadFeedItems(FeedItemsLoadedListener myComponent) {
             this.myComponent = myComponent;
             volleySingleton = VolleySingleton.getInstance();
@@ -132,14 +129,13 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
 
         @Override
         protected void onPreExecute() {
-//            progressDialog.show();
         }
 
         @Override
         protected ArrayList<FeedItem> doInBackground(Void... params) {
 //            String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=hanoi&token=DBEK5SF2SVBCTIV52X3L";
             String url = "http://104.236.40.66:27080/locoldb/events/_find?batch_size=100";
-            JSONObject response = Requestor.sendRequestFeedItems(requestQueue, url);
+            JSONObject response = Requestor.sendRequestFeedItems(requestQueue, url, getActivity());
             ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
             MainApplication.getWritableDatabase().insertFeedItems(feedItems, true);
             return feedItems;
@@ -150,7 +146,6 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
             if (myComponent != null) {
                 myComponent.onFeedItemsLoaded(feedItems);
             }
-//            progressDialog.dismiss();
         }
     }
 }

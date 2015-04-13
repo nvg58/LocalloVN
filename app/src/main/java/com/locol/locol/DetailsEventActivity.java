@@ -1,7 +1,6 @@
 package com.locol.locol;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,23 +10,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.locol.locol.networks.VolleySingleton;
 import com.locol.locol.pojo.Account;
 import com.manuelpeinado.fadingactionbar.view.ObservableScrollable;
@@ -47,8 +43,6 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
     private Drawable mActionBarBackgroundDrawable;
     private View mHeader;
     private int mLastDampedScroll;
-    private int mInitialStatusBarColor;
-    private int mFinalStatusBarColor;
 
     private final static String TAG = "DetailsEventActivity";
 
@@ -62,10 +56,17 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
     private String description;
     private String urlThumbnail;
 
+    CallbackManager callbackManager;
+    ShareDialog shareDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_event);
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
 
         extras = getIntent().getExtras();
         title = extras.getString("EXTRA_FEED_TITLE");
@@ -84,8 +85,6 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mInitialStatusBarColor = Color.BLACK;
-        mFinalStatusBarColor = getResources().getColor(R.color.colorPrimaryDark);
         mHeader = findViewById(R.id.eventThumbnail);
         ObservableScrollable scrollView = (ObservableScrollable) findViewById(R.id.scrollEventDetails);
         scrollView.setOnScrollChangedCallback(this);
@@ -115,12 +114,6 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
 
             WebView wvDetails = (WebView) findViewById(R.id.eventDescription);
             wvDetails.loadDataWithBaseURL(null, "<style>img{display: inline;height: auto;max-width: 100%;}</style>" + description, "text/html", "UTF-8", null);
-//            wvDetails.loadData(description, "text/html; charset=UTF-8",null);
-
-            //            tvDetails.setText(Html.fromHtml(
-//                    description,
-//                    new URLImageParser(tvDetails, this),
-//                    null));
 
             TextView tvCat = (TextView) findViewById(R.id.eventCategory);
             tvCat.setText(category);
@@ -150,7 +143,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                     GPSTracker gps = new GPSTracker(DetailsEventActivity.this);
                     if (gps.canGetLocation()) {
                         Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
-                                Uri.parse("http://maps.google.com/maps?saddr=" + gps.getLatitude() + "," + gps.getLongitude() + "&daddr=" + category + "," + maxParticipants));
+                                Uri.parse("http://maps.google.com/maps?saddr=" + gps.getLatitude() + "," + gps.getLongitude() + "&daddr=" + place));
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addCategory(Intent.CATEGORY_LAUNCHER);
                         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
@@ -158,6 +151,14 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                     } else {
                         gps.showSettingsAlert();
                     }
+                }
+            });
+
+            Button btnYes = (Button) findViewById(R.id.btnYes);
+            btnYes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                 }
             });
         }
@@ -198,12 +199,16 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_item_share) {
-            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
-            String playStoreLink = "https://play.google.com/store/apps/details?id=com.ea.game.pvz2_row";
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Join event " + title + " with " + Account.getUserName());
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Install \"LocoL\" to view more: " + playStoreLink);
-            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            if (ShareDialog.canShow(ShareLinkContent.class)) {
+                ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                        .setContentTitle(title)
+                        .setContentDescription(
+                                Account.getUserName() + " is going to \"" + title + "\"")
+                        .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
+                        .build();
+
+                shareDialog.show(linkContent);
+            }
             return true;
         }
 
@@ -241,6 +246,12 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         mHeader.offsetTopAndBottom(-offset);
 
         mLastDampedScroll = dampedScroll;
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 }

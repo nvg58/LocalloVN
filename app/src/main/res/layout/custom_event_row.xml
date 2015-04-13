@@ -109,8 +109,9 @@
 
             <ImageButton
                 android:id="@+id/btnLove"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_alignBottom="@id/btnDetails"
                 android:layout_alignLeft="@id/eventBody"
                 android:layout_alignTop="@id/btnDetails"
@@ -120,8 +121,9 @@
                 android:elevation="0dp"
                 android:nestedScrollingEnabled="false"
                 android:paddingTop="16dp"
-                android:src="@mipmap/ic_favorite_outline_grey600_24dp"
+                android:src="@drawable/ic_heart_outline_grey"
                 android:tint="@color/colorAccent" />
+
         </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>
