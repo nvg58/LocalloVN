@@ -98,10 +98,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
                 public void onAnimationStart(Animator animation) {
                     if (animated) {
                         holder.btnLove.setImageResource(R.drawable.ic_heart_red);
-                        Log.wtf("likedPositions", "Loved!");
                     } else {
                         holder.btnLove.setImageResource(R.drawable.ic_heart_outline_grey);
-                        Log.wtf("likedPositions", "Un-Loved!");
                     }
                 }
             });
