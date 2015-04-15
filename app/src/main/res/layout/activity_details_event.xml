@@ -27,7 +27,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/eventThumbnail"
-                android:layout_marginTop="@dimen/size_byte"                 android:layout_marginLeft="@dimen/size_byte"                 android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginLeft="@dimen/size_byte"
+                android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginTop="@dimen/size_byte"
                 android:background="@drawable/card"
                 android:padding="@dimen/size_byte">
 
@@ -49,9 +51,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/titleSection"
-                android:layout_marginTop="@dimen/size_byte"
                 android:layout_marginLeft="@dimen/size_byte"
                 android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginTop="@dimen/size_byte"
                 android:background="@drawable/card"
                 android:padding="@dimen/size_byte">
 
@@ -153,7 +155,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/locationDateSection"
-                android:layout_marginTop="@dimen/size_byte"                 android:layout_marginLeft="@dimen/size_byte"                 android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginLeft="@dimen/size_byte"
+                android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginTop="@dimen/size_byte"
                 android:background="@drawable/card"
                 android:padding="@dimen/size_byte">
 
@@ -170,22 +174,23 @@
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/btnYes"
-                    android:layout_width="80dp"
+                    android:id="@+id/btnMaybe"
+                    android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_margin="0dp"
-                    android:background="@color/colorAccent"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorWindowBackground"
                     android:elevation="8dp"
-                    android:text="YES"
-                    android:textColor="@android:color/white" />
+                    android:text="MAY BE" />
 
                 <Button
-                    android:id="@+id/btnMaybe"
+                    android:id="@+id/btnYes"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginLeft="8dp"
-                    android:background="@color/colorWindowBackground"
-                    android:text="MAY BE" />
+                    android:background="@color/colorAccent"
+                    android:text="YES"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <RelativeLayout
@@ -193,7 +198,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rvspSection"
-                android:layout_marginTop="@dimen/size_byte"                 android:layout_marginLeft="@dimen/size_byte"                 android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginLeft="@dimen/size_byte"
+                android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginTop="@dimen/size_byte"
                 android:background="@drawable/card"
                 android:padding="@dimen/size_byte">
 
@@ -225,7 +232,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/detailSection"
-                android:layout_marginTop="@dimen/size_byte"                 android:layout_marginLeft="@dimen/size_byte"                 android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginLeft="@dimen/size_byte"
+                android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginTop="@dimen/size_byte"
                 android:background="@drawable/card"
                 android:padding="@dimen/size_byte">
 

@@ -13,6 +13,7 @@
     <string name="title_activity_walkthrough">WalkthroughActivity</string>
     <string name="title_activity_setting">Setting</string>
     <string name="title_activity_details_event">DetailsEventActivity</string>
+    <string name="going_text">You are attending this event!</string>
     <plurals name="likes_count">
         <item quantity="one">%d like</item>
         <item quantity="other">%d likes</item>

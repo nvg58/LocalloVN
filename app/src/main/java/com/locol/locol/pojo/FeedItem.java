@@ -19,6 +19,25 @@ public class FeedItem implements Parcelable {
     private String organizer;
     private String description;
 
+    public int isLoved() {
+        return loved;
+    }
+
+    public void setLoved(int loved) {
+        this.loved = loved;
+    }
+
+    public int isJoining() {
+        return joining;
+    }
+
+    public void setJoining(int joining) {
+        this.joining = joining;
+    }
+
+    private int loved;
+    private int joining;
+
     public String getStartDate() {
         return startDate;
     }

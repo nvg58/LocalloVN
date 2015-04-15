@@ -1,12 +1,10 @@
 package com.locol.locol;
 
 import android.app.Activity;
-import android.app.Application;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 
 import org.json.JSONObject;
@@ -24,7 +22,7 @@ public class Requestor {
         JSONObject response = null;
         RequestFuture<JSONObject> requestFuture = RequestFuture.newFuture();
 
-        JsonObjectRequest request = new JsonObjectRequest(
+        ScrapingHubJsonObjectRequest request = new ScrapingHubJsonObjectRequest(
                 Request.Method.GET,
                 url,
                 null, requestFuture, requestFuture);

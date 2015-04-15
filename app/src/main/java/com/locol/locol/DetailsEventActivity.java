@@ -54,6 +54,8 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
     private String organizer;
     private String description;
     private String urlThumbnail;
+    private int loved;
+    private int joining;
 
     CallbackManager callbackManager;
     ShareDialog shareDialog;
@@ -77,6 +79,8 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         organizer = extras.getString("EXTRA_FEED_ORGANIZER");
         description = extras.getString("EXTRA_FEED_DESCRIPTION");
         urlThumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
+        loved = extras.getInt("EXTRA_FEED_LOVED");
+        joining = extras.getInt("EXTRA_FEED_JOINING");
 
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         mActionBarBackgroundDrawable = mToolbar.getBackground();
@@ -153,11 +157,37 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                 }
             });
 
-            Button btnYes = (Button) findViewById(R.id.btnYes);
+            final Button btnYes = (Button) findViewById(R.id.btnYes);
+            final Button btnMaybe = (Button) findViewById(R.id.btnMaybe);
+            final TextView rvspTitle = (TextView) findViewById(R.id.rvspTitle);
+
+            loved = MainApplication.getWritableDatabase().getLovedFeedItem(title);
+            joining = MainApplication.getWritableDatabase().getJoiningFeedItem(title);
+            if (joining == 1) {
+                rvspTitle.setText(R.string.going_text);
+                rvspTitle.setAllCaps(false);
+
+                btnYes.setVisibility(View.GONE);
+                btnMaybe.setVisibility(View.GONE);
+            }
+
             btnYes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    btnYes.setVisibility(View.GONE);
+                    if (btnMaybe.getVisibility() != View.GONE) {
+                        btnMaybe.setVisibility(View.GONE);
+                    }
+                    rvspTitle.setText(R.string.going_text);
+                    rvspTitle.setAllCaps(false);
 
+                    MainApplication.getWritableDatabase().updateJoiningFeedItem(title, 1);
+                }
+            });
+            btnMaybe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnMaybe.setVisibility(View.GONE);
                 }
             });
         }

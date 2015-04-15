@@ -43,11 +43,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
     private static final int ANIMATED_ITEMS_COUNT = 2;
 
     private int lastAnimatedPosition = -1;
-    private int itemsCount = 0;
 
-    private final Map<Integer, Integer> likesCount = new HashMap<>();
     private final Map<RecyclerView.ViewHolder, AnimatorSet> likeAnimations = new HashMap<>();
-    private final ArrayList<Integer> likedPositions = new ArrayList<>();
 
     public MyRecyclerAdapter(Context context, ArrayList<FeedItem> feedItemList) {
         this.feedItemList = feedItemList;
@@ -98,8 +95,10 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
                 public void onAnimationStart(Animator animation) {
                     if (animated) {
                         holder.btnLove.setImageResource(R.drawable.ic_heart_red);
+                        MainApplication.getWritableDatabase().updateLovedFeedItem(holder.title.getText().toString(), 1);
                     } else {
                         holder.btnLove.setImageResource(R.drawable.ic_heart_outline_grey);
+                        MainApplication.getWritableDatabase().updateLovedFeedItem(holder.title.getText().toString(), 0);
                     }
                 }
             });
@@ -179,6 +178,11 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
             }
         });
 
+        if (MainApplication.getWritableDatabase().getLovedFeedItem(holder.title.getText().toString()) == 1)
+            holder.btnLove.setImageResource(R.drawable.ic_heart_red);
+        else
+            holder.btnLove.setImageResource(R.drawable.ic_heart_outline_grey);
+
         holder.btnLove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,6 +216,8 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
         extras.putString("EXTRA_FEED_ORGANIZER", feedItem.getOrganizer());
         extras.putString("EXTRA_FEED_DESCRIPTION", feedItem.getDescription());
         extras.putString("EXTRA_FEED_URL_THUMBNAIL", feedItem.getUrlThumbnail());
+        extras.putInt("EXTRA_FEED_LOVED", feedItem.isLoved());
+        extras.putInt("EXTRA_FEED_JOINING", feedItem.isJoining());
         intent.putExtras(extras);
 
         MainApplication.getAppContext().startActivity(intent);
