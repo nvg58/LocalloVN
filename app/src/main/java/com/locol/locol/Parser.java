@@ -30,12 +30,12 @@ public class Parser {
     public static final String TEXT_FORMAT = "text";
     public static final String HTML_FORMAT = "html";
 
-    public static ArrayList<FeedItem> parseJSONResponse(JSONObject response) {
+    public static ArrayList<FeedItem> parseJSONResponse(JSONArray response) {
         ArrayList<FeedItem> listFeedItems = new ArrayList<>();
         if (response != null && response.length() > 0) {
             try {
                 Log.d("parseJSONResponse: ", response.toString());
-                JSONArray arrayFeedItems = response.getJSONArray(KEY_EVENTS);
+                JSONArray arrayFeedItems = response; //new JSONArray(response); //response.getJSONArray(KEY_EVENTS);
 
                 for (int i = 0; i < arrayFeedItems.length(); i++) {
                     String id = Constants.NA;

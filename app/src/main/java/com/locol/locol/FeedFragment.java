@@ -16,7 +16,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.locol.locol.networks.VolleySingleton;
 import com.locol.locol.pojo.FeedItem;
 
-import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -97,7 +97,7 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
     }
 
 
-    private void parseResult(JSONObject response) {
+    private void parseResult(JSONArray response) {
         feedItemList = Parser.parseJSONResponse(response);
         Log.wtf(TAG, feedItemList.toString());
     }
@@ -136,7 +136,8 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
 //            String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=hanoi&token=DBEK5SF2SVBCTIV52X3L";
 //            String url = "http://104.236.40.66:27080/locoldb/events/_find?batch_size=100";
             String url = "https://storage.scrapinghub.com/items/13882";
-            JSONObject response = Requestor.sendRequestFeedItems(requestQueue, url, getActivity());
+            JSONArray response = Requestor.sendRequestFeedItems(requestQueue, url, getActivity());
+
             ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
             MainApplication.getWritableDatabase().insertFeedItems(feedItems, true);
             return feedItems;
