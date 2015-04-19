@@ -71,7 +71,16 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
                 R.color.colorPrimary
         );
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                // do something...
+                Log.wtf("onLoadMore", current_page + "");
+                loadFeedItems(current_page);
+            }
+        });
 
         mAdapter = new MyRecyclerAdapter(getActivity(), feedItemList);
         mRecyclerView.setAdapter(mAdapter);
@@ -84,7 +93,8 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
             feedItemList = MainApplication.getWritableDatabase().getAllFeedItems();
             //if the database is empty, trigger an AsycnTask to download movie list from the web
             if (feedItemList.isEmpty()) {
-                new TaskLoadFeedItems(this).execute();
+//                new TaskLoadFeedItems(this).execute(0);
+                loadFeedItems(0);
             }
         }
 
@@ -93,6 +103,9 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         return view;
     }
 
+    private void loadFeedItems(int page) {
+        new TaskLoadFeedItems(this).execute(page);
+    }
 
     private void parseResult(JSONArray response) {
         feedItemList = Parser.parseJSONResponse(response);
@@ -109,10 +122,10 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
 
     @Override
     public void onRefresh() {
-        new TaskLoadFeedItems(this).execute();
+        new TaskLoadFeedItems(this).execute(0);
     }
 
-    private class TaskLoadFeedItems extends AsyncTask<Void, Void, ArrayList<FeedItem>> {
+    private class TaskLoadFeedItems extends AsyncTask<Integer, Void, ArrayList<FeedItem>> {
         private FeedItemsLoadedListener myComponent;
         private VolleySingleton volleySingleton;
         private RequestQueue requestQueue;
@@ -128,16 +141,21 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         }
 
         @Override
-        protected ArrayList<FeedItem> doInBackground(Void... params) {
+        protected ArrayList<FeedItem> doInBackground(Integer... params) {
 //            String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=hanoi&token=DBEK5SF2SVBCTIV52X3L";
 //            String url = "http://104.236.40.66:27080/locoldb/events/_find?batch_size=100";
-            String url = "https://storage.scrapinghub.com/items/13882?start=13882/1/1/" + 0 + "&count=10";
+            String url = "https://storage.scrapinghub.com/items/13882?start=13882/1/1/" + 10 * params[0] + "&count=10";
             JSONArray response = Requestor.sendRequestFeedItems(requestQueue, url, getActivity());
 
             ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
-            MainApplication.getWritableDatabase().insertFeedItems(feedItems, true);
+            MainApplication.getWritableDatabase().insertFeedItems(feedItems, (params[0] == 0));
 
-            return feedItems;
+            Log.wtf("Loading", params[0] + "");
+
+//            feedItems.addAll(feedItemList);
+            feedItemList.addAll(feedItems);
+
+            return feedItemList;
         }
 
         @Override
