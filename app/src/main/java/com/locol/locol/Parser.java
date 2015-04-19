@@ -8,6 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 /**
@@ -34,7 +36,6 @@ public class Parser {
         ArrayList<FeedItem> listFeedItems = new ArrayList<>();
         if (response != null && response.length() > 0) {
             try {
-                Log.d("parseJSONResponse: ", response.toString());
                 JSONArray arrayFeedItems = response; //new JSONArray(response); //response.getJSONArray(KEY_EVENTS);
 
                 for (int i = 0; i < arrayFeedItems.length(); i++) {
@@ -51,17 +52,19 @@ public class Parser {
 
                     JSONObject currentFeedItem = arrayFeedItems.getJSONObject(i);
 
-                    //get the id of the current feedItem 
-                    if (Utils.contains(currentFeedItem, KEY_ID)) {
-                        JSONObject objectID = currentFeedItem.getJSONObject(KEY_ID);
-                        if (Utils.contains(objectID, "$oid")) {
-                            id = objectID.getString("$oid");
-                        }
-                    }
+                    //get the id of the current feedItem
+//                    if (Utils.contains(currentFeedItem, KEY_ID)) {
+//                        JSONObject objectID = currentFeedItem.getJSONObject(KEY_ID);
+//                        if (Utils.contains(objectID, "$oid")) {
+//                            id = objectID.getString("$oid");
+//                        }
+//                    }
+
+                    id = new BigInteger(130, new SecureRandom()).toString();
 
                     //get the title of the current feedItem 
                     if (Utils.contains(currentFeedItem, KEY_TITLE)) {
-                        title = currentFeedItem.getString(KEY_TITLE);
+                        title = currentFeedItem.getString(KEY_TITLE).replace("\'", "\"");
                     }
 
                     if (title.equals("")) continue;

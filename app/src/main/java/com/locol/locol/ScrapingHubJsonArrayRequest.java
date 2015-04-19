@@ -23,6 +23,7 @@ public class ScrapingHubJsonArrayRequest extends JsonArrayRequest {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Authorization", "Basic MGEzMzE1Mzk5NzRjNDk0NDgzMGVlZTQ4MGJhODIxYWE6");
         headers.put("Accept", "application/json");
+        headers.put("Cache-Control", "no-cache");
         return headers;
     }
 }

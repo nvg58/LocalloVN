@@ -68,11 +68,8 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(
-                android.R.color.holo_green_dark,
-                android.R.color.holo_red_dark,
-                android.R.color.holo_blue_dark,
-                android.R.color.holo_orange_dark);
-
+                R.color.colorPrimary
+        );
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -99,7 +96,6 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
 
     private void parseResult(JSONArray response) {
         feedItemList = Parser.parseJSONResponse(response);
-        Log.wtf(TAG, feedItemList.toString());
     }
 
     @Override
@@ -135,11 +131,12 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         protected ArrayList<FeedItem> doInBackground(Void... params) {
 //            String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=hanoi&token=DBEK5SF2SVBCTIV52X3L";
 //            String url = "http://104.236.40.66:27080/locoldb/events/_find?batch_size=100";
-            String url = "https://storage.scrapinghub.com/items/13882";
+            String url = "https://storage.scrapinghub.com/items/13882?start=13882/1/1/" + 0 + "&count=10";
             JSONArray response = Requestor.sendRequestFeedItems(requestQueue, url, getActivity());
 
             ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
             MainApplication.getWritableDatabase().insertFeedItems(feedItems, true);
+
             return feedItems;
         }
 

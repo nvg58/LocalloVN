@@ -81,6 +81,7 @@ public class DBFeedItems {
         for (int i = 0; i < listFeedItems.size(); i++) {
             FeedItem currentFeedItem = listFeedItems.get(i);
             statement.clearBindings();
+
             //for a given column index, simply bind the data to be put inside that index
             statement.bindString(2, currentFeedItem.getTitle());
             statement.bindString(3, currentFeedItem.getStartDate());
