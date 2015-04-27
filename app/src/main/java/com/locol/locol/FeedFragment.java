@@ -68,7 +68,7 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.colorPrimary
+                R.color.colorFeedPrimary
         );
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
