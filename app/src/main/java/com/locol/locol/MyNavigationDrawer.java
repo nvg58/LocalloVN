@@ -38,7 +38,7 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
         this.addSection(newSection(
                 "Feed",
                 R.mipmap.ic_event_grey600_24dp,
-                new FeedFragment()).setSectionColor(getResources().getColor(R.color.colorFeedPrimary),
+                new FeedFragment()).setSectionColor(getResources().getColor(R.color.color_feed_primary),
                 getResources().getColor(R.color.colorFeedPrimaryDark)));
 
         this.addSection(newSection(

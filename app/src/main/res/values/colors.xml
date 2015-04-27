@@ -9,7 +9,7 @@
     <color name="colorAccountPrimary">#009688</color>
     <color name="colorAccountPrimaryDark">#00796B</color>
 
-    <color name="colorFeedPrimary">#00B9E6</color>
+    <color name="color_feed_primary">#00B9E6</color>
     <color name="colorFeedPrimaryDark">#0A89A7</color>
 
     <color name="colorAccent">#ff4081</color>

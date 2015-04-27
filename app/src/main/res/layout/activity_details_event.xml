@@ -5,7 +5,7 @@
     tools:context="com.locol.locol.DetailsEventActivity">
 
     <com.manuelpeinado.fadingactionbar.view.ObservableScrollView
-        android:id="@+id/scrollEventDetails"
+        android:id="@+id/scroll_event_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWindowBackground"
@@ -16,7 +16,7 @@
             android:layout_height="match_parent">
 
             <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/eventThumbnail"
+                android:id="@+id/event_thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="fitXY"
@@ -26,7 +26,7 @@
                 android:id="@+id/titleSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/eventThumbnail"
+                android:layout_below="@id/event_thumbnail"
                 android:layout_marginLeft="@dimen/size_byte"
                 android:layout_marginRight="@dimen/size_byte"
                 android:layout_marginTop="@dimen/size_byte"
@@ -34,13 +34,13 @@
                 android:padding="@dimen/size_byte">
 
                 <TextView
-                    android:id="@+id/eventTitle"
+                    android:id="@+id/event_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
                     android:paddingTop="@dimen/size_half_byte"
                     android:text="Run The Jewels"
-                    android:textColor="@color/colorFeedPrimary"
+                    android:textColor="@color/color_feed_primary"
                     android:textSize="@dimen/size_text_header" />
 
 
@@ -64,12 +64,12 @@
 
                     android:paddingTop="@dimen/size_half_byte"
                     android:text="LOCATION"
-                    android:textColor="@color/colorFeedPrimary"
+                    android:textColor="@color/color_feed_primary"
                     android:textSize="@dimen/size_text_secondary"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/eventPlace"
+                    android:id="@+id/event_place"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/locationTitle"
@@ -80,11 +80,11 @@
                     android:textSize="@dimen/size_text_primary" />
 
                 <ImageButton
-                    android:id="@+id/btnDirection"
+                    android:id="@+id/btn_direction"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_alignRight="@id/locationTitle"
-                    android:layout_alignTop="@id/eventPlace"
+                    android:layout_alignTop="@id/event_place"
                     android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     android:src="@mipmap/ic_directions_black_24dp"
@@ -94,16 +94,16 @@
                     android:id="@+id/dateTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/eventPlace"
+                    android:layout_below="@id/event_place"
 
                     android:paddingTop="@dimen/size_byte"
                     android:text="DATE"
-                    android:textColor="@color/colorFeedPrimary"
+                    android:textColor="@color/color_feed_primary"
                     android:textSize="@dimen/size_text_secondary"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/eventDate"
+                    android:id="@+id/event_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/dateTitle"
@@ -114,13 +114,13 @@
                     android:textSize="@dimen/size_text_primary" />
 
                 <Button
-                    android:id="@+id/btnAddToCalendar"
+                    android:id="@+id/btn_add_to_calendar"
                     style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/eventDate"
+                    android:layout_alignBottom="@id/event_date"
                     android:layout_alignRight="@id/dateTitle"
-                    android:layout_alignTop="@id/eventDate"
+                    android:layout_alignTop="@id/event_date"
                     android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
                     android:text="ADD TO CALENDAR"
@@ -130,16 +130,16 @@
                     android:id="@+id/catTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/eventDate"
+                    android:layout_below="@id/event_date"
 
                     android:paddingTop="@dimen/size_byte"
                     android:text="CATEGORY"
-                    android:textColor="@color/colorFeedPrimary"
+                    android:textColor="@color/color_feed_primary"
                     android:textSize="@dimen/size_text_secondary"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/eventCategory"
+                    android:id="@+id/event_category"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/catTitle"
@@ -162,19 +162,19 @@
                 android:padding="@dimen/size_byte">
 
                 <TextView
-                    android:id="@+id/rvspTitle"
+                    android:id="@+id/rvsp_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/size_word"
                     android:paddingRight="@dimen/size_word"
                     android:paddingTop="@dimen/size_word"
                     android:text="ARE YOU ATTENDING?"
-                    android:textColor="@color/colorFeedPrimary"
+                    android:textColor="@color/color_feed_primary"
                     android:textSize="@dimen/size_text_secondary"
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/btnMaybe"
+                    android:id="@+id/btn_maybe"
                     android:layout_width="0dp"
                     android:layout_height="36dp"
                     android:layout_margin="0dp"
@@ -184,7 +184,7 @@
                     android:text="MAY BE" />
 
                 <Button
-                    android:id="@+id/btnYes"
+                    android:id="@+id/btn_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_marginLeft="8dp"
@@ -211,12 +211,12 @@
 
                     android:paddingTop="@dimen/size_half_byte"
                     android:text="DETAILS"
-                    android:textColor="@color/colorFeedPrimary"
+                    android:textColor="@color/color_feed_primary"
                     android:textSize="@dimen/size_text_secondary"
                     android:textStyle="bold" />
 
                 <WebView
-                    android:id="@+id/eventDescription"
+                    android:id="@+id/event_description"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@id/detailTitle"
@@ -245,7 +245,7 @@
 
                     android:paddingTop="@dimen/size_half_byte"
                     android:text="ORGANIZER"
-                    android:textColor="@color/colorFeedPrimary"
+                    android:textColor="@color/color_feed_primary"
                     android:textSize="@dimen/size_text_secondary"
                     android:textStyle="bold" />
 

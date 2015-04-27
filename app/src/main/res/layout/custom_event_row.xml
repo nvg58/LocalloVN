@@ -11,7 +11,7 @@
     android:clickable="false">
 
     <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/eventThumbnail"
+        android:id="@+id/event_thumbnail"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:alpha="0.9"
@@ -22,7 +22,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/eventThumbnail"
+        android:layout_below="@id/event_thumbnail"
         android:layout_marginTop="-40dp"
         android:paddingLeft="4dp"
         android:paddingRight="4dp">
@@ -30,7 +30,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/eventThumbnail"
+            android:layout_below="@id/event_thumbnail"
             android:background="@android:color/white"
             android:padding="@dimen/size_word">
 
@@ -41,7 +41,7 @@
                 android:paddingBottom="4dp"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/eventTitle"
+                    android:id="@+id/event_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left"
@@ -52,10 +52,10 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/eventPlace"
+                    android:id="@+id/event_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/eventTitle"
+                    android:layout_below="@id/event_title"
                     android:lines="1"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
@@ -65,20 +65,20 @@
                     android:textColor="@color/colorPrimaryText" />
 
                 <TextView
-                    android:id="@+id/eventDate"
+                    android:id="@+id/event_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/eventPlace"
+                    android:layout_below="@id/event_place"
                     android:lines="1"
                     android:text="July 19"
                     android:textColor="@color/colorPrimaryText"
                     android:textSize="@dimen/size_text_secondary" />
 
                 <TextView
-                    android:id="@+id/eventCategory"
+                    android:id="@+id/event_category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/eventDate"
+                    android:layout_below="@id/event_date"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     android:textSize="@dimen/size_text_primary"

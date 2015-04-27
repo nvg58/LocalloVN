@@ -53,7 +53,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
     private String maxParticipants;
     private String organizer;
     private String description;
-    private String urlThumbnail;
+    private String url_thumbnail;
     private int loved;
     private int joining;
 
@@ -78,7 +78,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         maxParticipants = extras.getString("EXTRA_FEED_MAX_PARTICIPANTS");
         organizer = extras.getString("EXTRA_FEED_ORGANIZER");
         description = extras.getString("EXTRA_FEED_DESCRIPTION");
-        urlThumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
+        url_thumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
         loved = extras.getInt("EXTRA_FEED_LOVED");
         joining = extras.getInt("EXTRA_FEED_JOINING");
 
@@ -88,23 +88,23 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mHeader = findViewById(R.id.eventThumbnail);
-        ObservableScrollable scrollView = (ObservableScrollable) findViewById(R.id.scrollEventDetails);
+        mHeader = findViewById(R.id.event_thumbnail);
+        ObservableScrollable scrollView = (ObservableScrollable) findViewById(R.id.scroll_event_details);
         scrollView.setOnScrollChangedCallback(this);
         onScroll(-1, 0);
 
         if (extras != null) {
-            NetworkImageView thumbnail = (NetworkImageView) findViewById(R.id.eventThumbnail);
+            NetworkImageView thumbnail = (NetworkImageView) findViewById(R.id.event_thumbnail);
             thumbnail.setDefaultImageResId(R.drawable.placeholder);
-            thumbnail.setImageUrl(urlThumbnail, VolleySingleton.getInstance().getImageLoader());
+            thumbnail.setImageUrl(url_thumbnail, VolleySingleton.getInstance().getImageLoader());
 
-            final TextView tvTitle = (TextView) findViewById(R.id.eventTitle);
+            final TextView tvTitle = (TextView) findViewById(R.id.event_title);
             tvTitle.setText(title);
 
-            TextView tvPlace = (TextView) findViewById(R.id.eventPlace);
+            TextView tvPlace = (TextView) findViewById(R.id.event_place);
             tvPlace.setText(place);
 
-            TextView tvDate = (TextView) findViewById(R.id.eventDate);
+            TextView tvDate = (TextView) findViewById(R.id.event_date);
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             DateFormat newDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
             try {
@@ -115,16 +115,16 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                 e.printStackTrace();
             }
 
-            WebView wvDetails = (WebView) findViewById(R.id.eventDescription);
+            WebView wvDetails = (WebView) findViewById(R.id.event_description);
             wvDetails.loadDataWithBaseURL(null, "<style>img{display: inline;height: auto;max-width: 100%;}</style>" + description, "text/html", "UTF-8", null);
 
-            TextView tvCat = (TextView) findViewById(R.id.eventCategory);
+            TextView tvCat = (TextView) findViewById(R.id.event_category);
             tvCat.setText(category);
 
             TextView tvOrganizer = (TextView) findViewById(R.id.organizer);
             tvOrganizer.setText(organizer);
 
-            Button btnAddToCalendar = (Button) findViewById(R.id.btnAddToCalendar);
+            Button btnAddToCalendar = (Button) findViewById(R.id.btn_add_to_calendar);
             btnAddToCalendar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -139,7 +139,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                 }
             });
 
-            ImageButton btnDirection = (ImageButton) findViewById(R.id.btnDirection);
+            ImageButton btnDirection = (ImageButton) findViewById(R.id.btn_direction);
             btnDirection.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -157,9 +157,9 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                 }
             });
 
-            final Button btnYes = (Button) findViewById(R.id.btnYes);
-            final Button btnMaybe = (Button) findViewById(R.id.btnMaybe);
-            final TextView rvspTitle = (TextView) findViewById(R.id.rvspTitle);
+            final Button btnYes = (Button) findViewById(R.id.btn_yes);
+            final Button btnMaybe = (Button) findViewById(R.id.btn_maybe);
+            final TextView rvspTitle = (TextView) findViewById(R.id.rvsp_title);
 
             loved = MainApplication.getWritableDatabase().getLovedFeedItem(title);
             joining = MainApplication.getWritableDatabase().getJoiningFeedItem(title);
@@ -234,7 +234,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                         .setContentDescription(Account.getUserName() + " has using LocoL. Install to explore more!")
 //                                Account.getUserName() + " has loved \"" + title + "\"")
                         .setContentUrl(Uri.parse("http://developers.facebook.com/android"))
-                        .setImageUrl(Uri.parse(urlThumbnail))
+                        .setImageUrl(Uri.parse(url_thumbnail))
                         .build();
 
                 shareDialog.show(linkContent);

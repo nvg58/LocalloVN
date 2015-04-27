@@ -26,11 +26,11 @@ public class FeedListRowHolder extends RecyclerView.ViewHolder {
 
     public FeedListRowHolder(View itemView) {
         super(itemView);
-        this.thumbnail = (NetworkImageView) itemView.findViewById(R.id.eventThumbnail);
-        this.title = (TextView) itemView.findViewById(R.id.eventTitle);
-        this.date = (TextView) itemView.findViewById(R.id.eventDate);
-        this.place = (TextView) itemView.findViewById(R.id.eventPlace);
-        this.category = (TextView) itemView.findViewById(R.id.eventCategory);
+        this.thumbnail = (NetworkImageView) itemView.findViewById(R.id.event_thumbnail);
+        this.title = (TextView) itemView.findViewById(R.id.event_title);
+        this.date = (TextView) itemView.findViewById(R.id.event_date);
+        this.place = (TextView) itemView.findViewById(R.id.event_place);
+        this.category = (TextView) itemView.findViewById(R.id.event_category);
         this.btnDetails= (Button) itemView.findViewById(R.id.btnDetails);
         this.body = (LinearLayout) itemView.findViewById(R.id.eventBody);
         this.btnLove = (ImageButton) itemView.findViewById(R.id.btnLove);

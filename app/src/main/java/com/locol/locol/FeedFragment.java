@@ -65,20 +65,20 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(
-                R.color.colorFeedPrimary
+                R.color.color_feed_primary
         );
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
-            public void onLoadMore(int current_page) {
+            public void onLoadMore(int currentPage) {
                 // do something...
-                Log.wtf("onLoadMore", current_page + "");
-                loadFeedItems(current_page);
+                Log.wtf("onLoadMore", currentPage + "");
+                loadFeedItems(currentPage);
             }
         });
 
@@ -122,7 +122,8 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
 
     @Override
     public void onRefresh() {
-        new TaskLoadFeedItems(this).execute(0);
+//        new TaskLoadFeedItems(this).execute(0);
+        loadFeedItems(0);
     }
 
     private class TaskLoadFeedItems extends AsyncTask<Integer, Void, ArrayList<FeedItem>> {
@@ -150,9 +151,6 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
             ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
             MainApplication.getWritableDatabase().insertFeedItems(feedItems, (params[0] == 0));
 
-            Log.wtf("Loading", params[0] + "");
-
-//            feedItems.addAll(feedItemList);
             feedItemList.addAll(feedItems);
 
             return feedItemList;
