@@ -19,6 +19,8 @@ import com.locol.locol.pojo.FeedItem;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 
 /**
@@ -143,12 +145,26 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
 
         @Override
         protected ArrayList<FeedItem> doInBackground(Integer... params) {
-//            String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=hanoi&token=DBEK5SF2SVBCTIV52X3L";
-//            String url = "http://104.236.40.66:27080/locoldb/events/_find?batch_size=100";
-            String url = "https://storage.scrapinghub.com/items/13882?start=13882/1/1/" + 10 * params[0] + "&count=10";
+            // Eventbrite API
+            // String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=hanoi&token=DBEK5SF2SVBCTIV52X3L";
+
+            // Self hosting API
+            // String url = "http://104.236.40.66:27080/locoldb/events/_find?batch_size=100";
+
+            // Scrapinghub API
+            String latestJob = "https://storage.scrapinghub.com/jobq/13882/list?count=1";
+            JSONArray jobList = Requestor.sendRequestFeedItems(requestQueue, latestJob, getActivity());
+            String job = Parser.parseLatestJobID(jobList);
+
+            Log.wtf("job id", job);
+
+            String url = "https://storage.scrapinghub.com/items/13882?start=" + job + "/" + 10 * params[0] + "&count=10";
             JSONArray response = Requestor.sendRequestFeedItems(requestQueue, url, getActivity());
 
             ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
+            // sort feed items by start_date
+            Collections.sort(feedItems);
+
             MainApplication.getWritableDatabase().insertFeedItems(feedItems, (params[0] == 0));
 
             feedItemList.addAll(feedItems);

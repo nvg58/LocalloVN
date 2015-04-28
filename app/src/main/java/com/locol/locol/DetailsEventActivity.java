@@ -33,6 +33,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class DetailsEventActivity extends ActionBarActivity implements OnScrollChangedCallback {
@@ -105,7 +106,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             tvPlace.setText(place);
 
             TextView tvDate = (TextView) findViewById(R.id.event_date);
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             DateFormat newDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
             try {
                 Date sDate = dateFormat.parse(startDate);
@@ -128,7 +129,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             btnAddToCalendar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                     try {
                         Calendar start = DateToCalendar(dateFormat.parse(startDate));
                         Calendar end = DateToCalendar(dateFormat.parse(endDate));

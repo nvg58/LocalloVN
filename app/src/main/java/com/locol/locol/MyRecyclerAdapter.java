@@ -144,7 +144,7 @@ public class MyRecyclerAdapter extends RecyclerView.Adapter<FeedListRowHolder> {
 
         holder.title.setText(feedItem.getTitle());
 
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         DateFormat newDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
         try {
             Date sDate = dateFormat.parse(feedItem.getStartDate());

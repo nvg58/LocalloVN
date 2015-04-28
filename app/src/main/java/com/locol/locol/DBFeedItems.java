@@ -168,8 +168,8 @@ public class DBFeedItems {
         private static final String CREATE_TABLE_FEED_ITEM = "CREATE TABLE " + TABLE_FEED_ITEMS + " (" +
                 COLUMN_UID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_TITLE + " TEXT," +
-                COLUMN_START_DATE + " TEXT," +
-                COLUMN_END_DATE + " TEXT," +
+                COLUMN_START_DATE + " DATETIME," +
+                COLUMN_END_DATE + " DATETIME," +
                 COLUMN_URL_THUMBNAIL + " TEXT," +
                 COLUMN_PLACE + " TEXT," +
                 COLUMN_CATEGORY + " TEXT," +

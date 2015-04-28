@@ -2,12 +2,18 @@ package com.locol.locol.pojo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by GiapNV on 3/11/15.
  * Project LocoL
  */
-public class FeedItem implements Parcelable {
+public class FeedItem implements Parcelable, Comparable<FeedItem> {
     private String id;
     private String title;
     private String startDate;
@@ -139,5 +145,18 @@ public class FeedItem implements Parcelable {
         dest.writeString(category);
         dest.writeString(max_participants);
         dest.writeString(description);
+    }
+
+    @Override
+    public int compareTo(@NonNull FeedItem another) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date thisDate = null, anotherDate = null;
+        try {
+            thisDate = dateFormat.parse(this.getStartDate());
+            anotherDate = dateFormat.parse(another.getStartDate());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return thisDate != null ? -thisDate.compareTo(anotherDate) : 0;
     }
 }

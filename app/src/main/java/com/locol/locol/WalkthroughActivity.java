@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -99,11 +100,13 @@ public class WalkthroughActivity extends ActionBarActivity {
             @Override
             public void onCancel() {
                 // App code
+                Toast.makeText(WalkthroughActivity.this, "You have cancelled Facebook Login!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException exception) {
                 // App code
+                Toast.makeText(WalkthroughActivity.this, "Error during Login by Facebook!", Toast.LENGTH_SHORT).show();
             }
         });
     }

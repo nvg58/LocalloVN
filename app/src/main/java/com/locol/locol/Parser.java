@@ -1,7 +1,5 @@
 package com.locol.locol;
 
-import android.util.Log;
-
 import com.locol.locol.pojo.FeedItem;
 
 import org.json.JSONArray;
@@ -10,7 +8,11 @@ import org.json.JSONObject;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by GiapNV on 3/10/15.
@@ -31,6 +33,8 @@ public class Parser {
     public static final String KEY_DESCRIPTION = "description";
     public static final String TEXT_FORMAT = "text";
     public static final String HTML_FORMAT = "html";
+
+    public static final String JOB_KEY = "key";
 
     public static ArrayList<FeedItem> parseJSONResponse(JSONArray response) {
         ArrayList<FeedItem> listFeedItems = new ArrayList<>();
@@ -89,6 +93,19 @@ public class Parser {
                         endDate = (partDates.length == 2 ? partDates[1] : partDates[0]) + ' ' + (partTimes.length == 2 ? partTimes[1] : partTimes[0]);
                     }
 
+                    // change start and end date format
+                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    DateFormat newDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    try {
+                        Date sDate = dateFormat.parse(startDate);
+                        Date eDate = dateFormat.parse(endDate);
+                        startDate = newDateFormat.format(sDate);
+                        endDate = newDateFormat.format(eDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
                     //get the url for the thumbnail to be displayed inside the current feedItem result
                     if (Utils.contains(currentFeedItem, KEY_THUMBNAIL)) {
                         urlThumbnail = currentFeedItem.getString(KEY_THUMBNAIL);
@@ -141,5 +158,19 @@ public class Parser {
             }
         }
         return listFeedItems;
+    }
+
+    public static String parseLatestJobID(JSONArray response) {
+        String res = "13882/1/209";
+        if (response != null && response.length() > 0) {
+            try {
+                JSONObject latest;
+                latest = response.getJSONObject(0);
+                res = latest.getString(JOB_KEY);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return res;
     }
 } 
