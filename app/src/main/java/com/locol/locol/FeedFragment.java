@@ -115,7 +115,7 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
 
     @Override
     public void onFeedItemsLoaded(ArrayList<FeedItem> feedItems) {
-        //update the Adapter to contain the new movies downloaded from the web
+        //update the Adapter to contain the new items downloaded from the web
         if (mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(false);
         }

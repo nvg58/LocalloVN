@@ -227,7 +227,6 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.menu_item_share) {
             if (ShareDialog.canShow(ShareLinkContent.class)) {
                 ShareLinkContent linkContent = new ShareLinkContent.Builder()
@@ -240,6 +239,11 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
 
                 shareDialog.show(linkContent);
             }
+            return true;
+        }
+
+        if (id == android.R.id.home) {
+            onBackPressed();
             return true;
         }
 
@@ -285,4 +289,12 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
+        } else {
+            getFragmentManager().popBackStack();
+        }
+    }
 }

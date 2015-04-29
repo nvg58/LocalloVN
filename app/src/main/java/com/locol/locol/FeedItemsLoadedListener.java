@@ -9,5 +9,5 @@ import java.util.ArrayList;
  * Project LocoL
  */
 public interface FeedItemsLoadedListener {
-    public void onFeedItemsLoaded(ArrayList<FeedItem> listMovies);
+    public void onFeedItemsLoaded(ArrayList<FeedItem> feedItems);
 }
