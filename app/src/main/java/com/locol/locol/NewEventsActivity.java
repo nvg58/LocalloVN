@@ -2,8 +2,8 @@ package com.locol.locol;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class TrendingActivity extends ActionBarActivity implements FeedItemsLoadedListener {
+public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoadedListener {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private MyRecyclerAdapter adapter;
@@ -30,7 +30,7 @@ public class TrendingActivity extends ActionBarActivity implements FeedItemsLoad
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trending);
+        setContentView(R.layout.activity_new_events);
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -66,7 +66,7 @@ public class TrendingActivity extends ActionBarActivity implements FeedItemsLoad
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_trending, menu);
+        getMenuInflater().inflate(R.menu.menu_new_events, menu);
         return true;
     }
 
@@ -93,6 +93,7 @@ public class TrendingActivity extends ActionBarActivity implements FeedItemsLoad
             getFragmentManager().popBackStack();
         }
     }
+
 
     @Override
     public void onFeedItemsLoaded(ArrayList<FeedItem> feedItems) {
@@ -124,18 +125,18 @@ public class TrendingActivity extends ActionBarActivity implements FeedItemsLoad
 
             // Scrapinghub API
             String latestJob = "https://storage.scrapinghub.com/jobq/13882/list?count=1";
-            JSONArray jobList = Requestor.sendRequestFeedItems(requestQueue, latestJob, TrendingActivity.this);
+            JSONArray jobList = Requestor.sendRequestFeedItems(requestQueue, latestJob, NewEventsActivity.this);
             String job = Parser.parseLatestJobID(jobList);
 
             Log.wtf("job id", job);
 
             String url = "https://storage.scrapinghub.com/items/13882?start=" + job + "/" + 10 * params[0] + "&count=10";
-            JSONArray response = Requestor.sendRequestFeedItems(requestQueue, url, TrendingActivity.this);
+            JSONArray response = Requestor.sendRequestFeedItems(requestQueue, url, NewEventsActivity.this);
 
             ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
 
             // sort feed items by start_date
-            // TODO Most viewed/attended/loved ???
+            // get newest items
             Collections.sort(feedItems);
 
             feedItemList.addAll(feedItems);

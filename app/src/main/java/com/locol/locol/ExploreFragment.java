@@ -36,6 +36,14 @@ public class ExploreFragment extends Fragment {
             }
         });
 
+        TextView btn_new = (TextView) v.findViewById(R.id.btn_new);
+        btn_new.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), NewEventsActivity.class));
+            }
+        });
+
         return v;
     }
 

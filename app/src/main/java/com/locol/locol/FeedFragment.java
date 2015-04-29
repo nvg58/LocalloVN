@@ -78,8 +78,6 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         mRecyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int currentPage) {
-                // do something...
-                Log.wtf("onLoadMore", currentPage + "");
                 loadFeedItems(currentPage);
             }
         });
@@ -93,7 +91,7 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         } else {
             //if this fragment starts for the first time, load the list of movies from a database
             feedItemList = MainApplication.getWritableDatabase().getAllFeedItems();
-            //if the database is empty, trigger an AsycnTask to download movie list from the web
+            //if the database is empty, trigger an AsyncTask to download movie list from the web
             if (feedItemList.isEmpty()) {
 //                new TaskLoadFeedItems(this).execute(0);
                 loadFeedItems(0);

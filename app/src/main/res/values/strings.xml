@@ -19,4 +19,5 @@
         <item quantity="other">%d likes</item>
     </plurals>
     <string name="title_activity_trending">Trending</string>
+    <string name="title_activity_new_events">New</string>
 </resources>
