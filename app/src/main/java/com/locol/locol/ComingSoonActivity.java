@@ -2,14 +2,18 @@ package com.locol.locol;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.locol.locol.networks.VolleySingleton;
@@ -17,20 +21,29 @@ import com.locol.locol.pojo.FeedItem;
 
 import org.json.JSONArray;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 
-public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoadedListener {
+public class ComingSoonActivity extends ActionBarActivity implements FeedItemsLoadedListener, SwipeRefreshLayout.OnRefreshListener {
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private MyRecyclerAdapter adapter;
+    SwipeRefreshLayout swipeRefreshLayout;
+    private ProgressBar progressBar;
     private ArrayList<FeedItem> feedItemList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_events);
+        setContentView(R.layout.activity_coming_soon);
+
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -38,6 +51,12 @@ public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoa
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.color_explore_primary)));
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.color_explore_primary
+        );
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -66,7 +85,7 @@ public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_new_events, menu);
+        getMenuInflater().inflate(R.menu.menu_coming_soon, menu);
         return true;
     }
 
@@ -100,6 +119,11 @@ public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoa
         adapter.setFeedItems(feedItems);
     }
 
+    @Override
+    public void onRefresh() {
+        loadFeedItems(0);
+    }
+
     private class TaskLoadFeedItems extends AsyncTask<Integer, Void, ArrayList<FeedItem>> {
         private FeedItemsLoadedListener myComponent;
         private VolleySingleton volleySingleton;
@@ -113,6 +137,7 @@ public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoa
 
         @Override
         protected void onPreExecute() {
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -125,27 +150,53 @@ public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoa
 
             // Scrapinghub API
             String latestJob = "https://storage.scrapinghub.com/jobq/13882/list?count=1";
-            JSONArray jobList = Requestor.sendRequestFeedItems(requestQueue, latestJob, NewEventsActivity.this);
+            JSONArray jobList = Requestor.sendRequestFeedItems(requestQueue, latestJob, ComingSoonActivity.this);
             String job = Parser.parseLatestJobID(jobList);
 
             Log.wtf("job id", job);
 
             String url = "https://storage.scrapinghub.com/items/13882?start=" + job + "/" + 10 * params[0] + "&count=10";
-            JSONArray response = Requestor.sendRequestFeedItems(requestQueue, url, NewEventsActivity.this);
+            JSONArray response = Requestor.sendRequestFeedItems(requestQueue, url, ComingSoonActivity.this);
 
             ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
 
             // sort feed items by start_date
-            // get newest items
-            Collections.sort(feedItems);
+            // Collections.sort(feedItems);
 
-            feedItemList.addAll(feedItems);
+            // coming soon
+            ArrayList<FeedItem> comingItems = new ArrayList<>();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            for (FeedItem item : feedItems) {
+                try {
+                    Date sDate;
+                    sDate = dateFormat.parse(item.getStartDate());
+                    Long dT = sDate.getTime() - Calendar.getInstance().getTime().getTime();
+                    Log.wtf("time", sDate.getTime() + " === " + Calendar.getInstance().getTime().getTime() + " === " + dT);
+                    if (0 < dT && dT <= 1000 * 60 * 60 * 48) {
+                        Log.wtf("comingItems.add", sDate.toString());
+                        comingItems.add(item);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            Collections.sort(comingItems);
+
+            feedItemList.addAll(comingItems);
 
             return feedItemList;
         }
 
         @Override
         protected void onPostExecute(ArrayList<FeedItem> feedItems) {
+            progressBar.setVisibility(View.INVISIBLE);
+
+            if (feedItems.isEmpty()) {
+                Toast.makeText(ComingSoonActivity.this, "There are no coming soon events! Check back later!", Toast.LENGTH_SHORT).show();
+            }
+
             if (myComponent != null) {
                 myComponent.onFeedItemsLoaded(feedItems);
             }

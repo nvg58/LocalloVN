@@ -44,6 +44,14 @@ public class ExploreFragment extends Fragment {
             }
         });
 
+        TextView btn_coming_soon = (TextView) v.findViewById(R.id.btn_coming_soon);
+        btn_coming_soon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ComingSoonActivity.class));
+            }
+        });
+
         return v;
     }
 

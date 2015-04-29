@@ -44,7 +44,7 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
         this.addSection(newSection(
                 "Explore",
                 R.mipmap.ic_explore_grey600_24dp,
-                new ExploreFragment()).setSectionColor(getResources().getColor(R.color.colorExplorePrimary),
+                new ExploreFragment()).setSectionColor(getResources().getColor(R.color.color_explore_primary),
                 getResources().getColor(R.color.colorExplorePrimaryDark)));
 
         this.addSection(newSection(

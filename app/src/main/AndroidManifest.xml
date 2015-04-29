@@ -78,6 +78,10 @@
             android:name=".NewEventsActivity"
             android:label="@string/title_activity_new_events" >
         </activity>
+        <activity
+            android:name=".ComingSoonActivity"
+            android:label="@string/title_activity_coming_soon" >
+        </activity>
     </application>
 
 </manifest>

@@ -20,4 +20,5 @@
     </plurals>
     <string name="title_activity_trending">Trending</string>
     <string name="title_activity_new_events">New</string>
+    <string name="title_activity_coming_soon">Coming soon</string>
 </resources>
