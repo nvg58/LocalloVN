@@ -55,5 +55,6 @@ public class MainApplication extends Application {
             mDatabase = new DBFeedItems(getAppContext());
         }
         return mDatabase;
-    }}
+    }
+}
 

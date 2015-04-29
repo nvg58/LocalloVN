@@ -137,7 +137,8 @@ public class ComingSoonActivity extends ActionBarActivity implements FeedItemsLo
 
         @Override
         protected void onPreExecute() {
-            progressBar.setVisibility(View.VISIBLE);
+            if (progressBar.getVisibility() != View.GONE)
+                progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -191,7 +192,7 @@ public class ComingSoonActivity extends ActionBarActivity implements FeedItemsLo
 
         @Override
         protected void onPostExecute(ArrayList<FeedItem> feedItems) {
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.GONE);
 
             if (feedItems.isEmpty()) {
                 Toast.makeText(ComingSoonActivity.this, "There are no coming soon events! Check back later!", Toast.LENGTH_SHORT).show();

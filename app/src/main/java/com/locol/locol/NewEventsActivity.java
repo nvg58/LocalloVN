@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.locol.locol.networks.VolleySingleton;
@@ -25,12 +27,15 @@ public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoa
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private MyRecyclerAdapter adapter;
+    private ProgressBar progressBar;
     private ArrayList<FeedItem> feedItemList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_events);
+
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
@@ -113,6 +118,8 @@ public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoa
 
         @Override
         protected void onPreExecute() {
+            if (progressBar.getVisibility() != View.GONE)
+                progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -146,6 +153,8 @@ public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoa
 
         @Override
         protected void onPostExecute(ArrayList<FeedItem> feedItems) {
+            progressBar.setVisibility(View.GONE);
+
             if (myComponent != null) {
                 myComponent.onFeedItemsLoaded(feedItems);
             }

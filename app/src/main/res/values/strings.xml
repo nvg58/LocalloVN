@@ -6,8 +6,8 @@
     <string name="title_activity_login">LoginActivity</string>
 
     <string name="facebook_app_id">891265017592536</string>
-    <string name="parse_app_id">un1uUEhXyfya8DAZAsMqb6KPaHI1VKJybL0Xasoc</string>
-    <string name="parse_client_key">060dlvS07q9DSU4SSAdEgfDjEBRU62fK2ALRsrfQ</string>
+    <string name="parse_app_id">yKQf0PLRIsPPdsWDCp2GXok4uJMfCA9PUUysvvvD</string>
+    <string name="parse_client_key">sXIgd3gstXXNtU34DSLkpCIS8E8fwYcRQPdEOF2H</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_walkthrough">WalkthroughActivity</string>

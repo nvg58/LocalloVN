@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -19,7 +20,6 @@ import com.locol.locol.pojo.FeedItem;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 
@@ -46,6 +46,8 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
     private RequestQueue requestQueue;
     private MyRecyclerAdapter mAdapter;
 
+    private ProgressBar progressBar;
+
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     public FeedFragment() {
@@ -66,6 +68,8 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -139,6 +143,8 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
 
         @Override
         protected void onPreExecute() {
+            if (progressBar.getVisibility() != View.GONE)
+                progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -172,6 +178,7 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
 
         @Override
         protected void onPostExecute(ArrayList<FeedItem> feedItems) {
+            progressBar.setVisibility(View.GONE);
             if (myComponent != null) {
                 myComponent.onFeedItemsLoaded(feedItems);
             }
