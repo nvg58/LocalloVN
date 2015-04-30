@@ -6,6 +6,7 @@ import android.content.Context;
 import com.facebook.stetho.Stetho;
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
 /**
@@ -19,9 +20,14 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // Enable local data store
+        Parse.enableLocalDatastore(this);
+
         // Required - Initialize the Parse SDK
         Parse.initialize(this, getString(R.string.parse_app_id),
                 getString(R.string.parse_client_key));
+
+        ParseFacebookUtils.initialize(this);
 
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
         ParseUser.enableAutomaticUser();
