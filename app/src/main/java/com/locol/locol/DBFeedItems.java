@@ -74,7 +74,7 @@ public class DBFeedItems {
             deleteAll();
         }
         //create a sql prepared statement
-        String sql = "INSERT INTO " + FeedItemsHelper.TABLE_FEED_ITEMS + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO " + FeedItemsHelper.TABLE_FEED_ITEMS + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
         //compile the statement and start a transaction
         SQLiteStatement statement = mDatabase.compileStatement(sql);
         mDatabase.beginTransaction();
@@ -83,17 +83,18 @@ public class DBFeedItems {
             statement.clearBindings();
 
             //for a given column index, simply bind the data to be put inside that index
-            statement.bindString(2, currentFeedItem.getTitle());
-            statement.bindString(3, currentFeedItem.getStartDate());
-            statement.bindString(4, currentFeedItem.getEndDate());
-            statement.bindString(5, currentFeedItem.getUrlThumbnail());
-            statement.bindString(6, currentFeedItem.getLocation());
-            statement.bindString(7, currentFeedItem.getCategory());
-            statement.bindString(8, currentFeedItem.getMaxParticipants());
-            statement.bindString(9, currentFeedItem.getOrganizer());
-            statement.bindString(10, currentFeedItem.getDescription());
-            statement.bindLong(11, currentFeedItem.isLoved());
-            statement.bindLong(12, currentFeedItem.isJoining());
+            statement.bindString(2, currentFeedItem.getId());
+            statement.bindString(3, currentFeedItem.getTitle());
+            statement.bindString(4, currentFeedItem.getStartDate());
+            statement.bindString(5, currentFeedItem.getEndDate());
+            statement.bindString(6, currentFeedItem.getUrlThumbnail());
+            statement.bindString(7, currentFeedItem.getLocation());
+            statement.bindString(8, currentFeedItem.getCategory());
+            statement.bindString(9, currentFeedItem.getMaxParticipants());
+            statement.bindString(10, currentFeedItem.getOrganizer());
+            statement.bindString(11, currentFeedItem.getDescription());
+            statement.bindLong(12, currentFeedItem.isLoved());
+            statement.bindLong(13, currentFeedItem.isJoining());
             statement.execute();
         }
         //set the transaction as successful and end the transaction
@@ -106,7 +107,8 @@ public class DBFeedItems {
 
         //get a list of columns to be retrieved, we need all of them
         String[] columns = {
-                FeedItemsHelper.COLUMN_UID,
+                FeedItemsHelper.COLUMN_ID,
+                FeedItemsHelper.COLUMN_UUID,
                 FeedItemsHelper.COLUMN_TITLE,
                 FeedItemsHelper.COLUMN_START_DATE,
                 FeedItemsHelper.COLUMN_END_DATE,
@@ -127,6 +129,7 @@ public class DBFeedItems {
                 FeedItem feedItem = new FeedItem();
                 //each step is a 2 part process, find the index of the column first, find the data of that column using
                 //that index and finally set our blank feedItem object to contain our data
+                feedItem.setId(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_UUID)));
                 feedItem.setTitle(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_TITLE)));
                 feedItem.setStartDate(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_START_DATE)));
                 feedItem.setEndDate(cursor.getString(cursor.getColumnIndex(FeedItemsHelper.COLUMN_END_DATE)));
@@ -153,7 +156,8 @@ public class DBFeedItems {
 
     private static class FeedItemsHelper extends SQLiteOpenHelper {
         public static final String TABLE_FEED_ITEMS = "feed_items";
-        public static final String COLUMN_UID = "_id";
+        public static final String COLUMN_ID = "_id";
+        public static final String COLUMN_UUID = "uuid";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_START_DATE = "start_date";
         public static final String COLUMN_END_DATE = "end_date";
@@ -166,7 +170,8 @@ public class DBFeedItems {
         public static final String COLUMN_LOVED = "loved";
         public static final String COLUMN_JOINING = "joining";
         private static final String CREATE_TABLE_FEED_ITEM = "CREATE TABLE " + TABLE_FEED_ITEMS + " (" +
-                COLUMN_UID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COLUMN_UUID + " TEXT," +
                 COLUMN_TITLE + " TEXT," +
                 COLUMN_START_DATE + " DATETIME," +
                 COLUMN_END_DATE + " DATETIME," +

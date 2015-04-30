@@ -1,5 +1,7 @@
 package com.locol.locol;
 
+import android.util.Log;
+
 import com.locol.locol.pojo.FeedItem;
 
 import org.json.JSONArray;
@@ -13,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by GiapNV on 3/10/15.
@@ -63,10 +66,9 @@ public class Parser {
 //                            id = objectID.getString("$oid");
 //                        }
 //                    }
+                    id = UUID.randomUUID().toString();
 
-                    id = new BigInteger(130, new SecureRandom()).toString();
-
-                    //get the title of the current feedItem 
+                    //get the title of the current feedItem
                     if (Utils.contains(currentFeedItem, KEY_TITLE)) {
                         title = currentFeedItem.getString(KEY_TITLE).replace("\'", "\"");
                     }

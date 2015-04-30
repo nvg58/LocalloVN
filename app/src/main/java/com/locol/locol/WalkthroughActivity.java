@@ -33,8 +33,27 @@ public class WalkthroughActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walkthrough);
 
-        loginButton = (LoginButton) findViewById(R.id.login_button);
+        if (!ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
+            // If current user is NOT anonymous user
+            // Get current user data from Parse.com
+            ParseUser currentUser = ParseUser.getCurrentUser();
+            if (currentUser != null) {
+                // Send logged in users to MyNavigationDrawer.class
+                Account.setUserFBId(Preferences.readFromPreferences(WalkthroughActivity.this, PREF_FILE_NAME, KEY_USER_ID, null));
+                Account.setUserEmail(Preferences.readFromPreferences(WalkthroughActivity.this, PREF_FILE_NAME, KEY_USER_EMAIL, null));
+                Account.setUserName(Preferences.readFromPreferences(WalkthroughActivity.this, PREF_FILE_NAME, KEY_USER_NAME, null));
 
+                startActivity(new Intent(WalkthroughActivity.this, MyNavigationDrawer.class));
+                finish();
+            } else {
+                // Send user to LoginActivity.class
+                Intent intent = new Intent(WalkthroughActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+
+        loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,37 +63,6 @@ public class WalkthroughActivity extends ActionBarActivity {
                     Intent intent = new Intent(WalkthroughActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
-                } else {
-                    // If current user is NOT anonymous user
-                    // Get current user data from Parse.com
-                    ParseUser currentUser = ParseUser.getCurrentUser();
-                    if (currentUser != null) {
-                        // Send logged in users to MyNavigationDrawer.class
-                        Account.setUserFBId(Preferences.readFromPreferences(WalkthroughActivity.this, PREF_FILE_NAME, KEY_USER_ID, null));
-                        Account.setUserEmail(Preferences.readFromPreferences(WalkthroughActivity.this, PREF_FILE_NAME, KEY_USER_EMAIL, null));
-                        Account.setUserName(Preferences.readFromPreferences(WalkthroughActivity.this, PREF_FILE_NAME, KEY_USER_NAME, null));
-
-                        String url = Preferences.readFromPreferences(WalkthroughActivity.this, PREF_FILE_NAME, KEY_USER_AVATAR, null);
-                        VolleySingleton.getInstance().getImageLoader().get(url, new ImageLoader.ImageListener() {
-                            @Override
-                            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                                Account.setUserAvatar(response.getBitmap());
-
-                                startActivity(new Intent(WalkthroughActivity.this, MyNavigationDrawer.class));
-                                finish();
-                            }
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-
-                            }
-                        });
-                    } else {
-                        // Send user to LoginActivity.class
-                        Intent intent = new Intent(WalkthroughActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
                 }
             }
         });
