@@ -76,7 +76,7 @@ public class LoginActivity extends ActionBarActivity {
                     request.executeAsync();
                 }
             }
-        });move
+        });
     }
 
 
