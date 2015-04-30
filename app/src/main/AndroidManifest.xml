@@ -86,6 +86,10 @@
             android:name=".LoginActivity"
             android:label="@string/title_activity_coming_soon" >
         </activity>
+        <activity
+            android:name=".ChooseCategoryActivity"
+            android:label="@string/title_activity_choose_category" >
+        </activity>
     </application>
 
 </manifest>

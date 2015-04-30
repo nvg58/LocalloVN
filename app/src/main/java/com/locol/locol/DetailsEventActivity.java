@@ -111,13 +111,18 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             try {
                 Date sDate = dateFormat.parse(startDate);
                 Date eDate = dateFormat.parse(endDate);
-                tvDate.setText("Từ " + newDateFormat.format(sDate) + " đến\n" + newDateFormat.format(eDate));
+                tvDate.setText("From " + newDateFormat.format(sDate) + "\nto" + newDateFormat.format(eDate));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
             WebView wvDetails = (WebView) findViewById(R.id.event_description);
-            wvDetails.loadDataWithBaseURL(null, "<style>img{display: inline;height: auto;max-width: 100%;}</style>" + description, "text/html", "UTF-8", null);
+            wvDetails.loadDataWithBaseURL(
+                    null,
+                    "<style>img {display: inline; height: auto; max-width: 100%;}</style>" + description,
+                    "text/html",
+                    "UTF-8",
+                    null);
 
             TextView tvCat = (TextView) findViewById(R.id.event_category);
             tvCat.setText(category);
