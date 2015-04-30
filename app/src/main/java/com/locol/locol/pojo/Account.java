@@ -1,6 +1,12 @@
 package com.locol.locol.pojo;
 
 import android.graphics.Bitmap;
+import android.util.Log;
+
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+
+import java.util.UUID;
 
 /**
  * Created by GiapNV on 3/9/15.
@@ -67,4 +73,14 @@ public class Account {
         Account.userFBId = userFBId;
     }
 
+    public static void updateUserDataToParse() {
+        ParseUser user = new ParseUser();
+        user.setEmail(getUserEmail());
+        user.setUsername(getUserName());
+        user.setPassword(UUID.randomUUID().toString());
+        user.put("fbId", getUserFBId());
+        user.saveInBackground();
+
+        Log.wtf("updateUserDataToParse", "updateUserDataToParse");
+    }
 }
