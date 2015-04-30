@@ -141,11 +141,11 @@ public class TrendingActivity extends ActionBarActivity implements FeedItemsLoad
 
             ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
 
+            feedItemList.addAll(feedItems);
             // sort feed items by start_date
             // TODO Most viewed/attended/loved ???
-            Collections.sort(feedItems);
+//            Collections.sort(feedItemList);
 
-            feedItemList.addAll(feedItems);
 
             return feedItemList;
         }

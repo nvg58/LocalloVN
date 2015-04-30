@@ -19,8 +19,13 @@ import com.locol.locol.pojo.FeedItem;
 
 import org.json.JSONArray;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 
 public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoadedListener {
@@ -144,9 +149,25 @@ public class NewEventsActivity extends ActionBarActivity implements FeedItemsLoa
 
             // sort feed items by start_date
             // get newest items
-            Collections.sort(feedItems);
+            ArrayList<FeedItem> comingItems = new ArrayList<>();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-            feedItemList.addAll(feedItems);
+            for (FeedItem item : feedItems) {
+                try {
+                    Date sDate;
+                    sDate = dateFormat.parse(item.getStartDate());
+                    Long dT = sDate.getTime() - Calendar.getInstance().getTime().getTime();
+                    if (0 < dT && (sDate.getMonth() == Calendar.getInstance().get(Calendar.MONTH))) {
+                        Log.wtf("newItems.add", sDate.toString());
+                        comingItems.add(item);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            feedItemList.addAll(comingItems);
+//            Collections.sort(feedItemList);
 
             return feedItemList;
         }

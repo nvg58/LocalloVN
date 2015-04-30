@@ -121,7 +121,7 @@ public class ComingSoonActivity extends ActionBarActivity implements FeedItemsLo
 
     @Override
     public void onRefresh() {
-        loadFeedItems(0);
+//        loadFeedItems(0);
     }
 
     private class TaskLoadFeedItems extends AsyncTask<Integer, Void, ArrayList<FeedItem>> {
@@ -173,7 +173,6 @@ public class ComingSoonActivity extends ActionBarActivity implements FeedItemsLo
                     Date sDate;
                     sDate = dateFormat.parse(item.getStartDate());
                     Long dT = sDate.getTime() - Calendar.getInstance().getTime().getTime();
-                    Log.wtf("time", sDate.getTime() + " === " + Calendar.getInstance().getTime().getTime() + " === " + dT);
                     if (0 < dT && dT <= 1000 * 60 * 60 * 48) {
                         Log.wtf("comingItems.add", sDate.toString());
                         comingItems.add(item);
@@ -183,9 +182,8 @@ public class ComingSoonActivity extends ActionBarActivity implements FeedItemsLo
                 }
             }
 
-            Collections.sort(comingItems);
-
             feedItemList.addAll(comingItems);
+//            Collections.sort(feedItemList);
 
             return feedItemList;
         }

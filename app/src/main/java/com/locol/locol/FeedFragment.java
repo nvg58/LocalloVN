@@ -166,12 +166,12 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
             JSONArray response = Requestor.sendRequestFeedItems(requestQueue, url, getActivity());
 
             ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
-            // sort feed items by start_date
-            Collections.sort(feedItems);
 
             MainApplication.getWritableDatabase().insertFeedItems(feedItems, (params[0] == 0));
 
             feedItemList.addAll(feedItems);
+            // sort feed items by start_date
+//            Collections.sort(feedItemList);
 
             return feedItemList;
         }
