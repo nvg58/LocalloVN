@@ -20,7 +20,6 @@ import com.locol.locol.pojo.FeedItem;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 /**

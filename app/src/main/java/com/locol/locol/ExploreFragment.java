@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -49,6 +48,14 @@ public class ExploreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), ComingSoonActivity.class));
+            }
+        });
+
+        TextView btn_most_favourite = (TextView) v.findViewById(R.id.btn_most_favourite);
+        btn_most_favourite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), MostFavouriteActivity.class));
             }
         });
 

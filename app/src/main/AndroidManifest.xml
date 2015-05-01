@@ -90,6 +90,10 @@
             android:name=".ChooseCategoryActivity"
             android:label="@string/title_activity_choose_category" >
         </activity>
+        <activity
+            android:name=".MostFavouriteActivity"
+            android:label="@string/title_activity_most_favourite" >
+        </activity>
     </application>
 
 </manifest>

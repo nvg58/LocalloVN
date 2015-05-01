@@ -29,11 +29,9 @@ import com.manuelpeinado.fadingactionbar.view.ObservableScrollable;
 import com.manuelpeinado.fadingactionbar.view.OnScrollChangedCallback;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 
 public class DetailsEventActivity extends ActionBarActivity implements OnScrollChangedCallback {
@@ -47,8 +45,8 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
     private final static String TAG = "DetailsEventActivity";
 
     private String title;
-    private String startDate;
-    private String endDate;
+    private Long startDate;
+    private Long endDate;
     private String place;
     private String category;
     private String maxParticipants;
@@ -72,8 +70,8 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
 
         extras = getIntent().getExtras();
         title = extras.getString("EXTRA_FEED_TITLE");
-        startDate = extras.getString("EXTRA_FEED_START_DATE");
-        endDate = extras.getString("EXTRA_FEED_END_DATE");
+        startDate = extras.getLong("EXTRA_FEED_START_DATE");
+        endDate = extras.getLong("EXTRA_FEED_END_DATE");
         place = extras.getString("EXTRA_FEED_PLACE");
         category = extras.getString("EXTRA_FEED_CATEGORY");
         maxParticipants = extras.getString("EXTRA_FEED_MAX_PARTICIPANTS");
@@ -106,15 +104,10 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             tvPlace.setText(place);
 
             TextView tvDate = (TextView) findViewById(R.id.event_date);
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             DateFormat newDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
-            try {
-                Date sDate = dateFormat.parse(startDate);
-                Date eDate = dateFormat.parse(endDate);
-                tvDate.setText("From " + newDateFormat.format(sDate) + "\nto" + newDateFormat.format(eDate));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date sDate = new Date(startDate);
+            Date eDate = new Date(endDate);
+            tvDate.setText("From " + newDateFormat.format(sDate) + "\nto" + newDateFormat.format(eDate));
 
             WebView wvDetails = (WebView) findViewById(R.id.event_description);
             wvDetails.loadDataWithBaseURL(
@@ -134,14 +127,9 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             btnAddToCalendar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                    try {
-                        Calendar start = DateToCalendar(dateFormat.parse(startDate));
-                        Calendar end = DateToCalendar(dateFormat.parse(endDate));
-                        addEvent(DetailsEventActivity.this, title, place, start, end);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    Calendar start = DateToCalendar(new Date(startDate));
+                    Calendar end = DateToCalendar(new Date(startDate));
+                    addEvent(DetailsEventActivity.this, title, place, start, end);
                 }
             });
 
