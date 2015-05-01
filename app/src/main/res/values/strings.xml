@@ -23,4 +23,5 @@
     <string name="title_activity_coming_soon">Coming soon</string>
     <string name="title_activity_choose_category">ChooseCategoryActivity</string>
     <string name="title_activity_most_favourite">Most favourite</string>
+    <string name="title_activity_slash_screen">Slash Screen</string>
 </resources>
