@@ -89,6 +89,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
 
         mHeader = findViewById(R.id.event_thumbnail);
         ObservableScrollable scrollView = (ObservableScrollable) findViewById(R.id.scroll_event_details);
@@ -110,7 +111,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             DateFormat newDateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
             Date sDate = new Date(startDate);
             Date eDate = new Date(endDate);
-            tvDate.setText("From " + newDateFormat.format(sDate) + "\nto" + newDateFormat.format(eDate));
+            tvDate.setText("From " + newDateFormat.format(sDate) + "\nto " + newDateFormat.format(eDate));
 
             WebView wvDetails = (WebView) findViewById(R.id.event_description);
             wvDetails.loadDataWithBaseURL(

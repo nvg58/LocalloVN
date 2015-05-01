@@ -6,15 +6,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
-import com.locol.locol.application.MainApplication;
 import com.locol.locol.R;
 import com.locol.locol.activities.DetailsEventActivity;
+import com.locol.locol.application.MainApplication;
+import com.locol.locol.helpers.Utils;
 import com.locol.locol.networks.VolleySingleton;
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
@@ -35,6 +39,8 @@ public class ThingsAdapter extends ParseQueryAdapter<ParseObject> {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_event_row, parent, false);
         }
         super.getItemView(object, v, parent);
+
+        runEnterAnimation(v, 0);
 
         NetworkImageView thumbnail = (NetworkImageView) v.findViewById(R.id.event_thumbnail);
         thumbnail.setDefaultImageResId(R.drawable.placeholder);
@@ -104,5 +110,27 @@ public class ThingsAdapter extends ParseQueryAdapter<ParseObject> {
 
         MainApplication.getAppContext().startActivity(intent);
     }
+
+    private static final AccelerateInterpolator ACCELERATE_INTERPOLATOR = new AccelerateInterpolator();
+    private static final OvershootInterpolator OVERSHOOT_INTERPOLATOR = new OvershootInterpolator(4);
+    private static final int ANIMATED_ITEMS_COUNT = 2;
+    private int lastAnimatedPosition = -1;
+
+    private void runEnterAnimation(View view, int position) {
+        if (position >= ANIMATED_ITEMS_COUNT - 1) {
+            return;
+        }
+
+        if (position > lastAnimatedPosition) {
+            lastAnimatedPosition = position;
+            view.setTranslationY(Utils.getScreenHeight(getContext()));
+            view.animate()
+                    .translationY(0)
+                    .setInterpolator(new DecelerateInterpolator(3.f))
+                    .setDuration(700)
+                    .start();
+        }
+    }
+
 
 }

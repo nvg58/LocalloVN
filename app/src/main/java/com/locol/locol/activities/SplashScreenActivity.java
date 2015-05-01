@@ -7,8 +7,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.locol.locol.helpers.Preferences;
 import com.locol.locol.R;
+import com.locol.locol.helpers.Preferences;
 import com.locol.locol.pojo.Account;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseUser;
@@ -55,11 +55,10 @@ public class SplashScreenActivity extends ActionBarActivity {
                         startActivity(intent);
                         finish();
                     }
+                } else {
+                    Intent intent = new Intent(SplashScreenActivity.this, WalkthroughActivity.class);
+                    startActivity(intent);
                 }
-
-
-                Intent intent = new Intent(SplashScreenActivity.this, WalkthroughActivity.class);
-                startActivity(intent);
 
                 SplashScreenActivity.this.finish();
 

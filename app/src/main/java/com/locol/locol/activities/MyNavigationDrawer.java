@@ -29,6 +29,8 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
 
     @Override
     public void init(Bundle savedInstanceState) {
+        this.disableLearningPattern();
+        this.enableToolbarElevation();
 
         // add accounts
         final MaterialAccount account = new MaterialAccount(

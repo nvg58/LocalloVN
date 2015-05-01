@@ -4,29 +4,37 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
-import com.locol.locol.helpers.EndlessRecyclerOnScrollListener;
-import com.locol.locol.helpers.FeedItemsLoadedListener;
-import com.locol.locol.application.MainApplication;
-import com.locol.locol.adapters.MyRecyclerAdapter;
-import com.locol.locol.helpers.Parser;
 import com.locol.locol.R;
+import com.locol.locol.adapters.MyRecyclerAdapter;
+import com.locol.locol.adapters.ThingsAdapter;
+import com.locol.locol.application.MainApplication;
+import com.locol.locol.helpers.FeedItemsLoadedListener;
+import com.locol.locol.helpers.Parser;
 import com.locol.locol.networks.Requestor;
 import com.locol.locol.networks.VolleySingleton;
 import com.locol.locol.pojo.FeedItem;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -51,6 +59,8 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
     private ImageLoader imageLoader;
     private RequestQueue requestQueue;
     private MyRecyclerAdapter mAdapter;
+    private ListView listView;
+    private ThingsAdapter adapter;
 
     private ProgressBar progressBar;
 
@@ -73,7 +83,7 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_feed, container, false);
+        final View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
 
@@ -82,33 +92,62 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         mSwipeRefreshLayout.setColorSchemeResources(
                 R.color.color_feed_primary
         );
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+        mSwipeRefreshLayout.setRefreshing(true);
+
+//        mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+//        mRecyclerView.setLayoutManager(linearLayoutManager);
+//        mRecyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+//            @Override
+//            public void onLoadMore(int currentPage) {
+//                loadFeedItems(currentPage);
+//            }
+//        });
+//
+//        mAdapter = new MyRecyclerAdapter(getActivity(), feedItemList);
+//        mRecyclerView.setAdapter(mAdapter);
+//
+//        if (savedInstanceState != null) {
+//            //if this fragment starts after a rotation or configuration change, load the existing movies from a parcelable
+//            feedItemList = savedInstanceState.getParcelableArrayList(STATE_FEED_ITEMS);
+//        } else {
+//            //if this fragment starts for the first time, load the list of movies from a database
+//            feedItemList = MainApplication.getWritableDatabase().getAllFeedItems();
+//            //if the database is empty, trigger an AsyncTask to download movie list from the web
+//            if (feedItemList.isEmpty()) {
+////                new TaskLoadFeedItems(this).execute(0);
+//                loadFeedItems(0);
+//            }
+//        }
+//
+//        mAdapter.setFeedItems(feedItemList);
+
+        final List<String> listCats = new ArrayList<>();
+
+        ParseUser user = ParseUser.getCurrentUser();
+        ParseRelation<ParseObject> relation = user.getRelation("interest");
+        relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
             @Override
-            public void onLoadMore(int currentPage) {
-                loadFeedItems(currentPage);
+            public void done(List<ParseObject> list, ParseException e) {
+                for (ParseObject o : list) {
+                    listCats.add(o.getString("name"));
+                }
+
+                ParseQueryAdapter.QueryFactory<ParseObject> parseQuery = new ParseQueryAdapter.QueryFactory<ParseObject>() {
+                    public ParseQuery create() {
+                        ParseQuery query = new ParseQuery("Event");
+                        query.whereContainedIn("category", listCats);
+                        query.orderByDescending("start_date");
+                        return query;
+                    }
+                };
+                adapter = new ThingsAdapter(getActivity(), parseQuery);
+                listView = (ListView) view.findViewById(R.id.list_view);
+                listView.setAdapter(adapter);
+                adapter.loadObjects();
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
-
-        mAdapter = new MyRecyclerAdapter(getActivity(), feedItemList);
-        mRecyclerView.setAdapter(mAdapter);
-
-        if (savedInstanceState != null) {
-            //if this fragment starts after a rotation or configuration change, load the existing movies from a parcelable
-            feedItemList = savedInstanceState.getParcelableArrayList(STATE_FEED_ITEMS);
-        } else {
-            //if this fragment starts for the first time, load the list of movies from a database
-            feedItemList = MainApplication.getWritableDatabase().getAllFeedItems();
-            //if the database is empty, trigger an AsyncTask to download movie list from the web
-            if (feedItemList.isEmpty()) {
-//                new TaskLoadFeedItems(this).execute(0);
-                loadFeedItems(0);
-            }
-        }
-
-        mAdapter.setFeedItems(feedItemList);
 
         return view;
     }
@@ -127,13 +166,14 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         if (mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(false);
         }
-        mAdapter.setFeedItems(feedItems);
+//        mAdapter.setFeedItems(feedItems);
+        adapter.loadObjects();
     }
 
     @Override
     public void onRefresh() {
 //        new TaskLoadFeedItems(this).execute(0);
-        loadFeedItems(0);
+//        loadFeedItems(0);
     }
 
     private class TaskLoadFeedItems extends AsyncTask<Integer, Void, ArrayList<FeedItem>> {
