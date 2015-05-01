@@ -1,16 +1,6 @@
 package com.locol.locol.pojo;
 
-import android.app.Application;
 import android.graphics.Bitmap;
-import android.util.Log;
-import android.widget.Toast;
-
-import com.locol.locol.MainApplication;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
-
-import java.util.UUID;
 
 /**
  * Created by GiapNV on 3/9/15.

@@ -19,7 +19,7 @@
         android:required="true" />
 
     <application
-        android:name=".MainApplication"
+        android:name=".application.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -32,25 +32,25 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <activity
-            android:name=".MyNavigationDrawer"
+            android:name=".activities.MyNavigationDrawer"
             android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".WalkthroughActivity" />
+        <activity android:name=".activities.WalkthroughActivity" />
 
         <activity
-            android:name=".SettingActivity"
+            android:name=".activities.SettingActivity"
             android:label="@string/title_activity_setting"
-            android:parentActivityName=".MyNavigationDrawer">
+            android:parentActivityName=".activities.MyNavigationDrawer">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.locol.locol.MyNavigationDrawer" />
+                android:value=".activities.MyNavigationDrawer" />
         </activity>
 
-        <activity android:name=".DetailsEventActivity" />
+        <activity android:name=".activities.DetailsEventActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -67,30 +67,30 @@
             android:exported="true" />
 
         <activity
-            android:name=".TrendingActivity"
+            android:name=".activities.TrendingActivity"
             android:label="@string/title_activity_trending" />
 
         <activity
-            android:name=".NewEventsActivity"
+            android:name=".activities.NewEventsActivity"
             android:label="@string/title_activity_new_events" />
 
         <activity
-            android:name=".ComingSoonActivity"
+            android:name=".activities.ComingSoonActivity"
             android:label="@string/title_activity_coming_soon" />
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:label="@string/title_activity_coming_soon" />
 
         <activity
-            android:name=".ChooseCategoryActivity"
+            android:name=".activities.ChooseCategoryActivity"
             android:label="@string/title_activity_choose_category" />
 
         <activity
-            android:name=".MostFavouriteActivity"
+            android:name=".activities.MostFavouriteActivity"
             android:label="@string/title_activity_most_favourite" />
 
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
