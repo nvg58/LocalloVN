@@ -7,19 +7,22 @@
     tools:context=".MyActivity">
 
     <!--<view-->
-        <!--android:id="@+id/recycler_view"-->
-        <!--class="android.support.v7.widget.RecyclerView"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:layout_alignParentLeft="true" />-->
+    <!--android:id="@+id/recycler_view"-->
+    <!--class="android.support.v7.widget.RecyclerView"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent"-->
+    <!--android:layout_alignParentLeft="true" />-->
 
     <ListView
-        android:layout_below="@id/app_bar"
         android:id="@+id/list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_alignParentLeft="true" />
-
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/app_bar"
+        android:divider="@color/transparent"
+        android:dividerHeight="@dimen/size_byte"
+        android:padding="@dimen/size_byte"
+        android:scrollbars="none" />
 
 
 </android.support.v4.widget.SwipeRefreshLayout>
