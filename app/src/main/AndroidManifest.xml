@@ -24,11 +24,13 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
         <activity
             android:name=".MyNavigationDrawer"
             android:theme="@style/AppTheme" />
@@ -37,9 +39,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".WalkthroughActivity">
+        <activity android:name=".WalkthroughActivity" />
 
-        </activity>
         <activity
             android:name=".SettingActivity"
             android:label="@string/title_activity_setting"
@@ -48,9 +49,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.locol.locol.MyNavigationDrawer" />
         </activity>
-        <activity
-            android:name=".DetailsEventActivity"
-            android:label="" />
+
+        <activity android:name=".DetailsEventActivity" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -69,27 +69,34 @@
         <activity
             android:name=".TrendingActivity"
             android:label="@string/title_activity_trending" />
+
         <activity
             android:name=".NewEventsActivity"
             android:label="@string/title_activity_new_events" />
+
         <activity
             android:name=".ComingSoonActivity"
             android:label="@string/title_activity_coming_soon" />
+
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_coming_soon" />
+
         <activity
             android:name=".ChooseCategoryActivity"
             android:label="@string/title_activity_choose_category" />
+
         <activity
             android:name=".MostFavouriteActivity"
             android:label="@string/title_activity_most_favourite" />
+
         <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
