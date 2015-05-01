@@ -62,7 +62,7 @@ public class LoginActivity extends ActionBarActivity {
                                         Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_EMAIL, Account.getUserEmail());
                                         Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_NAME, Account.getUserName());
 
-                                        startActivity(new Intent(LoginActivity.this, MyNavigationDrawer.class));
+                                        startActivity(new Intent(LoginActivity.this, ChooseCategoryActivity.class));
                                         finish();
                                     } catch (JSONException e) {
                                         e.printStackTrace();

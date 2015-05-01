@@ -43,19 +43,19 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
                 "Feed",
                 R.mipmap.ic_event_grey600_24dp,
                 new FeedFragment()).setSectionColor(getResources().getColor(R.color.color_feed_primary),
-                getResources().getColor(R.color.colorFeedPrimaryDark)));
+                getResources().getColor(R.color.color_feed_drimary_dark)));
 
         this.addSection(newSection(
                 "Explore",
                 R.mipmap.ic_explore_grey600_24dp,
                 new ExploreFragment()).setSectionColor(getResources().getColor(R.color.color_explore_primary),
-                getResources().getColor(R.color.colorExplorePrimaryDark)));
+                getResources().getColor(R.color.color_explore_primary_dark)));
 
         this.addSection(newSection(
                 "Profile",
                 R.mipmap.ic_account_box_grey600_24dp,
-                new ProfileFragment()).setSectionColor(getResources().getColor(R.color.colorAccountPrimary),
-                getResources().getColor(R.color.colorAccountPrimaryDark)));
+                new ProfileFragment()).setSectionColor(getResources().getColor(R.color.color_account_primary),
+                getResources().getColor(R.color.color_account_primary_dark)));
 
         this.addBottomSection(newSection(
                 "Settings",

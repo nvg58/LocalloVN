@@ -2,9 +2,9 @@
 <resources>
     <style name="AppTheme" parent="AppTheme.Base">
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlHighlight">@color/colorHighlight</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="colorControlHighlight">@color/color_highlight</item>
     </style>
 </resources>

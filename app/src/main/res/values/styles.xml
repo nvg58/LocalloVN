@@ -6,10 +6,10 @@
     </style>
 
     <style name="AppTheme.Base" parent="MaterialNavigationDrawerTheme.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/colorWindowBackground</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="android:windowBackground">@color/color_window_background</item>
         <item name="rippleBackport">true</item>
         <item name="singleAccount">true</item>
     </style>

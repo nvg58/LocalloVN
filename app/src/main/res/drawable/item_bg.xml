@@ -6,7 +6,7 @@
         android:drawable="@android:color/white"></item>
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/colorHighlight" />
+            <solid android:color="@color/color_highlight" />
         </shape>
     </item>
     <item>

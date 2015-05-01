@@ -1,4 +1,4 @@
-package com.locol.locol.holders;
+package com.locol.locol.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

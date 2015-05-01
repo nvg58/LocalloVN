@@ -4,7 +4,6 @@
     tools:context="com.locol.locol.activities.ChooseCategoryActivity">
     <item
         android:id="@+id/action_next"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:title="@string/action_next"
+        app:showAsAction="ifRoom" />
 </menu>

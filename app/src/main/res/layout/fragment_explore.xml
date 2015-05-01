@@ -8,7 +8,7 @@
         android:id="@+id/scrollExplore"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWindowBackground"
+        android:background="@color/color_window_background"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -68,7 +68,7 @@
                     android:paddingTop="20dp"
                     android:selectableItemBackground="@drawable/item_bg"
                     android:text="Trending"
-                    android:textColor="@color/colorPrimaryText" />
+                    android:textColor="@color/color_primary_text" />
 
                 <TextView
                     android:id="@+id/btn_new"
@@ -86,7 +86,7 @@
                     android:paddingRight="10dp"
                     android:paddingTop="20dp"
                     android:text="New"
-                    android:textColor="@color/colorPrimaryText" />
+                    android:textColor="@color/color_primary_text" />
             </LinearLayout>
 
             <LinearLayout
@@ -114,7 +114,7 @@
                     android:paddingRight="10dp"
                     android:paddingTop="20dp"
                     android:text="Coming soon"
-                    android:textColor="@color/colorPrimaryText" />
+                    android:textColor="@color/color_primary_text" />
 
                 <TextView
                     android:id="@+id/btn_most_favourite"
@@ -132,7 +132,7 @@
                     android:paddingRight="10dp"
                     android:paddingTop="20dp"
                     android:text="Most favourite"
-                    android:textColor="@color/colorPrimaryText" />
+                    android:textColor="@color/color_primary_text" />
             </LinearLayout>
 
             <LinearLayout
@@ -148,7 +148,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.2"
                     android:src="@mipmap/ic_assessment_black_18dp"
-                    android:tint="@color/colorAccent" />
+                    android:tint="@color/color_accent" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -157,7 +157,7 @@
                     android:layout_marginLeft="@dimen/size_byte"
                     android:layout_weight="1"
                     android:text="YOU'RE FOLLOWING"
-                    android:textColor="@color/colorPrimaryText"
+                    android:textColor="@color/color_primary_text"
                     android:textSize="18sp" />
 
                 <ImageButton

@@ -15,7 +15,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
-import com.locol.locol.holders.FeedListRowHolder;
 import com.locol.locol.application.MainApplication;
 import com.locol.locol.R;
 import com.locol.locol.helpers.Utils;
