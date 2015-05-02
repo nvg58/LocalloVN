@@ -101,11 +101,11 @@ public class ChooseCategoryActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_next:
-                if (selectedCat.size() <= MAX_NEEDED_CATS) {
+                if (selectedCat.size() < MAX_NEEDED_CATS) {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 
                     // Setting Dialog Message
-                    alertDialog.setMessage("You have to choose at least three categories to continue!");
+                    alertDialog.setMessage("You need to choose at least " + MAX_NEEDED_CATS + " categories to continue!");
 
                     alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -116,7 +116,7 @@ public class ChooseCategoryActivity extends ActionBarActivity {
                     // Showing Alert Message
                     alertDialog.show();
                 } else {
-                    for (String catId: selectedCat) {
+                    for (String catId : selectedCat) {
                         ParseUser user = ParseUser.getCurrentUser();
                         ParseRelation<ParseObject> relation = user.getRelation("interest");
                         relation.add(ParseObject.createWithoutData("Category", catId));

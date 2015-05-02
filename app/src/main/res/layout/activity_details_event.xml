@@ -165,6 +165,7 @@
                     android:id="@+id/rvsp_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:paddingBottom="@dimen/size_word"
                     android:paddingRight="@dimen/size_word"
                     android:paddingTop="@dimen/size_word"
@@ -173,15 +174,15 @@
                     android:textSize="@dimen/size_text_secondary"
                     android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/btn_maybe"
-                    android:layout_width="0dp"
-                    android:layout_height="36dp"
-                    android:layout_margin="0dp"
-                    android:layout_weight="0.5"
-                    android:background="@color/color_window_background"
-                    android:elevation="8dp"
-                    android:text="MAY BE" />
+                <!--<Button-->
+                <!--android:id="@+id/btn_maybe"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="36dp"-->
+                <!--android:layout_margin="0dp"-->
+                <!--android:layout_weight="0.5"-->
+                <!--android:background="@color/color_window_background"-->
+                <!--android:elevation="8dp"-->
+                <!--android:text="MAY BE" />-->
 
                 <Button
                     android:id="@+id/btn_yes"
@@ -196,7 +197,7 @@
             <RelativeLayout
                 android:id="@+id/detailSection"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_below="@id/rvspSection"
                 android:layout_marginLeft="@dimen/size_byte"
                 android:layout_marginRight="@dimen/size_byte"

@@ -23,18 +23,23 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
-import com.locol.locol.helpers.GPSTracker;
-import com.locol.locol.application.MainApplication;
 import com.locol.locol.R;
+import com.locol.locol.helpers.GPSTracker;
 import com.locol.locol.networks.VolleySingleton;
 import com.locol.locol.pojo.Account;
 import com.manuelpeinado.fadingactionbar.view.ObservableScrollable;
 import com.manuelpeinado.fadingactionbar.view.OnScrollChangedCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 
 public class DetailsEventActivity extends ActionBarActivity implements OnScrollChangedCallback {
@@ -56,8 +61,9 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
     private String organizer;
     private String description;
     private String url_thumbnail;
-    private int loved;
-    private int joining;
+    //    private int loved;
+//    private int joining;
+    private String event_id;
 
     CallbackManager callbackManager;
     ShareDialog shareDialog;
@@ -81,8 +87,9 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         organizer = extras.getString("EXTRA_FEED_ORGANIZER");
         description = extras.getString("EXTRA_FEED_DESCRIPTION");
         url_thumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
-        loved = extras.getInt("EXTRA_FEED_LOVED");
-        joining = extras.getInt("EXTRA_FEED_JOINING");
+//        loved = extras.getInt("EXTRA_FEED_LOVED");
+//        joining = extras.getInt("EXTRA_FEED_JOINING");
+        event_id = extras.getString("EXTRA_EVENT_ID");
 
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         mActionBarBackgroundDrawable = mToolbar.getBackground();
@@ -156,36 +163,60 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             });
 
             final Button btnYes = (Button) findViewById(R.id.btn_yes);
-            final Button btnMaybe = (Button) findViewById(R.id.btn_maybe);
+//            final Button btnMaybe = (Button) findViewById(R.id.btn_maybe);
             final TextView rvspTitle = (TextView) findViewById(R.id.rvsp_title);
 
-            loved = MainApplication.getWritableDatabase().getLovedFeedItem(title);
-            joining = MainApplication.getWritableDatabase().getJoiningFeedItem(title);
-            if (joining == 1) {
-                rvspTitle.setText(R.string.going_text);
-                rvspTitle.setAllCaps(false);
+//            loved = MainApplication.getWritableDatabase().getLovedFeedItem(title);
+//            joining = MainApplication.getWritableDatabase().getJoiningFeedItem(title);
+//            if (joining == 1) {
+//                rvspTitle.setText(R.string.going_text);
+//                rvspTitle.setAllCaps(false);
+//
+//                btnYes.setVisibility(View.GONE);
+//                btnMaybe.setVisibility(View.GONE);
+//            }
 
-                btnYes.setVisibility(View.GONE);
-                btnMaybe.setVisibility(View.GONE);
-            }
-
+//            btnYes.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    btnYes.setVisibility(View.GONE);
+//                    if (btnMaybe.getVisibility() != View.GONE) {
+//                        btnMaybe.setVisibility(View.GONE);
+//                    }
+//                    rvspTitle.setText(R.string.going_text);
+//                    rvspTitle.setAllCaps(false);
+//
+//                    MainApplication.getWritableDatabase().updateJoiningFeedItem(title, 1);
+//                }
+//            });
+//            btnMaybe.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    btnMaybe.setVisibility(View.GONE);
+//                }
+//            });
+            final ParseUser user = ParseUser.getCurrentUser();
+            final ParseRelation<ParseObject> relation = user.getRelation("join");
             btnYes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    relation.add(ParseObject.createWithoutData("Event", event_id));
+                    user.saveInBackground();
                     btnYes.setVisibility(View.GONE);
-                    if (btnMaybe.getVisibility() != View.GONE) {
-                        btnMaybe.setVisibility(View.GONE);
-                    }
                     rvspTitle.setText(R.string.going_text);
                     rvspTitle.setAllCaps(false);
-
-                    MainApplication.getWritableDatabase().updateJoiningFeedItem(title, 1);
                 }
             });
-            btnMaybe.setOnClickListener(new View.OnClickListener() {
+
+            relation.getQuery().whereEqualTo("objectId", event_id);
+            relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
                 @Override
-                public void onClick(View v) {
-                    btnMaybe.setVisibility(View.GONE);
+                public void done(List<ParseObject> list, ParseException e) {
+                    if (!list.isEmpty()) {
+                        btnYes.setVisibility(View.GONE);
+                        rvspTitle.setText(R.string.going_text);
+                        rvspTitle.setAllCaps(false);
+                    }
                 }
             });
         }
