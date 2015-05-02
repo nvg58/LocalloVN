@@ -12,8 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.locol.locol.CategoryViewActivity;
-import com.locol.locol.views.ExpandableHeightGridView;
-import com.locol.locol.views.ExpandableHeightListView;
 import com.locol.locol.R;
 import com.locol.locol.activities.ComingSoonActivity;
 import com.locol.locol.activities.MostFavouriteActivity;
@@ -21,6 +19,8 @@ import com.locol.locol.activities.NewEventsActivity;
 import com.locol.locol.activities.TrendingActivity;
 import com.locol.locol.adapters.CategoryAdapter;
 import com.locol.locol.adapters.ListCategoryAdapter;
+import com.locol.locol.views.ExpandableHeightGridView;
+import com.locol.locol.views.ExpandableHeightListView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -38,6 +38,19 @@ public class ExploreFragment extends Fragment {
 
     public ExploreFragment() {
         // Required empty public constructor
+    }
+
+    private static final String KEY_TITLE = "title";
+
+    public static ExploreFragment newInstance(String title) {
+        ExploreFragment f = new ExploreFragment();
+
+        Bundle args = new Bundle();
+
+        args.putString(KEY_TITLE, title);
+        f.setArguments(args);
+
+        return (f);
     }
 
 
@@ -120,7 +133,7 @@ public class ExploreFragment extends Fragment {
                 return query;
             }
         });
-        ExpandableHeightListView lv= (ExpandableHeightListView) v.findViewById(R.id.list_view);
+        ExpandableHeightListView lv = (ExpandableHeightListView) v.findViewById(R.id.list_view);
         lv.setExpanded(true);
         lv.setAdapter(listCategoryAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -136,5 +149,6 @@ public class ExploreFragment extends Fragment {
 
         return v;
     }
+
 
 }

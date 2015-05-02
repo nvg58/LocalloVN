@@ -70,6 +70,19 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
         // Required empty public constructor
     }
 
+
+    private static final String KEY_TITLE = "title";
+    public static FeedFragment newInstance(String title) {
+        FeedFragment f = new FeedFragment();
+
+        Bundle args = new Bundle();
+
+        args.putString(KEY_TITLE, title);
+        f.setArguments(args);
+
+        return (f);
+    }
+
     public static FeedFragment newInstance(String param1, String param2) {
         FeedFragment fragment = new FeedFragment();
         Bundle args = new Bundle();
@@ -232,4 +245,5 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
             }
         }
     }
+
 }

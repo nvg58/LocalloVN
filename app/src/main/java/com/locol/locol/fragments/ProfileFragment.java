@@ -21,6 +21,19 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    private static final String KEY_TITLE = "title";
+    public static ProfileFragment newInstance(String title) {
+        ProfileFragment f = new ProfileFragment();
+
+        Bundle args = new Bundle();
+
+        args.putString(KEY_TITLE, title);
+        f.setArguments(args);
+
+        return (f);
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -26,4 +26,12 @@
     <string name="title_activity_slash_screen">Slash Screen</string>
     <string name="action_next">Next</string>
     <string name="title_activity_category_view">Category</string>
+
+    <string name="drawer_item_feed">Feed</string>
+    <string name="drawer_item_explore">Explore</string>
+    <string name="drawer_item_profile">Profile</string>
+    <string name="drawer_item_settings">Settings</string>
+    <string name="drawer_item_help_and_feedback">Help &amp; Feedback</string>
+    <string name="drawer_item_about_us">About Us</string>
+
 </resources>
