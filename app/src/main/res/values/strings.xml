@@ -25,4 +25,5 @@
     <string name="title_activity_most_favourite">Most favourite</string>
     <string name="title_activity_slash_screen">Slash Screen</string>
     <string name="action_next">Next</string>
+    <string name="title_activity_category_view">Category</string>
 </resources>

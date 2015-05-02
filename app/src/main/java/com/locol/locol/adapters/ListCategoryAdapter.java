@@ -1,9 +1,6 @@
 package com.locol.locol.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,15 +37,12 @@ public class ListCategoryAdapter extends ParseQueryAdapter<ParseObject> {
 
         try {
             Class res = R.drawable.class;
-            Field field = res.getField(object.getString("slug"));
+            Field field = res.getField("ic_" + object.getString("slug"));
             int drawableId = field.getInt(null);
             d = getContext().getResources().getDrawable(drawableId);
         } catch (Exception e) {
             Log.e("ListCategoryAdapter", "Failure to get drawable id.", e);
         }
-
-        ColorFilter filter = new LightingColorFilter(Color.BLACK, Color.BLACK );
-        d.setColorFilter(filter);
 
         image.setImageDrawable(d);
 

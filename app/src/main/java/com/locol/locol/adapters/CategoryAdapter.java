@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.locol.locol.viewa.CheckableRelativeLayout;
+import com.locol.locol.views.CheckableRelativeLayout;
 import com.locol.locol.R;
 import com.locol.locol.helpers.Preferences;
 import com.parse.ParseObject;

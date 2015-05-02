@@ -11,8 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.locol.locol.viewa.ExpandableHeightGridView;
-import com.locol.locol.viewa.ExpandableHeightListView;
+import com.locol.locol.CategoryViewActivity;
+import com.locol.locol.views.ExpandableHeightGridView;
+import com.locol.locol.views.ExpandableHeightListView;
 import com.locol.locol.R;
 import com.locol.locol.activities.ComingSoonActivity;
 import com.locol.locol.activities.MostFavouriteActivity;
@@ -106,6 +107,9 @@ public class ExploreFragment extends Fragment {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 // start Category activity
+                Intent intent = new Intent(getActivity(), CategoryViewActivity.class);
+                intent.putExtra("cat_name", ((TextView) v.findViewById(R.id.text)).getText().toString());
+                startActivity(intent);
             }
         });
 
@@ -119,10 +123,18 @@ public class ExploreFragment extends Fragment {
         ExpandableHeightListView lv= (ExpandableHeightListView) v.findViewById(R.id.list_view);
         lv.setExpanded(true);
         lv.setAdapter(listCategoryAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // start Category activity
+                Intent intent = new Intent(getActivity(), CategoryViewActivity.class);
+                intent.putExtra("cat_name", ((TextView) view.findViewById(R.id.text)).getText().toString());
+                startActivity(intent);
+            }
+        });
         listCategoryAdapter.loadObjects();
 
         return v;
     }
-
 
 }

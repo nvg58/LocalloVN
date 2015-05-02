@@ -1,4 +1,4 @@
-package com.locol.locol.viewa;
+package com.locol.locol.views;
 
 import android.content.Context;
 import android.util.AttributeSet;

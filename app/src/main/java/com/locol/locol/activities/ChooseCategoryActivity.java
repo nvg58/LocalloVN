@@ -14,10 +14,10 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.locol.locol.viewa.CheckableRelativeLayout;
 import com.locol.locol.R;
 import com.locol.locol.adapters.CategoryAdapter;
 import com.locol.locol.helpers.Preferences;
+import com.locol.locol.views.CheckableRelativeLayout;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
