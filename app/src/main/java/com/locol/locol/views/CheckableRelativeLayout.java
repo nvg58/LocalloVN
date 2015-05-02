@@ -1,4 +1,4 @@
-package com.locol.locol;
+package com.locol.locol.viewa;
 
 /**
  * https://github.com/marvinlabs/android-tutorials-custom-selectable-listview/blob/master/src/fr/marvinlabs/widget/CheckableRelativeLayout.java
