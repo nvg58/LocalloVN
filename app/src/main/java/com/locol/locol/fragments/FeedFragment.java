@@ -156,10 +156,9 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
                 };
                 adapter = new ThingsAdapter(getActivity(), parseQuery);
                 listView = (ListView) view.findViewById(R.id.list_view);
-                listView.setEmptyView(view.findViewById(R.id.progress_bar));
                 listView.setAdapter(adapter);
                 adapter.loadObjects();
-
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         });
 
@@ -181,14 +180,13 @@ public class FeedFragment extends Fragment implements FeedItemsLoadedListener, S
             mSwipeRefreshLayout.setRefreshing(false);
         }
 //        mAdapter.setFeedItems(feedItems);
-        adapter.notifyDataSetChanged();
+        adapter.loadObjects();
     }
 
     @Override
     public void onRefresh() {
 //        new TaskLoadFeedItems(this).execute(0);
 //        loadFeedItems(0);
-        adapter.loadObjects();
     }
 
     private class TaskLoadFeedItems extends AsyncTask<Integer, Void, ArrayList<FeedItem>> {

@@ -171,7 +171,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title_followed"
             android:layout_centerHorizontal="true"
-            android:visibility="gone"
             android:layout_centerVertical="true" />
 
         <com.locol.locol.views.ExpandableHeightGridView
