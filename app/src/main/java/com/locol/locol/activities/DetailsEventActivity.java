@@ -30,8 +30,10 @@ import com.locol.locol.pojo.Account;
 import com.manuelpeinado.fadingactionbar.view.ObservableScrollable;
 import com.manuelpeinado.fadingactionbar.view.OnScrollChangedCallback;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
@@ -202,6 +204,16 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                 public void onClick(View v) {
                     relation.add(ParseObject.createWithoutData("Event", event_id));
                     user.saveInBackground();
+
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+                    query.getInBackground(event_id, new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            parseObject.increment("joining");
+                            parseObject.saveInBackground();
+                        }
+                    });
+
                     btnYes.setVisibility(View.GONE);
                     rvspTitle.setText(R.string.going_text);
                     rvspTitle.setAllCaps(false);

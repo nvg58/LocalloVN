@@ -1,12 +1,16 @@
 package com.locol.locol.adapters;
 
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
@@ -18,16 +22,29 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.locol.locol.R;
 import com.locol.locol.activities.DetailsEventActivity;
 import com.locol.locol.application.MainApplication;
+import com.locol.locol.helpers.Preferences;
 import com.locol.locol.helpers.Utils;
 import com.locol.locol.networks.VolleySingleton;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ThingsAdapter extends ParseQueryAdapter<ParseObject> {
+
+    private final Map<RecyclerView.ViewHolder, AnimatorSet> likeAnimations = new HashMap<>();
 
     public ThingsAdapter(Context context, ParseQueryAdapter.QueryFactory<ParseObject> parseQuery) {
         super(context, parseQuery);
@@ -83,11 +100,64 @@ public class ThingsAdapter extends ParseQueryAdapter<ParseObject> {
             }
         });
 
-        ImageButton btnLove = (ImageButton) v.findViewById(R.id.btnLove);
-        boolean isLoved = false;
+        final ImageButton btnLove = (ImageButton) v.findViewById(R.id.btnLove);
+
+        object.pinInBackground();
+
+        final ParseUser user = ParseUser.getCurrentUser();
+        final ParseRelation<ParseObject> relation = user.getRelation("love");
+        final ParseQuery query = relation.getQuery();
+        query.fromLocalDatastore();
+
+        btnLove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                query.whereEqualTo("objectId", object.getObjectId());
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> list, ParseException e) {
+                        if (list.isEmpty()) {
+                            btnLove.setImageResource(R.drawable.ic_heart_red);
+
+                            relation.add(object);
+                            user.saveEventually();
+
+                            object.increment("loved");
+                            object.saveEventually();
+
+                            Set<String> ids = Preferences.readFromPreferencesToSet(getContext(), "_user_love", "id", new HashSet<String>());
+                            ids.add(object.getObjectId());
+                            Preferences.saveToPreferences(getContext(), "_user_love", "id", ids);
+                        } else {
+                            btnLove.setImageResource(R.drawable.ic_heart_outline_grey);
+
+                            relation.remove(object);
+                            user.saveEventually();
+
+                            object.put("loved", Math.max(0, object.getInt("loved") - 1));
+                            object.saveEventually();
+
+                            Set<String> ids = Preferences.readFromPreferencesToSet(getContext(), "_user_love", "id", new HashSet<String>());
+                            ids.remove(object.getObjectId());
+                            Preferences.saveToPreferences(getContext(), "_user_love", "id", ids);
+                        }
+                    }
+                });
+
+                Animation bounce = AnimationUtils.loadAnimation(getContext(), R.anim.bounce);
+                btnLove.startAnimation(bounce);
+            }
+        });
+
+        if (Preferences.readFromPreferencesToSet(getContext(), "_user_love", "id", new HashSet<String>()).contains(object.getObjectId())) {
+            btnLove.setImageResource(R.drawable.ic_heart_red);
+        } else {
+            btnLove.setImageResource(R.drawable.ic_heart_outline_grey);
+        }
 
         return v;
     }
+
 
     private void startActivityOnClick(ParseObject object) {
         //Disable enter transition for new Acitvity
