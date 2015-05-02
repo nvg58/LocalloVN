@@ -45,8 +45,7 @@ public class MostFavouriteActivity extends ActionBarActivity {
         ParseQueryAdapter.QueryFactory<ParseObject> parseQuery = new ParseQueryAdapter.QueryFactory<ParseObject>() {
             public ParseQuery create() {
                 ParseQuery query = new ParseQuery("Event");
-                query.whereEqualTo("category", "Hội thảo");
-                query.orderByDescending("start_date");
+                query.orderByDescending("loved");
                 return query;
             }
         };
