@@ -5,17 +5,13 @@
 
     </style>
 
-    <style name="AppTheme.Base" parent="MaterialDrawerTheme.ActionBar.TranslucentStatus"> <!--parent="MaterialNavigationDrawerTheme.Light.DarkActionBar"> -->
+    <style name="AppTheme.Base" parent="MaterialNavigationDrawerTheme.Light.DarkActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:windowBackground">@color/color_window_background</item>
-        <item name="android:windowActionBarOverlay">true</item>
-        <item name="android:textColorSecondary">@color/color_primary_text</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <!--<item name="rippleBackport">true</item>-->
-        <!--<item name="singleAccount">true</item>-->
+        <item name="rippleBackport">true</item>
+        <item name="singleAccount">true</item>
     </style>
 
     <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light">

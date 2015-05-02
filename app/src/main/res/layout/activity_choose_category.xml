@@ -6,7 +6,7 @@
 
     <include
         android:id="@+id/app_bar"
-        layout="@layout/app_bar_top" />
+        layout="@layout/app_bar" />
 
     <!--<Button-->
     <!--android:id="@+id/btn_next"-->
