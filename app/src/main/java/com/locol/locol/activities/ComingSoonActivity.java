@@ -1,31 +1,47 @@
 package com.locol.locol.activities;
 
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.locol.locol.helpers.EndlessRecyclerOnScrollListener;
+import com.locol.locol.helpers.FeedItemsLoadedListener;
+import com.locol.locol.adapters.MyRecyclerAdapter;
+import com.locol.locol.helpers.Parser;
 import com.locol.locol.R;
-import com.locol.locol.adapters.ThingsAdapter;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseQueryAdapter;
+import com.locol.locol.networks.Requestor;
+import com.locol.locol.networks.VolleySingleton;
+import com.locol.locol.pojo.FeedItem;
 
+import org.json.JSONArray;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
+import java.util.Date;
 
 
-public class ComingSoonActivity extends ActionBarActivity {
+public class ComingSoonActivity extends ActionBarActivity implements FeedItemsLoadedListener, SwipeRefreshLayout.OnRefreshListener {
     private Toolbar toolbar;
-    private ListView listView;
-    private ThingsAdapter adapter;
+    private RecyclerView recyclerView;
+    private MyRecyclerAdapter adapter;
+    SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
+    private ArrayList<FeedItem> feedItemList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,34 +57,34 @@ public class ComingSoonActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.color_explore_primary)));
 
-        ParseQueryAdapter.QueryFactory<ParseObject> parseQuery = new ParseQueryAdapter.QueryFactory<ParseObject>() {
-            public ParseQuery create() {
-                ParseQuery query = new ParseQuery("Event");
-                Calendar calendar = Calendar.getInstance();
-                query.whereGreaterThanOrEqualTo("start_date", calendar.getTime());
-                calendar.add(Calendar.DAY_OF_YEAR, 1); // tomorrow
-                query.whereLessThanOrEqualTo("start_date", calendar.getTime());
-                query.orderByDescending("start_date");
-                return query;
-            }
-        };
-        adapter = new ThingsAdapter(this, parseQuery);
-        listView = (ListView) findViewById(R.id.list_view);
-        listView.setAdapter(adapter);
-        adapter.loadObjects();
-        adapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<ParseObject>() {
-            @Override
-            public void onLoading() {
-                progressBar.setVisibility(View.VISIBLE);
-            }
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.color_explore_primary
+        );
 
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
             @Override
-            public void onLoaded(List<ParseObject> list, Exception e) {
-                if (list.isEmpty())
-                    Toast.makeText(ComingSoonActivity.this, "There are no coming soon events! Check back later!", Toast.LENGTH_SHORT).show();
-                progressBar.setVisibility(View.GONE);
+            public void onLoadMore(int currentPage) {
+                // do something...
+                Log.wtf("onLoadMore", currentPage + "");
+                loadFeedItems(currentPage);
             }
         });
+
+        adapter = new MyRecyclerAdapter(this, feedItemList);
+        recyclerView.setAdapter(adapter);
+
+        // load first 10 items
+        loadFeedItems(0);
+        adapter.setFeedItems(feedItemList);
+    }
+
+    private void loadFeedItems(int page) {
+        new TaskLoadFeedItems(this).execute(page);
     }
 
     @Override
@@ -99,6 +115,95 @@ public class ComingSoonActivity extends ActionBarActivity {
             this.finish();
         } else {
             getFragmentManager().popBackStack();
+        }
+    }
+
+
+    @Override
+    public void onFeedItemsLoaded(ArrayList<FeedItem> feedItems) {
+        adapter.setFeedItems(feedItems);
+    }
+
+    @Override
+    public void onRefresh() {
+//        loadFeedItems(0);
+    }
+
+    private class TaskLoadFeedItems extends AsyncTask<Integer, Void, ArrayList<FeedItem>> {
+        private FeedItemsLoadedListener myComponent;
+        private VolleySingleton volleySingleton;
+        private RequestQueue requestQueue;
+
+        public TaskLoadFeedItems(FeedItemsLoadedListener myComponent) {
+            this.myComponent = myComponent;
+            volleySingleton = VolleySingleton.getInstance();
+            requestQueue = volleySingleton.getRequestQueue();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            if (progressBar.getVisibility() != View.GONE)
+                progressBar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected ArrayList<FeedItem> doInBackground(Integer... params) {
+            // Eventbrite API
+            // String url = "https://www.eventbriteapi.com/v3/events/search/?venue.city=hanoi&token=DBEK5SF2SVBCTIV52X3L";
+
+            // Self hosting API
+            // String url = "http://104.236.40.66:27080/locoldb/events/_find?batch_size=100";
+
+            // Scrapinghub API
+            String latestJob = "https://storage.scrapinghub.com/jobq/13882/list?count=1";
+            JSONArray jobList = Requestor.sendRequestFeedItems(requestQueue, latestJob, ComingSoonActivity.this);
+            String job = Parser.parseLatestJobID(jobList);
+
+            Log.wtf("job id", job);
+
+            String url = "https://storage.scrapinghub.com/items/13882?start=" + job + "/" + 10 * params[0] + "&count=10";
+            JSONArray response = Requestor.sendRequestFeedItems(requestQueue, url, ComingSoonActivity.this);
+
+            ArrayList<FeedItem> feedItems = Parser.parseJSONResponse(response);
+
+            // sort feed items by start_date
+            // Collections.sort(feedItems);
+
+            // coming soon
+            ArrayList<FeedItem> comingItems = new ArrayList<>();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            for (FeedItem item : feedItems) {
+                try {
+                    Date sDate;
+                    sDate = dateFormat.parse(item.getStartDate());
+                    Long dT = sDate.getTime() - Calendar.getInstance().getTime().getTime();
+                    if (0 < dT && dT <= 1000 * 60 * 60 * 48) {
+                        Log.wtf("comingItems.add", sDate.toString());
+                        comingItems.add(item);
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            feedItemList.addAll(comingItems);
+//            Collections.sort(feedItemList);
+
+            return feedItemList;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<FeedItem> feedItems) {
+            progressBar.setVisibility(View.GONE);
+
+            if (feedItems.isEmpty()) {
+                Toast.makeText(ComingSoonActivity.this, "There are no coming soon events! Check back later!", Toast.LENGTH_SHORT).show();
+            }
+
+            if (myComponent != null) {
+                myComponent.onFeedItemsLoaded(feedItems);
+            }
         }
     }
 }
