@@ -11,8 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.locol.locol.ExpandableHeightGridView;
-import com.locol.locol.ExpandableHeightListView;
+import com.locol.locol.viewa.ExpandableHeightGridView;
+import com.locol.locol.viewa.ExpandableHeightListView;
 import com.locol.locol.R;
 import com.locol.locol.activities.ComingSoonActivity;
 import com.locol.locol.activities.MostFavouriteActivity;

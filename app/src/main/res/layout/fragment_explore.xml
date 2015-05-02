@@ -173,7 +173,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true" />
 
-        <com.locol.locol.ExpandableHeightGridView
+        <com.locol.locol.viewa.ExpandableHeightGridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
             android:textColor="@color/color_primary_text"
             android:textSize="18sp" />
 
-        <com.locol.locol.ExpandableHeightListView
+        <com.locol.locol.viewa.ExpandableHeightListView
             android:id="@+id/list_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
