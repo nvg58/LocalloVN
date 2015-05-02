@@ -9,6 +9,7 @@ import com.locol.locol.db.DBFeedItems;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 /**
@@ -28,6 +29,7 @@ public class MainApplication extends Application {
         // Required - Initialize the Parse SDK
         Parse.initialize(this, getString(R.string.parse_app_id),
                 getString(R.string.parse_client_key));
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         ParseFacebookUtils.initialize(this);
 
