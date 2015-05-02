@@ -15,10 +15,11 @@ import com.locol.locol.CategoryViewActivity;
 import com.locol.locol.R;
 import com.locol.locol.activities.ComingSoonActivity;
 import com.locol.locol.activities.MostFavouriteActivity;
-import com.locol.locol.activities.NewEventsActivity;
+import com.locol.locol.activities.NearestEventsActivity;
 import com.locol.locol.activities.TrendingActivity;
 import com.locol.locol.adapters.CategoryAdapter;
 import com.locol.locol.adapters.ListCategoryAdapter;
+import com.locol.locol.helpers.GPSTracker;
 import com.locol.locol.views.ExpandableHeightGridView;
 import com.locol.locol.views.ExpandableHeightListView;
 import com.parse.ParseObject;
@@ -72,7 +73,15 @@ public class ExploreFragment extends Fragment {
         btn_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), NewEventsActivity.class));
+                GPSTracker gps = new GPSTracker(getActivity());
+                if (gps.canGetLocation()) {
+                    Intent intent = new Intent(getActivity(), NearestEventsActivity.class);
+                    intent.putExtra("LAT", gps.getLatitude());
+                    intent.putExtra("LNG", gps.getLongitude());
+                    startActivity(intent);
+                } else {
+                    gps.showSettingsAlert();
+                }
             }
         });
 

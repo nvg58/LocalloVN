@@ -19,7 +19,7 @@
         <item quantity="other">%d likes</item>
     </plurals>
     <string name="title_activity_trending">Trending</string>
-    <string name="title_activity_new_events">New</string>
+    <string name="title_activity_nearest_events">Nearest</string>
     <string name="title_activity_coming_soon">Coming soon</string>
     <string name="title_activity_choose_category">ChooseCategoryActivity</string>
     <string name="title_activity_most_favourite">Most favourite</string>

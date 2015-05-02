@@ -203,14 +203,15 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                 @Override
                 public void onClick(View v) {
                     relation.add(ParseObject.createWithoutData("Event", event_id));
-                    user.saveInBackground();
+                    user.saveEventually();
 
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+                    query.fromLocalDatastore();
                     query.getInBackground(event_id, new GetCallback<ParseObject>() {
                         @Override
                         public void done(ParseObject parseObject, ParseException e) {
                             parseObject.increment("joining");
-                            parseObject.saveInBackground();
+                            parseObject.saveEventually();
                         }
                     });
 
@@ -220,8 +221,10 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                 }
             });
 
-            relation.getQuery().whereEqualTo("objectId", event_id);
-            relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
+            ParseQuery query = relation.getQuery();
+            query.fromLocalDatastore();
+            query.whereEqualTo("objectId", event_id);
+            query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> list, ParseException e) {
                     if (!list.isEmpty()) {

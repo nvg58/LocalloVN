@@ -81,7 +81,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="20dp"
-                android:text="New"
+                android:text="Nearest"
                 android:textColor="@color/color_primary_text" />
         </LinearLayout>
 

@@ -79,8 +79,8 @@
             android:name=".activities.TrendingActivity"
             android:label="@string/title_activity_trending" />
         <activity
-            android:name=".activities.NewEventsActivity"
-            android:label="@string/title_activity_new_events" />
+            android:name=".activities.NearestEventsActivity"
+            android:label="@string/title_activity_nearest_events" />
         <activity
             android:name=".activities.ComingSoonActivity"
             android:label="@string/title_activity_coming_soon" />
