@@ -7,13 +7,26 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.locol.locol.ExpandableHeightGridView;
+import com.locol.locol.ExpandableHeightListView;
 import com.locol.locol.R;
 import com.locol.locol.activities.ComingSoonActivity;
 import com.locol.locol.activities.MostFavouriteActivity;
 import com.locol.locol.activities.NewEventsActivity;
 import com.locol.locol.activities.TrendingActivity;
+import com.locol.locol.adapters.CategoryAdapter;
+import com.locol.locol.adapters.ListCategoryAdapter;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+
+import java.util.List;
 
 
 /**
@@ -64,6 +77,49 @@ public class ExploreFragment extends Fragment {
                 startActivity(new Intent(getActivity(), MostFavouriteActivity.class));
             }
         });
+
+        final ProgressBar progressBar = (ProgressBar) v.findViewById(R.id.progress_bar);
+        ExpandableHeightGridView gridview = (ExpandableHeightGridView) v.findViewById(R.id.gridview);
+        gridview.setExpanded(true);
+
+        ParseUser user = ParseUser.getCurrentUser();
+        final ParseRelation<ParseObject> relation = user.getRelation("interest");
+        ParseQueryAdapter.QueryFactory<ParseObject> parseQuery = new ParseQueryAdapter.QueryFactory<ParseObject>() {
+            public ParseQuery create() {
+                return relation.getQuery();
+            }
+        };
+        final CategoryAdapter adapter = new CategoryAdapter(getActivity(), parseQuery, false);
+        adapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<ParseObject>() {
+            @Override
+            public void onLoading() {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onLoaded(List<ParseObject> list, Exception e) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+        gridview.setAdapter(adapter);
+
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                // start Category activity
+            }
+        });
+
+        // all categories
+        final ListCategoryAdapter listCategoryAdapter = new ListCategoryAdapter(getActivity(), new ParseQueryAdapter.QueryFactory<ParseObject>() {
+            public ParseQuery create() {
+                ParseQuery query = new ParseQuery("Category");
+                return query;
+            }
+        });
+        ExpandableHeightListView lv= (ExpandableHeightListView) v.findViewById(R.id.list_view);
+        lv.setExpanded(true);
+        lv.setAdapter(listCategoryAdapter);
+        listCategoryAdapter.loadObjects();
 
         return v;
     }

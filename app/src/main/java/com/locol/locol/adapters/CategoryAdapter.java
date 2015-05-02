@@ -23,7 +23,12 @@ import java.util.HashSet;
  * Project LocoL
  */
 public class CategoryAdapter extends ParseQueryAdapter<ParseObject> {
+    private boolean careToColor = true;
 
+    public CategoryAdapter(Context context, ParseQueryAdapter.QueryFactory<ParseObject> parseQuery, boolean careToColor) {
+        super(context, parseQuery);
+        this.careToColor = careToColor;
+    }
 
     public CategoryAdapter(Context context, ParseQueryAdapter.QueryFactory<ParseObject> parseQuery) {
         super(context, parseQuery);
@@ -56,11 +61,13 @@ public class CategoryAdapter extends ParseQueryAdapter<ParseObject> {
         TextView id = (TextView) v.findViewById(R.id.hidden_save_id);
         id.setText(object.getObjectId());
 
-        CheckableRelativeLayout layout = (CheckableRelativeLayout) v.findViewById(R.id.category_item);
-        if (Preferences.readFromPreferencesToSet(getContext(), "_user_category", "id", new HashSet<String>()).contains(object.getObjectId())) {
-            layout.setBackgroundColor(getContext().getResources().getColor(R.color.color_feed_drimary_light));
-        } else {
-            layout.setBackgroundColor(getContext().getResources().getColor(android.R.color.white));
+        if (careToColor) {
+            CheckableRelativeLayout layout = (CheckableRelativeLayout) v.findViewById(R.id.category_item);
+            if (Preferences.readFromPreferencesToSet(getContext(), "_user_category", "id", new HashSet<String>()).contains(object.getObjectId())) {
+                layout.setBackgroundColor(getContext().getResources().getColor(R.color.color_feed_drimary_light));
+            } else {
+                layout.setBackgroundColor(getContext().getResources().getColor(android.R.color.white));
+            }
         }
 
         return v;

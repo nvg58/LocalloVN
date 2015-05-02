@@ -1,173 +1,213 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--tools:context="com.locol.locol.fragments.ExploreFragment">-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollExplore"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.locol.locol.fragments.ExploreFragment">
+    android:background="@color/color_window_background"
+    android:orientation="vertical">
 
-    <ScrollView
-        android:id="@+id/scrollExplore"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/color_window_background"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/headerImage"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="200dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/header" />
+
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="Local Events"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/headerTitle"
+            android:padding="16dp"
+            android:text="Explore local events around that fit you perfectly!"
+            android:textColor="@android:color/white" />
+
+        <LinearLayout
+            android:id="@+id/rowTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/headerImage"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/size_half_byte"
+            android:paddingRight="@dimen/size_half_byte">
+
+            <TextView
+                android:id="@+id/btn_trending"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_byte"
+                android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginTop="@dimen/size_byte"
+                android:layout_weight="1"
+                android:background="@drawable/card"
+                android:drawableLeft="@mipmap/ic_trending_up_black_18dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:selectableItemBackground="@drawable/item_bg"
+                android:text="Trending"
+                android:textColor="@color/color_primary_text" />
+
+            <TextView
+                android:id="@+id/btn_new"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_byte"
+                android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginTop="@dimen/size_byte"
+                android:layout_weight="1"
+                android:background="@drawable/card"
+                android:drawableLeft="@mipmap/ic_whatshot_black_18dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:text="New"
+                android:textColor="@color/color_primary_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rowBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rowTop"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/size_half_byte"
+            android:paddingRight="@dimen/size_half_byte">
+
+            <TextView
+                android:id="@+id/btn_coming_soon"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_byte"
+                android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginTop="@dimen/size_byte"
+                android:layout_weight="1"
+                android:background="@drawable/card"
+                android:drawableLeft="@mipmap/ic_query_builder_black_18dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:text="Coming soon"
+                android:textColor="@color/color_primary_text" />
+
+            <TextView
+                android:id="@+id/btn_most_favourite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/size_byte"
+                android:layout_marginRight="@dimen/size_byte"
+                android:layout_marginTop="@dimen/size_byte"
+                android:layout_weight="1"
+                android:background="@drawable/card"
+                android:drawableLeft="@mipmap/ic_bookmark_outline_black_18dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:text="Most favourite"
+                android:textColor="@color/color_primary_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/title_followed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rowBottom"
+            android:padding="@dimen/size_word">
 
             <ImageView
-                android:id="@+id/headerImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/header" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.2"
+                android:src="@mipmap/ic_assessment_black_18dp"
+                android:tint="@color/color_accent" />
 
             <TextView
-                android:id="@+id/headerTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:text="Local Events"
-                android:textColor="@android:color/white"
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/size_byte"
+                android:layout_weight="1"
+                android:text="YOU'RE FOLLOWING"
+                android:textColor="@color/color_primary_text"
+                android:textSize="18sp" />
 
-            <TextView
-                android:layout_width="match_parent"
+            <ImageButton
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/headerTitle"
-                android:padding="16dp"
-                android:text="Explore local events around that fit you perfectly!"
-                android:textColor="@android:color/white" />
+                android:layout_gravity="right"
+                android:layout_weight="0.2"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/ic_more_vert_black_18dp" />
+        </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/rowTop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/headerImage"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/size_half_byte"
-                android:paddingRight="@dimen/size_half_byte">
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_followed"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
-                <TextView
-                    android:id="@+id/btn_trending"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/size_byte"
-                    android:layout_marginRight="@dimen/size_byte"
-                    android:layout_marginTop="@dimen/size_byte"
-                    android:layout_weight="1"
-                    android:background="@drawable/card"
-                    android:drawableLeft="@mipmap/ic_trending_up_black_18dp"
-                    android:gravity="center"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="20dp"
-                    android:selectableItemBackground="@drawable/item_bg"
-                    android:text="Trending"
-                    android:textColor="@color/color_primary_text" />
+        <com.locol.locol.ExpandableHeightGridView
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title_followed"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="3"
+            android:padding="@dimen/size_byte"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
 
-                <TextView
-                    android:id="@+id/btn_new"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/size_byte"
-                    android:layout_marginRight="@dimen/size_byte"
-                    android:layout_marginTop="@dimen/size_byte"
-                    android:layout_weight="1"
-                    android:background="@drawable/card"
-                    android:drawableLeft="@mipmap/ic_whatshot_black_18dp"
-                    android:gravity="center"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="20dp"
-                    android:text="New"
-                    android:textColor="@color/color_primary_text" />
-            </LinearLayout>
+        <TextView
+            android:id="@+id/row_title_all_cats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gridview"
+            android:padding="@dimen/size_word"
+            android:text="ALL CATEGORIES"
+            android:textColor="@color/color_primary_text"
+            android:textSize="18sp" />
 
-            <LinearLayout
-                android:id="@+id/rowBottom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/rowTop"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/size_half_byte"
-                android:paddingRight="@dimen/size_half_byte">
+        <com.locol.locol.ExpandableHeightListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/row_title_all_cats"
+            android:dividerHeight="1dp"
+            android:padding="@dimen/size_byte"
+            android:scrollbars="none" />
 
-                <TextView
-                    android:id="@+id/btn_coming_soon"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/size_byte"
-                    android:layout_marginRight="@dimen/size_byte"
-                    android:layout_marginTop="@dimen/size_byte"
-                    android:layout_weight="1"
-                    android:background="@drawable/card"
-                    android:drawableLeft="@mipmap/ic_query_builder_black_18dp"
-                    android:gravity="center"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="20dp"
-                    android:text="Coming soon"
-                    android:textColor="@color/color_primary_text" />
+    </RelativeLayout>
+</ScrollView>
 
-                <TextView
-                    android:id="@+id/btn_most_favourite"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/size_byte"
-                    android:layout_marginRight="@dimen/size_byte"
-                    android:layout_marginTop="@dimen/size_byte"
-                    android:layout_weight="1"
-                    android:background="@drawable/card"
-                    android:drawableLeft="@mipmap/ic_bookmark_outline_black_18dp"
-                    android:gravity="center"
-                    android:paddingBottom="20dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="20dp"
-                    android:text="Most favourite"
-                    android:textColor="@color/color_primary_text" />
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/rowBottom"
-
-                android:padding="@dimen/size_word">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.2"
-                    android:src="@mipmap/ic_assessment_black_18dp"
-                    android:tint="@color/color_accent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/size_byte"
-                    android:layout_weight="1"
-                    android:text="YOU'RE FOLLOWING"
-                    android:textColor="@color/color_primary_text"
-                    android:textSize="18sp" />
-
-                <ImageButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="0.2"
-                    android:background="@android:color/transparent"
-                    android:src="@mipmap/ic_more_vert_black_18dp" />
-            </LinearLayout>
-        </RelativeLayout>
-    </ScrollView>
-</FrameLayout>
+    <!--</FrameLayout>-->

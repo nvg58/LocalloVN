@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -17,6 +18,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MostFavouriteActivity extends ActionBarActivity {
@@ -52,6 +54,17 @@ public class MostFavouriteActivity extends ActionBarActivity {
         listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
         adapter.loadObjects();
+        adapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<ParseObject>() {
+            @Override
+            public void onLoading() {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onLoaded(List<ParseObject> list, Exception e) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
