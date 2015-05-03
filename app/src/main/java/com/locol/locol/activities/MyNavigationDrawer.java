@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.locol.locol.R;
+import com.locol.locol.fragments.AboutUsFragment;
 import com.locol.locol.fragments.ExploreFragment;
 import com.locol.locol.fragments.FeedFragment;
+import com.locol.locol.fragments.HelpFragment;
 import com.locol.locol.fragments.ProfileFragment;
 import com.locol.locol.fragments.SourceFragment;
 import com.locol.locol.pojo.Account;
@@ -75,11 +77,11 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
 
         this.addBottomSection(newSection(
                 "Help & Feedback",
-                new FeedFragment()));
+                new HelpFragment()));
 
         this.addBottomSection(newSection(
                 "About Us",
-                new FeedFragment()));
+                new AboutUsFragment()));
     }
 
     @Override

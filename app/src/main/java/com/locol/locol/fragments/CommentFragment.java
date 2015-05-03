@@ -139,9 +139,9 @@ public class CommentFragment extends Fragment {
                                     HashSet<String> authorList = new HashSet<String>();
                                     for (ParseObject object: objects) {
                                         String authorId = object.getParseObject("author").getObjectId();
-                                        if (!authorId.equals(user.getObjectId())) {
+//                                        if (!authorId.equals(user.getObjectId())) {
                                             authorList.add(authorId);
-                                        }
+//                                        }
                                     }
 
                                     Log.wtf("authorList", authorList.toString());
@@ -150,7 +150,7 @@ public class CommentFragment extends Fragment {
                                         HashMap<String, Object> params = new HashMap<>();
                                         params.put("authorId", author);
 
-                                        params.put("message", Account.getUserName() + " commented on a event that you are following.");
+                                        params.put("message", Account.getUserName() + " commented on an event that you are following.");
                                         params.put("title", event.getString("title"));
                                         params.put("event_id", event.getObjectId());
 

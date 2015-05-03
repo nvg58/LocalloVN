@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splashscreen"
+    tools:context="com.locol.locol.fragments.AboutUsFragment">
+
+    <TextView
+        android:id="@+id/header_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:padding="@dimen/size_word"
+        android:text="This is a project of 'Technology Workshop' course in Spring 2015 at University of Engineering and Technology, VNUH"
+        android:textColor="@color/color_primary_text"
+        android:textSize="@dimen/size_text_primary" />
+
+
+    <TextView
+        android:id="@+id/copyright"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="@dimen/size_word"
+        android:text="Main developer: Giap Nguyen \n giapnv_570@vnu.edu.vn"
+        android:textColor="@color/color_primary_text"
+        android:textSize="@dimen/size_text_primary" />
+
+</RelativeLayout>
