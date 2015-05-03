@@ -104,9 +104,10 @@
     <orderEntry type="library" exported="" name="jsr305-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="material-ripple-1.0.1" level="project" />
     <orderEntry type="library" exported="" name="stetho-urlconnection-1.0.1" level="project" />
-    <orderEntry type="library" exported="" name="rebound-0.3.6" level="project" />
     <orderEntry type="library" exported="" name="bolts-android-1.1.4" level="project" />
+    <orderEntry type="library" exported="" name="rebound-0.3.6" level="project" />
     <orderEntry type="library" exported="" name="commons-cli-1.2" level="project" />
+    <orderEntry type="library" exported="" name="circleimageview-1.2.2" level="project" />
     <orderEntry type="library" exported="" name="ParseFacebookUtilsV4-1.9.1" level="project" />
   </component>
 </module>

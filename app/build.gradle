@@ -52,4 +52,7 @@ dependencies {
     compile 'com.github.manuelpeinado.fadingactionbar:fadingactionbar:3.1.2'
 
     compile 'com.facebook.rebound:rebound:0.3.6'
+
+    // A fast circular ImageView perfect for profile images.
+    compile 'de.hdodenhof:circleimageview:1.2.2'
 }
