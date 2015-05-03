@@ -8,6 +8,7 @@ import com.locol.locol.R;
 import com.locol.locol.fragments.ExploreFragment;
 import com.locol.locol.fragments.FeedFragment;
 import com.locol.locol.fragments.ProfileFragment;
+import com.locol.locol.fragments.SourceFragment;
 import com.locol.locol.pojo.Account;
 
 import it.neokree.materialnavigationdrawer.MaterialNavigationDrawer;
@@ -55,6 +56,12 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
                 R.mipmap.ic_explore_grey600_24dp,
                 new ExploreFragment()).setSectionColor(getResources().getColor(R.color.color_explore_primary),
                 getResources().getColor(R.color.color_explore_primary_dark)));
+
+        this.addSection(newSection(
+                "Source",
+                R.mipmap.ic_bookmark_grey600_24dp,
+                new SourceFragment()).setSectionColor(getResources().getColor(R.color.color_primary),
+                getResources().getColor(R.color.color_primary_dark)));
 
         this.addSection(newSection(
                 "Profile",

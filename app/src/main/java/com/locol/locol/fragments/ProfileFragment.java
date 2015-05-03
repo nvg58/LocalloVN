@@ -19,13 +19,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 public class ProfileFragment extends Fragment {
 
-
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-
     private static final String KEY_TITLE = "title";
+
     public static ProfileFragment newInstance(String title) {
         ProfileFragment f = new ProfileFragment();
 
