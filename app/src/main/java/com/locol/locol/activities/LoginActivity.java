@@ -9,20 +9,29 @@ import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
+import com.facebook.GraphRequestBatch;
 import com.facebook.GraphResponse;
 import com.locol.locol.R;
 import com.locol.locol.helpers.Preferences;
 import com.locol.locol.pojo.Account;
+import com.parse.FindCallback;
+import com.parse.FunctionCallback;
 import com.parse.LogInCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class LoginActivity extends ActionBarActivity {
@@ -39,7 +48,7 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
 
         // TODO should move `rsvp_event`, `rsvp_event` and `user_events` permission to other activity (when user actually need them)
-        List<String> permissions = Arrays.asList("public_profile", "email", "user_friends", "user_events");
+        List<String> permissions = Arrays.asList("public_profile", "email", "user_friends", "user_events", "read_friendlists");
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException err) {
@@ -49,36 +58,113 @@ public class LoginActivity extends ActionBarActivity {
                     Toast.makeText(LoginActivity.this, "User signed up and logged in through Facebook!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(LoginActivity.this, "User logged in through Facebook!", Toast.LENGTH_SHORT).show();
-                    GraphRequest request = GraphRequest.newMeRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            new GraphRequest.GraphJSONObjectCallback() {
-                                @Override
-                                public void onCompleted(JSONObject object, GraphResponse response) {
-                                    try {
-                                        Account.setUserName(object.getString(KEY_USER_NAME));
-                                        Account.setUserFBId(object.getString(KEY_USER_ID));
-                                        Account.setUserEmail(object.getString(KEY_USER_EMAIL));
-                                        Account.setUserAvatarUrl("https://graph.facebook.com/" + Account.getUserFBId() + "/picture?type=normal");
+                    GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(JSONObject object, GraphResponse response) {
+                            try {
+                                Account.setUserName(object.getString(KEY_USER_NAME));
+                                Account.setUserFBId(object.getString(KEY_USER_ID));
+                                Account.setUserEmail(object.getString(KEY_USER_EMAIL));
+                                Account.setUserAvatarUrl("https://graph.facebook.com/" + Account.getUserFBId() + "/picture?type=normal");
 
-                                        Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_ID, Account.getUserFBId());
-                                        Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_EMAIL, Account.getUserEmail());
-                                        Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_NAME, Account.getUserName());
-                                        Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_AVATAR, Account.getUserAvatarUrl());
+                                Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_ID, Account.getUserFBId());
+                                Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_EMAIL, Account.getUserEmail());
+                                Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_NAME, Account.getUserName());
+                                Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_AVATAR, Account.getUserAvatarUrl());
 
-                                        ParseUser user = ParseUser.getCurrentUser();
-                                        user.put("avatar_url", Account.getUserAvatarUrl());
-                                        user.saveInBackground(new SaveCallback() {
+                                final ParseUser user = ParseUser.getCurrentUser();
+                                user.put("avatar_url", Account.getUserAvatarUrl());
+                                user.put("fbId", Account.getUserFBId());
+                                user.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+
+                                        GraphRequestBatch batch = new GraphRequestBatch(
+                                                GraphRequest.newMyFriendsRequest(
+                                                        AccessToken.getCurrentAccessToken(),
+                                                        new GraphRequest.GraphJSONArrayCallback() {
+                                                            @Override
+                                                            public void onCompleted(JSONArray jsonArray, GraphResponse response) {
+                                                                // Application code for users friends
+                                                                final List<String> friendsList = new ArrayList<String>();
+                                                                for (int i = 0; i < jsonArray.length(); ++i) {
+                                                                    try {
+                                                                        friendsList.add(jsonArray.getJSONObject(i).getString("id"));
+                                                                    } catch (JSONException e1) {
+                                                                        e1.printStackTrace();
+                                                                    }
+                                                                }
+
+                                                                // TODO REMOVE this on production
+//                                                                friendsList.add(Account.getUserFBId());
+
+                                                                user.put("friendIds", friendsList);
+                                                                user.saveInBackground(new SaveCallback() {
+                                                                    @Override
+                                                                    public void done(ParseException e) {
+                                                                        // Construct a ParseUser query that will find friends whose
+                                                                        // facebook IDs are contained in the current user's friend list.
+                                                                        ParseQuery friendQuery = ParseUser.getQuery();
+                                                                        friendQuery.whereContainedIn("fbId", friendsList);
+                                                                        friendQuery.findInBackground(new FindCallback<ParseUser>() {
+                                                                            public void done(List<ParseUser> objects, ParseException e) {
+                                                                                if (e == null) {
+//                                                                                    for (ParseUser object : objects) {
+                                                                                    ParseUser object = objects.get(0);
+                                                                                        HashMap<String, Object> params = new HashMap<String, Object>();
+                                                                                        params.put("recipientId", "fb" + object.get("fbId"));
+                                                                                        params.put("message", Account.getUserName() + " has using Locol!");
+                                                                                        ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
+                                                                                            @Override
+                                                                                            public void done(String s, ParseException e) {
+                                                                                                // Push sent successfully
+                                                                                                ParsePush.subscribeInBackground("fb" + Account.getUserFBId(), new SaveCallback() {
+                                                                                                    @Override
+                                                                                                    public void done(ParseException e) {
+                                                                                                        if (e == null) {
+                                                                                                            startActivity(new Intent(LoginActivity.this, ChooseCategoryActivity.class));
+                                                                                                            finish();
+                                                                                                        } else {
+                                                                                                            e.printStackTrace();
+                                                                                                        }
+                                                                                                    }
+                                                                                                });
+
+                                                                                            }
+                                                                                        });
+//                                                                                    }
+
+                                                                                } else {
+                                                                                    e.printStackTrace();
+                                                                                }
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+
+                                                            }
+                                                        })
+
+                                        );
+                                        batch.addCallback(new GraphRequestBatch.Callback() {
                                             @Override
-                                            public void done(ParseException e) {
-                                                startActivity(new Intent(LoginActivity.this, ChooseCategoryActivity.class));
-                                                finish();
+                                            public void onBatchCompleted(GraphRequestBatch graphRequests) {
+                                                // Application code for when the batch finishes
                                             }
                                         });
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        batch.executeAsync();
+
+                                        Bundle parameters = new Bundle();
+                                        parameters.putString("fields", "id,name,link,picture");
+
                                     }
-                                }
-                            });
+                                });
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                     Bundle parameters = new Bundle();
                     parameters.putString("fields", "id, name, link, email");
                     request.setParameters(parameters);

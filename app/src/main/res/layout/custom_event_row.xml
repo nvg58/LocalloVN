@@ -13,7 +13,7 @@
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/event_thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="250dp"
         android:alpha="0.9"
         android:padding="0dp"
         android:scaleType="fitXY"

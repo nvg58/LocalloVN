@@ -2,6 +2,7 @@ package com.locol.locol.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.locol.locol.R;
 import com.locol.locol.fragments.ExploreFragment;
@@ -17,6 +18,8 @@ import it.neokree.materialnavigationdrawer.elements.MaterialAccount;
  * Project LocoL
  */
 public class MyNavigationDrawer extends MaterialNavigationDrawer {
+
+    int count = 0;
 
     public final static String TAG = "MyNavigationDrawer";
 
@@ -70,5 +73,17 @@ public class MyNavigationDrawer extends MaterialNavigationDrawer {
         this.addBottomSection(newSection(
                 "About Us",
                 new FeedFragment()));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (count == 1) {
+            count = 0;
+            finish();
+            System.exit(0);
+        } else {
+            Toast.makeText(getApplicationContext(), "Press Back again to quit.", Toast.LENGTH_SHORT).show();
+            count++;
+        }
     }
 }
