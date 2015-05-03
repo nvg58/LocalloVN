@@ -62,7 +62,7 @@
                     android:id="@+id/events_section_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/size_byte"
+                    android:padding="@dimen/size_word"
                     android:text="EVENTS"
                     android:textColor="@color/color_feed_primary"
                     android:textSize="@dimen/size_text_primary" />
@@ -71,7 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/size_byte">
+                    android:padding="@dimen/size_word">
 
                     <View
                         android:layout_width="30dp"
@@ -83,14 +83,15 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="@dimen/size_word"
-                        android:text="Attending events" />
+                        android:text="Attending events"
+                        android:textSize="@dimen/size_text_primary" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/size_byte">
+                    android:padding="@dimen/size_word">
 
                     <View
                         android:layout_width="30dp"
@@ -102,7 +103,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="@dimen/size_word"
-                        android:text="Recent events" />
+                        android:text="Recent events"
+
+                        android:textSize="@dimen/size_text_primary" />
                 </LinearLayout>
 
 
@@ -110,7 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/size_byte">
+                    android:padding="@dimen/size_word">
 
                     <View
                         android:layout_width="30dp"
@@ -122,14 +125,16 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="@dimen/size_word"
-                        android:text="Favourite events" />
+                        android:text="Favourite events"
+
+                        android:textSize="@dimen/size_text_primary" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/size_byte">
+                    android:padding="@dimen/size_word">
 
                     <View
                         android:layout_width="30dp"
@@ -141,7 +146,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="@dimen/size_word"
-                        android:text="Subscribed categories" />
+                        android:text="Subscribed categories"
+
+                        android:textSize="@dimen/size_text_primary" />
                 </LinearLayout>
 
 
@@ -151,9 +158,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/events_section"
+                android:layout_marginBottom="@dimen/size_word"
                 android:layout_marginLeft="@dimen/size_word"
                 android:layout_marginRight="@dimen/size_word"
-                android:layout_marginBottom="@dimen/size_word"
                 android:background="@drawable/card"
                 android:orientation="vertical">
 
@@ -161,7 +168,7 @@
                     android:id="@+id/friends_section_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/size_byte"
+                    android:padding="@dimen/size_word"
                     android:text="FRIENDS"
                     android:textColor="@color/color_feed_primary"
                     android:textSize="@dimen/size_text_primary" />
@@ -170,7 +177,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="@dimen/size_byte">
+                    android:padding="@dimen/size_word">
 
                     <View
                         android:layout_width="30dp"
@@ -182,7 +189,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="@dimen/size_word"
-                        android:text="Your Facebook friends" />
+                        android:text="Your Facebook friends"
+
+                        android:textSize="@dimen/size_text_primary" />
                 </LinearLayout>
 
             </LinearLayout>

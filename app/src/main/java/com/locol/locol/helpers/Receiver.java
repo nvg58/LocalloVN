@@ -1,4 +1,4 @@
-package com.locol.locol;
+package com.locol.locol.helpers;
 
 import android.content.Context;
 import android.content.Intent;

@@ -120,14 +120,15 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
                 final CommentFragment fragment = (CommentFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_comment);
 
                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+                Log.wtf("event_id DetailsEvent", event_id);
                 query.getInBackground(event_id, new GetCallback<ParseObject>() {
                     public void done(ParseObject object, ParseException e) {
                         if (e == null) {
-                            // object will be your game score
                             fragment.setEvent(object);
                             fragment.getAdapter().loadObjects();
                         } else {
                             // something went wrong
+                            e.printStackTrace();
                             Toast.makeText(DetailsEventActivity.this, "Can not get comments!", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -216,38 +217,8 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
             });
 
             final Button btnYes = (Button) findViewById(R.id.btn_yes);
-//            final Button btnMaybe = (Button) findViewById(R.id.btn_maybe);
             final TextView rvspTitle = (TextView) findViewById(R.id.rvsp_title);
 
-//            loved = MainApplication.getWritableDatabase().getLovedFeedItem(title);
-//            joining = MainApplication.getWritableDatabase().getJoiningFeedItem(title);
-//            if (joining == 1) {
-//                rvspTitle.setText(R.string.going_text);
-//                rvspTitle.setAllCaps(false);
-//
-//                btnYes.setVisibility(View.GONE);
-//                btnMaybe.setVisibility(View.GONE);
-//            }
-
-//            btnYes.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    btnYes.setVisibility(View.GONE);
-//                    if (btnMaybe.getVisibility() != View.GONE) {
-//                        btnMaybe.setVisibility(View.GONE);
-//                    }
-//                    rvspTitle.setText(R.string.going_text);
-//                    rvspTitle.setAllCaps(false);
-//
-//                    MainApplication.getWritableDatabase().updateJoiningFeedItem(title, 1);
-//                }
-//            });
-//            btnMaybe.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    btnMaybe.setVisibility(View.GONE);
-//                }
-//            });
             final ParseUser user = ParseUser.getCurrentUser();
             final ParseRelation<ParseObject> relation = user.getRelation("join");
             btnYes.setOnClickListener(new View.OnClickListener() {

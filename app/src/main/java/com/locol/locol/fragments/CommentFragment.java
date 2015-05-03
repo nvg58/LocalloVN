@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,9 @@ import android.widget.Toast;
 import com.locol.locol.R;
 import com.locol.locol.adapters.CommentAdapter;
 import com.locol.locol.pojo.Account;
+import com.parse.FindCallback;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -26,6 +30,8 @@ import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -107,7 +113,7 @@ public class CommentFragment extends Fragment {
                     AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
                 } else {
-                    ParseUser user = ParseUser.getCurrentUser();
+                    final ParseUser user = ParseUser.getCurrentUser();
                     ParseObject comment = new ParseObject("Comment");
                     comment.put("comment", commentText.getText().toString());
                     comment.put("author_name", Account.getUserName());
@@ -123,6 +129,42 @@ public class CommentFragment extends Fragment {
                             adapter.loadObjects();
 
                             hideKeyboard();
+
+                            // Assume ParseObject myPost was previously created.
+                            ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+                            query.whereEqualTo("event", event);
+
+                            query.findInBackground(new FindCallback<ParseObject>() {
+                                public void done(List<ParseObject> objects, ParseException e) {
+                                    HashSet<String> authorList = new HashSet<String>();
+                                    for (ParseObject object: objects) {
+                                        String authorId = object.getParseObject("author").getObjectId();
+                                        if (!authorId.equals(user.getObjectId())) {
+                                            authorList.add(authorId);
+                                        }
+                                    }
+
+                                    Log.wtf("authorList", authorList.toString());
+
+                                    for (String author: authorList) {
+                                        HashMap<String, Object> params = new HashMap<>();
+                                        params.put("authorId", author);
+
+                                        params.put("message", Account.getUserName() + " commented on a event that you are following.");
+                                        params.put("title", event.getString("title"));
+                                        params.put("event_id", event.getObjectId());
+
+                                        ParseCloud.callFunctionInBackground("pushWhenComment", params, new FunctionCallback<String>() {
+                                            @Override
+                                            public void done(String s, ParseException e) {
+                                                Toast.makeText(getActivity(), s + event.getString("title") + event.getObjectId(), Toast.LENGTH_SHORT).show();
+                                                Log.wtf("pushWhencomment", s + " " +  event.getString("title") + " " + event.getObjectId());
+                                            }
+                                        });
+                                    }
+
+                                }
+                            });
                         }
                     });
                 }

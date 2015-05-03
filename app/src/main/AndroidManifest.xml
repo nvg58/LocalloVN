@@ -116,7 +116,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.locol.locol.Receiver"
+            android:name=".helpers.Receiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
