@@ -10,7 +10,7 @@ public class Account {
     private static String userName;
     private static String userEmail;
     private static Bitmap userCover;
-    private static Bitmap userAvatar;
+    private static String userAvatar;
     private static String userFBId;
 
     private static Account sInstance;
@@ -51,11 +51,11 @@ public class Account {
         Account.userCover = userCover;
     }
 
-    public static Bitmap getUserAvatar() {
+    public static String getUserAvatarUrl() {
         return userAvatar;
     }
 
-    public static void setUserAvatar(Bitmap userAvatar) {
+    public static void setUserAvatarUrl(String userAvatar) {
         Account.userAvatar = userAvatar;
     }
 

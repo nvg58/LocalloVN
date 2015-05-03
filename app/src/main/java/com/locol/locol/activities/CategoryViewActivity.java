@@ -1,4 +1,4 @@
-package com.locol.locol;
+package com.locol.locol.activities;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.locol.locol.R;
 import com.locol.locol.adapters.ThingsAdapter;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;

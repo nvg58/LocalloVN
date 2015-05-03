@@ -103,7 +103,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CategoryViewActivity"
+            android:name=".activities.CategoryViewActivity"
             android:label="@string/title_activity_category_view"
             android:theme="@style/AppTheme" />
 

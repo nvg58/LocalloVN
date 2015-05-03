@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.locol.locol.R;
+import com.locol.locol.pojo.Account;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -38,7 +42,15 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View v = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        CircleImageView userPhoto = (CircleImageView) v.findViewById(R.id.user_photo);
+        Picasso.with(getActivity())
+                .load(Account.getUserAvatarUrl())
+                .placeholder(R.drawable.profile)
+                .into(userPhoto);
+
+        return v;
     }
 
 

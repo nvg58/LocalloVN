@@ -58,13 +58,15 @@ public class LoginActivity extends ActionBarActivity {
                                         Account.setUserName(object.getString(KEY_USER_NAME));
                                         Account.setUserFBId(object.getString(KEY_USER_ID));
                                         Account.setUserEmail(object.getString(KEY_USER_EMAIL));
+                                        Account.setUserAvatarUrl("https://graph.facebook.com/" + Account.getUserFBId() + "/picture?type=normal");
 
                                         Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_ID, Account.getUserFBId());
                                         Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_EMAIL, Account.getUserEmail());
                                         Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_NAME, Account.getUserName());
+                                        Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_AVATAR, Account.getUserAvatarUrl());
 
                                         ParseUser user = ParseUser.getCurrentUser();
-                                        user.put("avatar_url", "https://graph.facebook.com/" + Account.getUserFBId() + "/picture?type=normal");
+                                        user.put("avatar_url", Account.getUserAvatarUrl());
                                         user.saveInBackground(new SaveCallback() {
                                             @Override
                                             public void done(ParseException e) {

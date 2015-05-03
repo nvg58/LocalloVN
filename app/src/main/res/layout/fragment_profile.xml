@@ -153,6 +153,7 @@
                 android:layout_below="@id/events_section"
                 android:layout_marginLeft="@dimen/size_word"
                 android:layout_marginRight="@dimen/size_word"
+                android:layout_marginBottom="@dimen/size_word"
                 android:background="@drawable/card"
                 android:orientation="vertical">
 
@@ -181,26 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="@dimen/size_word"
-                        android:text="Find friends" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/size_byte">
-
-                    <View
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/dot_gray" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:paddingLeft="@dimen/size_word"
-                        android:text="Your friends" />
+                        android:text="Your Facebook friends" />
                 </LinearLayout>
 
             </LinearLayout>

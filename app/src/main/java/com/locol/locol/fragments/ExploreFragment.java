@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.locol.locol.CategoryViewActivity;
+import com.locol.locol.activities.CategoryViewActivity;
 import com.locol.locol.R;
 import com.locol.locol.activities.ComingSoonActivity;
 import com.locol.locol.activities.MostFavouriteActivity;
