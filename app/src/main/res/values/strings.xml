@@ -34,4 +34,18 @@
     <string name="drawer_item_help_and_feedback">Help &amp; Feedback</string>
     <string name="drawer_item_about_us">About Us</string>
 
+    <plurals name="hours_count">
+        <item quantity="one">1 hour ago</item>
+        <item quantity="other">%d hours ago</item>
+    </plurals>
+
+    <plurals name="mins_count">
+        <item quantity="one">1 minute ago</item>
+        <item quantity="other">%d minutes ago</item>
+    </plurals>
+
+    <string name="hour">{0,choice,1#1 hour ago|1&lt;{0} hours ago}</string>
+    <string name="minute">{0,choice,1#1 minute ago|1&lt;{0} minutes ago}</string>
+    <string name="second">{0,choice,1#1 second ago|1&lt;{0} seconds ago}</string>
+
 </resources>

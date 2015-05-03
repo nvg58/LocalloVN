@@ -10,13 +10,14 @@ import android.widget.Toast;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.locol.locol.helpers.Preferences;
 import com.locol.locol.R;
+import com.locol.locol.helpers.Preferences;
 import com.locol.locol.pojo.Account;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -62,8 +63,15 @@ public class LoginActivity extends ActionBarActivity {
                                         Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_EMAIL, Account.getUserEmail());
                                         Preferences.saveToPreferences(LoginActivity.this, PREF_FILE_NAME, KEY_USER_NAME, Account.getUserName());
 
-                                        startActivity(new Intent(LoginActivity.this, ChooseCategoryActivity.class));
-                                        finish();
+                                        ParseUser user = ParseUser.getCurrentUser();
+                                        user.put("avatar_url", "https://graph.facebook.com/" + Account.getUserFBId() + "/picture?type=normal");
+                                        user.saveInBackground(new SaveCallback() {
+                                            @Override
+                                            public void done(ParseException e) {
+                                                startActivity(new Intent(LoginActivity.this, ChooseCategoryActivity.class));
+                                                finish();
+                                            }
+                                        });
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

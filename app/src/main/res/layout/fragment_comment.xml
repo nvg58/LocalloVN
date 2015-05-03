@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.foobla.cdb.fragments.SymptomsPickerFragment">
+
+    <TextView
+        android:id="@+id/header_text"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/slide_up_panel_height"
+        android:background="@color/color_feed_primary"
+        android:gravity="center"
+        android:text="Comment"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/img_close_panel"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:alpha="0"
+        android:src="@mipmap/ic_action_remove" />
+
+    <LinearLayout
+        android:id="@+id/comment_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/size_word"
+        android:paddingRight="@dimen/size_word">
+
+        <EditText
+            android:id="@+id/comment_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Enter your comment here"
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLength="2000"
+            android:maxLines="4"
+            android:textSize="@dimen/size_text_secondary" />
+
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:padding="@dimen/size_half_byte"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_send" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/comment_box"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/header_text"
+        android:dividerHeight="@dimen/size_half_byte"
+        android:padding="@dimen/size_byte"
+        android:scrollbars="none" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>

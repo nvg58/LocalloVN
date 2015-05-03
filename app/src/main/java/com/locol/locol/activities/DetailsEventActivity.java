@@ -17,6 +17,7 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.facebook.CallbackManager;
@@ -24,6 +25,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.locol.locol.R;
+import com.locol.locol.fragments.CommentFragment;
 import com.locol.locol.helpers.GPSTracker;
 import com.locol.locol.networks.VolleySingleton;
 import com.locol.locol.pojo.Account;
@@ -36,6 +38,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -70,6 +73,8 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
     CallbackManager callbackManager;
     ShareDialog shareDialog;
 
+    private SlidingUpPanelLayout mLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +104,51 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
+
+        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+        mLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                findViewById(R.id.img_close_panel).setAlpha(slideOffset);
+            }
+
+            @Override
+            public void onPanelExpanded(View panel) {
+                Log.i(TAG, "onPanelExpanded");
+                final CommentFragment fragment = (CommentFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_comment);
+
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Event");
+                query.getInBackground(event_id, new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        if (e == null) {
+                            // object will be your game score
+                            fragment.setEvent(object);
+                            fragment.getAdapter().loadObjects();
+                        } else {
+                            // something went wrong
+                            Toast.makeText(DetailsEventActivity.this, "Can not get comments!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onPanelCollapsed(View panel) {
+                Log.i(TAG, "onPanelCollapsed");
+
+            }
+
+            @Override
+            public void onPanelAnchored(View panel) {
+                Log.i(TAG, "onPanelAnchored");
+            }
+
+            @Override
+            public void onPanelHidden(View panel) {
+                Log.i(TAG, "onPanelHidden");
+            }
+        });
 
         mHeader = findViewById(R.id.event_thumbnail);
         ObservableScrollable scrollView = (ObservableScrollable) findViewById(R.id.scroll_event_details);
@@ -334,10 +384,18 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() == 0) {
-            this.finish();
+//        if (getFragmentManager().getBackStackEntryCount() == 0) {
+//            this.finish();
+//        } else {
+//            getFragmentManager().popBackStack();
+//        }
+
+        if (mLayout != null &&
+                (mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED
+                        || mLayout.getPanelState() == SlidingUpPanelLayout.PanelState.ANCHORED)) {
+            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         } else {
-            getFragmentManager().popBackStack();
+            super.onBackPressed();
         }
     }
 }

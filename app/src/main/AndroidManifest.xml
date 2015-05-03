@@ -59,7 +59,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MyNavigationDrawer" />
         </activity>
-        <activity android:name=".activities.DetailsEventActivity" />
+        <activity
+            android:name=".activities.DetailsEventActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
 
         <meta-data
             android:name="com.google.android.gms.version"

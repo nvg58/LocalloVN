@@ -28,6 +28,7 @@ import com.parse.ParseUser;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -94,7 +95,8 @@ public class FeedFragment extends Fragment {
                     public ParseQuery create() {
                         ParseQuery query = new ParseQuery("Event");
                         query.whereContainedIn("category", listCats);
-                        query.orderByDescending("start_date");
+                        query.whereGreaterThanOrEqualTo("start_date", Calendar.getInstance().getTime());
+                        query.orderByAscending("start_date");
                         return query;
                     }
                 };

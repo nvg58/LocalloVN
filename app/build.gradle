@@ -9,7 +9,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "1.1"
     }
     buildTypes {
         release {
@@ -55,4 +55,7 @@ dependencies {
 
     // A fast circular ImageView perfect for profile images.
     compile 'de.hdodenhof:circleimageview:1.2.2'
+
+    // Sliding up comments
+    compile 'com.sothree.slidinguppanel:library:3.0.0'
 }
