@@ -20,6 +20,7 @@ import com.parse.LogInCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -96,51 +97,66 @@ public class LoginActivity extends ActionBarActivity {
                                                                 }
 
                                                                 // TODO REMOVE this on production
-//                                                                friendsList.add(Account.getUserFBId());
+                                                                friendsList.add(Account.getUserFBId());
+
+                                                                ParsePush.subscribeInBackground("fb" + Account.getUserFBId());
+                                                                ParseInstallation currentInstall = ParseInstallation.getCurrentInstallation();
+                                                                currentInstall.put("user", ParseUser.getCurrentUser());
+                                                                currentInstall.saveInBackground();
 
                                                                 user.put("friendIds", friendsList);
                                                                 user.saveInBackground(new SaveCallback() {
-                                                                    @Override
-                                                                    public void done(ParseException e) {
-                                                                        // Construct a ParseUser query that will find friends whose
-                                                                        // facebook IDs are contained in the current user's friend list.
-                                                                        ParseQuery friendQuery = ParseUser.getQuery();
-                                                                        friendQuery.whereContainedIn("fbId", friendsList);
-                                                                        friendQuery.findInBackground(new FindCallback<ParseUser>() {
-                                                                            public void done(List<ParseUser> objects, ParseException e) {
-                                                                                if (e == null) {
-//                                                                                    for (ParseUser object : objects) {
-                                                                                    ParseUser object = objects.get(0);
-                                                                                        HashMap<String, Object> params = new HashMap<String, Object>();
-                                                                                        params.put("recipientId", "fb" + object.get("fbId"));
-                                                                                        params.put("message", Account.getUserName() + " has using Locol!");
-                                                                                        ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
-                                                                                            @Override
-                                                                                            public void done(String s, ParseException e) {
-                                                                                                // Push sent successfully
-                                                                                                ParsePush.subscribeInBackground("fb" + Account.getUserFBId(), new SaveCallback() {
-                                                                                                    @Override
-                                                                                                    public void done(ParseException e) {
-                                                                                                        if (e == null) {
-                                                                                                            startActivity(new Intent(LoginActivity.this, ChooseCategoryActivity.class));
-                                                                                                            finish();
-                                                                                                        } else {
-                                                                                                            e.printStackTrace();
-                                                                                                        }
-                                                                                                    }
-                                                                                                });
+                                                                      @Override
+                                                                      public void done
+                                                                              (ParseException e) {
+                                                                          // Construct a ParseUser query that will find friends whose
+                                                                          // facebook IDs are contained in the current user's friend list.
+                                                                          ParseQuery friendQuery = ParseUser.getQuery();
+                                                                          friendQuery.whereContainedIn("fbId", friendsList);
+                                                                          friendQuery.findInBackground(new FindCallback<ParseUser>() {
+                                                                              public void done(List<ParseUser> objects, ParseException e) {
+                                                                                  if (e == null) {
+                                                                                      for (ParseUser object : objects) {
+//                                                                                    ParseUser object = objects.get(0);
+                                                                                          HashMap<String, Object> params = new HashMap<>();
+                                                                                          params.put("recipientId", "fb" + object.get("fbId"));
+                                                                                          params.put("message", Account.getUserName() + " has using Locol!");
+                                                                                          ParseCloud.callFunctionInBackground("sendPushToUser", params, new FunctionCallback<String>() {
+                                                                                              @Override
+                                                                                              public void done(String s, ParseException e) {
+                                                                                                  // Push sent successfully
+//                                                                                                ParsePush.subscribeInBackground("fb" + Account.getUserFBId(), new SaveCallback() {
+//                                                                                                    @Override
+//                                                                                                    public void done(ParseException e) {
+//                                                                                                        if (e == null) {
+//                                                                                                            startActivity(new Intent(LoginActivity.this, ChooseCategoryActivity.class));
+//                                                                                                            finish();
+//                                                                                                        } else {
+//                                                                                                            e.printStackTrace();
+//                                                                                                        }
+//                                                                                                    }
+//                                                                                                });
+                                                                                                  startActivity(new Intent(LoginActivity.this, CategoryViewActivity.class));
 
-                                                                                            }
-                                                                                        });
-//                                                                                    }
+                                                                                              }
+                                                                                          });
+//                                                                                        ParsePush push = new ParsePush();
+//                                                                                        push.setChannel("fb" + object.get("fbId"));
+//                                                                                        push.setMessage(Account.getUserName() + " has using Locol!");
+//                                                                                        push.sendInBackground();
+                                                                                      }
+//                                                                                    startActivity(new Intent(LoginActivity.this, ChooseCategoryActivity.class));
+//                                                                                    finish();
 
-                                                                                } else {
-                                                                                    e.printStackTrace();
-                                                                                }
-                                                                            }
-                                                                        });
-                                                                    }
-                                                                });
+                                                                                  } else {
+                                                                                      e.printStackTrace();
+                                                                                  }
+                                                                              }
+                                                                          });
+                                                                      }
+                                                                  }
+
+                                                                );
 
                                                             }
                                                         })

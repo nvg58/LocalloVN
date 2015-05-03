@@ -13,11 +13,17 @@ import android.widget.Toast;
 
 import com.locol.locol.R;
 import com.locol.locol.adapters.ThingsAdapter;
+import com.parse.FunctionCallback;
+import com.parse.GetCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -68,8 +74,49 @@ public class NearestEventsActivity extends ActionBarActivity {
                 if (list.isEmpty())
                     Toast.makeText(NearestEventsActivity.this, "There are no near events! Check back later!", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
+
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                query.getInBackground(ParseUser.getCurrentUser().getObjectId(), new GetCallback<ParseUser>() {
+                    public void done(ParseUser user, ParseException e) {
+                        if (e == null) {
+                            user.put("location", userLocation);
+                            user.saveInBackground();
+
+//                            if (adapter.getItem(0).getDate("start_date").getTime() <= Calendar.getInstance().getTime().getTime()
+//                                    && Calendar.getInstance().getTime().getTime() <= adapter.getItem(0).getDate("end_date").getTime()) {
+
+                            HashMap<String, Object> params = new HashMap<>();
+                            final ParseObject event = adapter.getItem(0);
+                            params.put("targetLocation", event.getParseGeoPoint("geo_point"));
+                            params.put("distance", 11.0);
+                            params.put("message", "Checkout the nearest event for you!");
+
+                            params.put("title", event.getString("title"));
+//                            params.put("start_date", event.getDate("start_date").getTime());
+//                            params.put("end_date", event.getDate("end_date").getTime());
+//                            params.put("location", event.getString("location"));
+//                            params.put("category", event.getString("category"));
+//                            params.put("max_participants", event.getString("max_participants"));
+//                            params.put("organizer", event.getString("organizer"));
+//                            params.put("description", event.getString("description"));
+//                            params.put("thumbnail_url", event.getString("thumbnail_url"));
+                            params.put("event_id", event.getObjectId());
+
+                            ParseCloud.callFunctionInBackground("pushNearestWhenOpenApp", params, new FunctionCallback<String>() {
+                                @Override
+                                public void done(String s, ParseException e) {
+                                    Toast.makeText(NearestEventsActivity.this, s + event.getParseGeoPoint("geo_point").distanceInKilometersTo(userLocation), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+//                            }
+
+                        }
+                    }
+                });
             }
         });
+
     }
 
     @Override

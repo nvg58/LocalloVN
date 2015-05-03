@@ -5,12 +5,14 @@ import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.locol.locol.R;
+import com.locol.locol.activities.DetailsEventActivity;
 import com.locol.locol.db.DBFeedItems;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.PushService;
 
 /**
  * Created by GiapNV on 3/9/15.
@@ -29,6 +31,9 @@ public class MainApplication extends Application {
         // Required - Initialize the Parse SDK
         Parse.initialize(this, getString(R.string.parse_app_id),
                 getString(R.string.parse_client_key));
+
+        PushService.setDefaultPushCallback(this, DetailsEventActivity.class);
+
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
         ParseFacebookUtils.initialize(this);

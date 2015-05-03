@@ -116,7 +116,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:name="com.locol.locol.Receiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
@@ -134,6 +134,10 @@
                 <category android:name="com.locol.locol" />
             </intent-filter>
         </receiver>
+
+        <meta-data
+            android:name="com.parse.push.notification_icon"
+            android:resource="@drawable/locol" />
     </application>
 
 </manifest>

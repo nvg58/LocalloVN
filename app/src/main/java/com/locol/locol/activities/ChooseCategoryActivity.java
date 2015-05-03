@@ -43,7 +43,7 @@ public class ChooseCategoryActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("What interest you?");
-        getSupportActionBar().setIcon(getResources().getDrawable(R.mipmap.ic_launcher));
+        getSupportActionBar().setIcon(getResources().getDrawable(R.drawable.locol));
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
         ParseQueryAdapter.QueryFactory<ParseObject> parseQuery = new ParseQueryAdapter.QueryFactory<ParseObject>() {

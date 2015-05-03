@@ -174,8 +174,6 @@ public class ThingsAdapter extends ParseQueryAdapter<ParseObject> {
         extras.putString("EXTRA_FEED_ORGANIZER", object.getString("organizer"));
         extras.putString("EXTRA_FEED_DESCRIPTION", object.getString("description"));
         extras.putString("EXTRA_FEED_URL_THUMBNAIL", object.getString("thumbnail_url"));
-//        extras.putInt("EXTRA_FEED_LOVED", feedItem.isLoved());
-//        extras.putInt("EXTRA_FEED_JOINING", feedItem.isJoining());
         extras.putString("EXTRA_EVENT_ID", object.getObjectId());
         intent.putExtras(extras);
 

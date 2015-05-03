@@ -69,6 +69,7 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
     //    private int loved;
 //    private int joining;
     private String event_id;
+    private boolean from_push;
 
     CallbackManager callbackManager;
     ShareDialog shareDialog;
@@ -85,6 +86,9 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         shareDialog = new ShareDialog(this);
 
         extras = getIntent().getExtras();
+
+        event_id = extras.getString("EXTRA_EVENT_ID");
+
         title = extras.getString("EXTRA_FEED_TITLE");
         startDate = extras.getLong("EXTRA_FEED_START_DATE");
         endDate = extras.getLong("EXTRA_FEED_END_DATE");
@@ -94,9 +98,6 @@ public class DetailsEventActivity extends ActionBarActivity implements OnScrollC
         organizer = extras.getString("EXTRA_FEED_ORGANIZER");
         description = extras.getString("EXTRA_FEED_DESCRIPTION");
         url_thumbnail = extras.getString("EXTRA_FEED_URL_THUMBNAIL");
-//        loved = extras.getInt("EXTRA_FEED_LOVED");
-//        joining = extras.getInt("EXTRA_FEED_JOINING");
-        event_id = extras.getString("EXTRA_EVENT_ID");
 
         mToolbar = (Toolbar) findViewById(R.id.app_bar);
         mActionBarBackgroundDrawable = mToolbar.getBackground();
