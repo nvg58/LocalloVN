@@ -49,7 +49,7 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
 
         // TODO should move `rsvp_event`, `rsvp_event` and `user_events` permission to other activity (when user actually need them)
-        List<String> permissions = Arrays.asList("public_profile", "email", "user_friends", "user_events", "read_friendlists");
+        List<String> permissions = Arrays.asList("public_profile", "email", "user_friends", "user_events");
         ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
             @Override
             public void done(ParseUser user, ParseException err) {
