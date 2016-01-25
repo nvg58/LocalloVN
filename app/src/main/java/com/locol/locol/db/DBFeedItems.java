@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.locol.locol.pojo.FeedItem;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -25,20 +26,36 @@ public class DBFeedItems {
         mDatabase = mHelper.getWritableDatabase();
     }
 
-    public void updateLovedFeedItem(String title, int isLoved) {
-        String sql = "UPDATE " + FeedItemsHelper.TABLE_FEED_ITEMS + " SET "
-                + FeedItemsHelper.COLUMN_LOVED + " = " + isLoved
-                + " WHERE " + FeedItemsHelper.COLUMN_TITLE + " = \'" + title + "\';";
+    public void updateLovedFeedItem(String title, int isLoved) throws SQLException {
+        String sql = "UPDATE ? SET ? = ? WHERE ? = ?;";
+        SQLiteStatement statement = mDatabase.compileStatement(sql);
+        mDatabase.beginTransaction();
 
-        mDatabase.execSQL(sql);
+        SQLHelper.bind(statement, 1, FeedItemsHelper.TABLE_FEED_ITEMS);
+        SQLHelper.bind(statement, 2, FeedItemsHelper.COLUMN_LOVED);
+        SQLHelper.bind(statement, 3, isLoved);
+        SQLHelper.bind(statement, 4, FeedItemsHelper.COLUMN_TITLE);
+        SQLHelper.bind(statement, 5, title);
+        statement.execute();
+
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
     }
 
-    public void updateJoiningFeedItem(String title, int joining) {
-        String sql = "UPDATE " + FeedItemsHelper.TABLE_FEED_ITEMS + " SET "
-                + FeedItemsHelper.COLUMN_JOINING + " = " + joining
-                + " WHERE " + FeedItemsHelper.COLUMN_TITLE + " = \'" + title + "\';";
+    public void updateJoiningFeedItem(String title, int joining) throws SQLException {
+        String sql = "UPDATE ? SET ? = ? WHERE ? = ?;";
+        SQLiteStatement statement = mDatabase.compileStatement(sql);
+        mDatabase.beginTransaction();
 
-        mDatabase.execSQL(sql);
+        SQLHelper.bind(statement, 1, FeedItemsHelper.TABLE_FEED_ITEMS);
+        SQLHelper.bind(statement, 2, FeedItemsHelper.COLUMN_JOINING);
+        SQLHelper.bind(statement, 3, joining);
+        SQLHelper.bind(statement, 4, FeedItemsHelper.COLUMN_TITLE);
+        SQLHelper.bind(statement, 5, title);
+        statement.execute();
+
+        mDatabase.setTransactionSuccessful();
+        mDatabase.endTransaction();
     }
 
     public int getLovedFeedItem(String title) {
